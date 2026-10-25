@@ -113,7 +113,7 @@
       padding-bottom: 6.5rem;
     }
 
-    /* Header & Logo Container with Gradient "S" Fallback */
+    /* Header & Logo Container */
     .app-header {
       position: sticky;
       top: 0;
@@ -196,7 +196,8 @@
       border-radius: 999px;
       background: var(--primary-light);
       color: var(--primary);
-      max-width: 185px;
+      max-width: 190px;
+      cursor: pointer;
     }
 
     #header-user-label {
@@ -248,7 +249,7 @@
       box-shadow: var(--shadow-lg);
       position: relative;
       overflow: hidden;
-      margin-bottom: 1.15rem;
+      margin-bottom: 1.25rem;
       transition: var(--transition);
     }
 
@@ -304,7 +305,7 @@
       font-size: 1.95rem;
       font-weight: 800;
       letter-spacing: -0.02em;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.15rem;
       word-break: break-word;
     }
 
@@ -358,17 +359,12 @@
       word-break: break-word;
     }
 
-    .wallet-actions-row {
-      display: flex;
-      justify-content: flex-end;
-    }
-
     .btn-wallet-report {
       width: 100%;
       background: rgba(255, 255, 255, 0.2);
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      padding: 0.6rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      padding: 0.65rem 1rem;
       border-radius: var(--radius-sm);
       font-size: 0.82rem;
       font-weight: 700;
@@ -376,14 +372,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.45rem;
+      gap: 0.5rem;
       backdrop-filter: blur(6px);
       transition: var(--transition);
       font-family: inherit;
     }
 
     .btn-wallet-report:hover {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.32);
     }
 
     /* Section Headings */
@@ -407,11 +403,11 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.45rem;
+      gap: 0.42rem;
       border: none;
       border-radius: var(--radius-sm);
-      padding: 0.6rem 1rem;
-      font-size: 0.84rem;
+      padding: 0.58rem 0.95rem;
+      font-size: 0.82rem;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
@@ -661,7 +657,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 0.8rem;
-      min-width: 740px;
+      min-width: 720px;
     }
 
     table.tx-table th,
@@ -728,63 +724,146 @@
       vertical-align: middle;
     }
 
-    /* Export Options Cards in Modal */
-    .export-options-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      margin-top: 0.5rem;
-    }
-
-    .export-option-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.85rem;
-      padding: 0.9rem 1rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border-color);
-      background-color: var(--bg-input);
-      color: var(--text-main);
-      cursor: pointer;
-      text-align: left;
-      font-family: inherit;
-      transition: var(--transition);
-    }
-
-    .export-option-card:hover {
-      border-color: var(--primary);
-      background-color: var(--primary-light);
-    }
-
-    .export-option-left {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .export-icon-badge {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 10px;
+    /* ==============================================================
+       IN-PAGE PRINTABLE REPORT SHEET (LEMBAR LAPORAN SIAP CETAK)
+       ============================================================== */
+    .report-sheet-toolbar {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.15rem;
+      margin-bottom: 1.15rem;
+      box-shadow: var(--shadow-sm);
       display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .report-toolbar-top {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      font-size: 1.15rem;
-      flex-shrink: 0;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
-    .export-option-title {
-      font-size: 0.88rem;
+    .report-toolbar-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.55rem;
+    }
+
+    .report-paper {
+      background-color: #ffffff;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    .report-paper-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 0.9rem;
+      margin-bottom: 1.15rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .report-paper-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 0.2rem;
+    }
+
+    .report-paper-meta {
+      font-size: 0.78rem;
+      color: #475569;
+      line-height: 1.45;
+    }
+
+    .report-paper-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .report-sum-box {
+      background-color: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 0.7rem 0.85rem;
+    }
+
+    .report-sum-box span {
+      display: block;
+      font-size: 0.68rem;
+      color: #475569;
       font-weight: 700;
-      color: var(--text-main);
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
     }
 
-    .export-option-desc {
-      font-size: 0.73rem;
-      color: var(--text-muted);
+    .report-sum-box strong {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .report-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table.report-sheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      color: #0f172a;
+    }
+
+    table.report-sheet-table th,
+    table.report-sheet-table td {
+      border: 1px solid #94a3b8;
+      padding: 0.5rem 0.6rem;
+      text-align: left;
+    }
+
+    table.report-sheet-table th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.69rem;
+      white-space: nowrap;
+    }
+
+    .report-paper-footer {
+      margin-top: 1.5rem;
+      padding-top: 0.85rem;
+      border-top: 1px dashed #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 0.76rem;
+      color: #475569;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .signature-box {
+      text-align: center;
+      min-width: 160px;
+    }
+
+    .signature-space {
+      height: 44px;
     }
 
     /* Statistics Tab */
@@ -1390,7 +1469,7 @@
       flex-direction: column;
       gap: 0.5rem;
       width: 90%;
-      max-width: 400px;
+      max-width: 420px;
       pointer-events: none;
     }
 
@@ -1408,92 +1487,47 @@
       animation: fadeSlideUp 0.25s ease;
     }
 
-    /* Dedicated Print Area (Hidden on normal screen, shown on @media print) */
-    #print-report-area {
-      display: none;
-    }
-
+    /* ==============================================================
+       ATURAN CETAK (@media print) — MENCETAK LEMBAR LAPORAN BERSIH
+       ============================================================== */
     @media print {
       body {
         background: #ffffff !important;
         color: #0f172a !important;
         display: block !important;
       }
-      .app-shell,
+      .app-header,
+      .bottom-nav,
+      .report-sheet-toolbar,
+      #dashboard-view,
+      #project-detail-view,
+      #tab-statistik,
+      #tab-riwayat,
+      #tab-profil,
       .modal-backdrop,
       .toast-container {
         display: none !important;
       }
-      #print-report-area {
+      .app-shell,
+      .app-main,
+      #tab-beranda,
+      #report-sheet-view {
         display: block !important;
-        width: 100%;
-        padding: 16px;
-        font-family: Arial, Helvetica, sans-serif;
-        color: #0f172a;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        background: #ffffff !important;
       }
-      .print-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        border-bottom: 2px solid #0f172a;
-        padding-bottom: 12px;
-        margin-bottom: 16px;
+      .report-paper {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
       }
-      .print-title {
-        font-size: 18pt;
-        font-weight: bold;
-        margin-bottom: 4px;
-      }
-      .print-meta {
-        font-size: 9.5pt;
-        color: #334155;
-      }
-      .print-summary-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        margin-bottom: 18px;
-      }
-      .print-summary-box {
-        border: 1px solid #cbd5e1;
-        padding: 10px;
-        border-radius: 6px;
-      }
-      .print-summary-box span {
-        display: block;
-        font-size: 8.5pt;
-        color: #475569;
-        text-transform: uppercase;
-      }
-      .print-summary-box strong {
-        font-size: 12pt;
-      }
-      table.print-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 9pt;
-        margin-bottom: 20px;
-      }
-      table.print-table th,
-      table.print-table td {
-        border: 1px solid #94a3b8;
-        padding: 6px 8px;
-      }
-      table.print-table th {
+      table.report-sheet-table th {
         background-color: #f1f5f9 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
-        text-transform: uppercase;
-        font-size: 8pt;
-      }
-      .print-footer {
-        margin-top: 28px;
-        display: flex;
-        justify-content: space-between;
-        font-size: 8.5pt;
-        color: #64748b;
-        border-top: 1px dashed #cbd5e1;
-        padding-top: 10px;
       }
     }
 
@@ -1509,19 +1543,19 @@
 </head>
 <body>
   <div class="app-shell">
-    <!-- HEADER DENGAN FALLBACK INISIAL "S" GRADIEN JIKA SRC KOSONG -->
+    <!-- HEADER -->
     <header class="app-header">
       <div class="brand-wrap">
         <div class="logo-container" title="Suudi.Pro">
           <span class="logo-fallback" aria-hidden="true">S</span>
-          <img id="app-logo" alt="Suudi.Pro Logo" src="">
+          <img id="app-logo" alt="Suudi.Pro Logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%236366f1'/><stop offset='100%' stop-color='%23a855f7'/></linearGradient></defs><rect width='100' height='100' rx='24' fill='url(%23g)'/><path d='M30 40 C30 30, 70 30, 70 42 C70 52, 30 48, 30 60 C30 72, 70 70, 70 58' fill='none' stroke='white' stroke-width='10' stroke-linecap='round'/><circle cx='72' cy='28' r='6' fill='%2334d399'/></svg>">
         </div>
         <div>
           <div class="brand-title">Suudi.Pro</div>
           <div class="brand-subtitle">Multi-Project Finance Wallet</div>
         </div>
       </div>
-      <div class="header-status" id="header-user-pill">
+      <div class="header-status" id="header-user-pill" title="Klik untuk atur nama penanggung jawab nota">
         <span class="status-dot"></span>
         <span id="header-user-label">Pengguna / Kasir</span>
       </div>
@@ -1529,9 +1563,9 @@
 
     <!-- MAIN CONTENT -->
     <main class="app-main">
-      <!-- TAB 1: BERANDA (DASBOR & RINCIAN PROYEK) -->
+      <!-- TAB 1: BERANDA (DASBOR, RINCIAN PROYEK & LEMBAR LAPORAN SIAP CETAK) -->
       <section id="tab-beranda" class="tab-pane active">
-        <!-- Tampilan Daftar Proyek / Dasbor Utama -->
+        <!-- 1A. Tampilan Dasbor Utama -->
         <div id="dashboard-view">
           <div class="wallet-card">
             <div class="wallet-top">
@@ -1543,23 +1577,21 @@
               <div class="metric-box">
                 <div class="metric-icon in">↓</div>
                 <div class="metric-info">
-                  <span>Total Pemasukan (Kredit)</span>
+                  <span>Total Kredit (Pemasukan)</span>
                   <strong id="main-total-kredit">Rp 0</strong>
                 </div>
               </div>
               <div class="metric-box">
                 <div class="metric-icon out">↑</div>
                 <div class="metric-info">
-                  <span>Total Pengeluaran (Debit)</span>
+                  <span>Total Debit (Pengeluaran)</span>
                   <strong id="main-total-debit">Rp 0</strong>
                 </div>
               </div>
             </div>
-            <div class="wallet-actions-row">
-              <button type="button" class="btn-wallet-report" id="btn-open-global-report">
-                <span>📊 Laporan Keseluruhan (Pribadi)</span>
-              </button>
-            </div>
+            <button type="button" class="btn-wallet-report" id="btn-open-global-sheet">
+              <span>📄 Buka Lembar Laporan Keseluruhan (Siap Cetak & Salin Excel)</span>
+            </button>
           </div>
 
           <div class="section-header">
@@ -1572,18 +1604,21 @@
           <div id="projects-container" class="projects-grid"></div>
         </div>
 
-        <!-- Tampilan Rincian Transaksi Proyek (In-Project Management) -->
+        <!-- 1B. Tampilan Rincian Transaksi Proyek -->
         <div id="project-detail-view" style="display: none;">
           <div class="detail-topbar">
             <button type="button" class="btn btn-outline" id="btn-back-dashboard">
               ← Kembali ke Beranda
             </button>
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <button type="button" class="btn btn-secondary" id="btn-open-project-report">
-                Ekspor / Cetak Laporan (Pelanggan)
+            <div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
+              <button type="button" class="btn btn-secondary" id="btn-open-project-sheet">
+                📄 Lembar Laporan & Salin Excel
+              </button>
+              <button type="button" class="btn btn-outline" id="btn-export-csv">
+                Ekspor CSV
               </button>
               <button type="button" class="btn btn-primary" id="btn-open-add-tx">
-                + Tambah Transaksi Proyek Ini
+                + Tambah Transaksi
               </button>
             </div>
           </div>
@@ -1633,6 +1668,82 @@
                 </thead>
                 <tbody id="tx-table-body"></tbody>
               </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1C. Tampilan IN-PAGE LEMBAR LAPORAN SIAP CETAK & SALIN EXCEL -->
+        <div id="report-sheet-view" style="display: none;">
+          <div class="report-sheet-toolbar">
+            <div class="report-toolbar-top">
+              <button type="button" class="btn btn-outline" id="btn-close-report-sheet">
+                ← Kembali
+              </button>
+              <span style="font-size: 0.76rem; color: var(--text-muted); font-weight: 600;">
+                Tips: Klik <strong>Salin Tabel ke Clipboard</strong> lalu tekan <strong>Ctrl+V / Tempel</strong> di Excel atau Google Sheets.
+              </span>
+            </div>
+            <div class="report-toolbar-actions">
+              <button type="button" class="btn btn-success" id="btn-copy-table-clipboard">
+                📋 Salin Tabel ke Clipboard (Excel / Sheets)
+              </button>
+              <button type="button" class="btn btn-primary" id="btn-trigger-print-sheet">
+                🖨️ Cetak / Simpan PDF (Browser)
+              </button>
+              <button type="button" class="btn btn-secondary" id="btn-download-xls-sheet">
+                📗 Unduh Berkas .XLS
+              </button>
+              <button type="button" class="btn btn-outline" id="btn-download-csv-sheet">
+                📄 Unduh Berkas .CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Lembar Kertas Laporan Resmi di Dalam Layar Aplikasi -->
+          <div class="report-paper" id="printable-paper-container">
+            <div class="report-paper-header">
+              <div>
+                <div class="report-paper-title" id="sheet-doc-title">LAPORAN KEUANGAN PROYEK</div>
+                <div class="report-paper-meta" id="sheet-doc-subtitle">Rekapitulasi Mutasi Kas & Saldo Berjalan</div>
+              </div>
+              <div class="report-paper-meta" style="text-align: right;">
+                <div>Penanggung Jawab: <strong id="sheet-doc-issuer">Pengguna / Kasir</strong></div>
+                <div>Tanggal Laporan: <span id="sheet-doc-date">-</span></div>
+              </div>
+            </div>
+
+            <div class="report-paper-summary">
+              <div class="report-sum-box">
+                <span>Total Kredit (Masuk)</span>
+                <strong style="color: #059669;" id="sheet-sum-kredit">Rp 0</strong>
+              </div>
+              <div class="report-sum-box">
+                <span>Total Debit (Keluar)</span>
+                <strong style="color: #dc2626;" id="sheet-sum-debit">Rp 0</strong>
+              </div>
+              <div class="report-sum-box">
+                <span>Saldo Akhir</span>
+                <strong style="color: #4f46e5;" id="sheet-sum-saldo">Rp 0</strong>
+              </div>
+            </div>
+
+            <div class="report-table-wrap">
+              <table class="report-sheet-table" id="sheet-html-table">
+                <thead id="sheet-table-head"></thead>
+                <tbody id="sheet-table-body"></tbody>
+              </table>
+            </div>
+
+            <div class="report-paper-footer">
+              <div>
+                <div>Catatan: Seluruh nominal dalam mata uang Rupiah (IDR).</div>
+                <div style="font-size: 0.68rem; color: #94a3b8; margin-top: 0.2rem;">Suudi.Pro — Sistem Manajemen Kas Multi-Proyek</div>
+              </div>
+              <div class="signature-box">
+                <div>Penanggung Jawab,</div>
+                <div class="signature-space"></div>
+                <div style="font-weight: 700; border-top: 1px solid #475569; padding-top: 0.25rem;" id="sheet-signature-name">Pengguna / Kasir</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1722,41 +1833,41 @@
         <div id="history-list-container" class="history-list"></div>
       </section>
 
-      <!-- TAB 5: PROFIL, AKUN & PERSONALISASI -->
+      <!-- TAB 5: PROFIL, AKUN OFFLINE & PERSONALISASI -->
       <section id="tab-profil" class="tab-pane">
         <div class="section-header">
-          <h2 class="section-title">Profil, Personalisasi & Pencadangan</h2>
+          <h2 class="section-title">Profil Penanggung Jawab & Personalisasi</h2>
         </div>
 
-        <!-- Simulasi Login Akun -->
+        <!-- Login Offline Nama / Kasir (Tertera di Nota & Laporan) -->
         <div class="settings-group">
-          <h3>Akun Pengguna / Penanggung Jawab</h3>
-          <p class="settings-desc">Nama atau email yang login otomatis tercantum sebagai header utama pada Nota Otomatis.</p>
+          <h3>Identitas Penanggung Jawab / Kasir (Offline)</h3>
+          <p class="settings-desc">Nama yang Anda masukkan disimpan secara lokal dan otomatis dicantumkan sebagai header utama pada Nota Otomatis serta Lembar Laporan.</p>
 
           <div id="auth-logged-out">
             <form id="form-login">
               <div class="form-group">
-                <label class="form-label" for="login-email">Alamat Email</label>
-                <input type="email" id="login-email" class="form-control" placeholder="nama@perusahaan.com" required>
+                <label class="form-label" for="login-name">Nama Lengkap / Penanggung Jawab (Wajib)</label>
+                <input type="text" id="login-name" class="form-control" placeholder="Contoh: H. Suudi / Budi Santoso" required>
               </div>
               <div class="form-group">
-                <label class="form-label" for="login-name">Nama Penanggung Jawab / Kasir</label>
-                <input type="text" id="login-name" class="form-control" placeholder="Misal: Budi Santoso">
+                <label class="form-label" for="login-email">Jabatan / Email / Kontak (Opsional)</label>
+                <input type="text" id="login-email" class="form-control" placeholder="Contoh: Manajer Proyek / admin@suudi.pro">
               </div>
-              <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk Sesi</button>
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Simpan & Aktifkan Identitas</button>
             </form>
           </div>
 
           <div id="auth-logged-in" style="display: none;">
             <div class="user-session-box">
               <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div class="user-avatar" id="session-avatar">U</div>
+                <div class="user-avatar" id="session-avatar">S</div>
                 <div>
-                  <div style="font-weight: 700; font-size: 0.92rem;" id="session-name-display">Pengguna</div>
-                  <div style="font-size: 0.78rem; color: var(--text-muted);" id="session-email-display">email@domain.com</div>
+                  <div style="font-weight: 700; font-size: 0.95rem;" id="session-name-display">Pengguna</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);" id="session-email-display">Penanggung Jawab Aktif</div>
                 </div>
               </div>
-              <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
+              <button type="button" class="btn btn-danger" id="btn-logout">Ganti Nama / Keluar</button>
             </div>
           </div>
         </div>
@@ -1796,16 +1907,19 @@
           </div>
         </div>
 
-        <!-- Pencadangan Cloud Ready (JSON) -->
+        <!-- Pencadangan Offline JSON (Unduh File atau Salin/Tempel Teks JSON) -->
         <div class="settings-group">
-          <h3>Penyimpanan Lokal & Cadangan Cloud-Ready</h3>
-          <p class="settings-desc">Seluruh proyek, transaksi, dan foto bukti tersimpan di IndexedDB browser. Unduh cadangan JSON untuk disimpan ke Google Drive atau pulihkan kapan saja.</p>
-          <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
+          <h3>Cadangkan & Pulihkan Data Lokal (JSON)</h3>
+          <p class="settings-desc">Seluruh proyek, transaksi, dan foto bukti tersimpan secara offline di IndexedDB peramban Anda.</p>
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
             <button type="button" class="btn btn-primary" id="btn-backup-json">
-              ↓ Cadangkan Data (JSON)
+              ↓ Unduh Cadangan (JSON)
+            </button>
+            <button type="button" class="btn btn-secondary" id="btn-copy-json-clipboard">
+              📋 Salin Data JSON
             </button>
             <button type="button" class="btn btn-outline" id="btn-restore-trigger">
-              ↑ Pulihkan Data (JSON)
+              ↑ Pulihkan dari File JSON
             </button>
             <input type="file" id="input-restore-json" accept=".json,application/json" style="display: none;">
           </div>
@@ -1859,9 +1973,6 @@
     </nav>
   </div>
 
-  <!-- AREA CETAK FAKTUR / LAPORAN RESMI (@media print) -->
-  <div id="print-report-area" aria-hidden="true"></div>
-
   <!-- MODAL: TAMBAH / UBAH PROYEK -->
   <div class="modal-backdrop" id="modal-project">
     <div class="modal-dialog">
@@ -1884,56 +1995,6 @@
           <button type="submit" class="btn btn-primary">Simpan Proyek</button>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- MODAL: PILIHAN EKSPOR / CETAK LAPORAN (PRIBADI GLOBAL & PELANGGAN PROYEK) -->
-  <div class="modal-backdrop" id="modal-export-report">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 class="modal-title" id="modal-export-title">Ekspor / Cetak Laporan</h3>
-        <button type="button" class="btn-icon" data-close-modal="modal-export-report">✕</button>
-      </div>
-      <p id="modal-export-subtitle" style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.85rem;">
-        Pilih format dokumen laporan yang ingin Anda unduh atau cetak.
-      </p>
-      <div class="export-options-list">
-        <button type="button" class="export-option-card" id="btn-export-xls">
-          <div class="export-option-left">
-            <div class="export-icon-badge">📗</div>
-            <div>
-              <div class="export-option-title">Excel / Spreadsheet (.xls)</div>
-              <div class="export-option-desc">Format XML Spreadsheet kompatibel Microsoft Excel & Google Sheets</div>
-            </div>
-          </div>
-          <span>↓</span>
-        </button>
-
-        <button type="button" class="export-option-card" id="btn-export-csv">
-          <div class="export-option-left">
-            <div class="export-icon-badge">📄</div>
-            <div>
-              <div class="export-option-title">Format CSV (.csv)</div>
-              <div class="export-option-desc">Tabel nilai terpisah koma ringan untuk olah data universal</div>
-            </div>
-          </div>
-          <span>↓</span>
-        </button>
-
-        <button type="button" class="export-option-card" id="btn-export-print">
-          <div class="export-option-left">
-            <div class="export-icon-badge">🖨️</div>
-            <div>
-              <div class="export-option-title">Cetak / Simpan PDF Resmi</div>
-              <div class="export-option-desc">Antarmuka faktur laporan resmi bersih tanpa elemen navigasi</div>
-            </div>
-          </div>
-          <span>→</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline" data-close-modal="modal-export-report">Tutup</button>
-      </div>
     </div>
   </div>
 
@@ -2029,7 +2090,7 @@
               <img id="tx-receipt-thumb-preview" src="" alt="Pratinjau Nota" style="width: 44px; height: 44px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color);">
               <div>
                 <div style="font-size: 0.76rem; color: var(--success); font-weight: 700;" id="tx-receipt-status-text">Bukti Nota Terlampir</div>
-                <div style="font-size: 0.68rem; color: var(--text-muted);">Tersimpan sebagai Base64 ke IndexedDB</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);">Siap disimpan ke IndexedDB</div>
               </div>
             </div>
             <button type="button" class="btn-icon danger" id="btn-clear-receipt" title="Hapus Lampiran">✕</button>
@@ -2069,7 +2130,7 @@
       'use strict';
 
       /* ==========================================
-         1. PENANGANAN LOGO FALLBACK & FORMATTER RUPIAH
+         1. UTILITAS LOGO FALLBACK, FORMATTER RUPIAH & CLIPBOARD
          ========================================== */
       const appLogo = document.getElementById('app-logo');
       function checkAppLogo() {
@@ -2105,7 +2166,7 @@
         return `${yyyy}-${mm}-${dd}`;
       }
 
-      function formatDateDisplay(txDateOrTs) {
+      function formatDateShort(txDateOrTs) {
         if (typeof txDateOrTs === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(txDateOrTs)) {
           const [y, m, d] = txDateOrTs.split('-').map(Number);
           const dateObj = new Date(y, m - 1, d);
@@ -2141,7 +2202,7 @@
           toast.style.opacity = '0';
           toast.style.transition = 'opacity 0.25s ease';
           setTimeout(() => toast.remove(), 250);
-        }, 2600);
+        }, 2800);
       }
 
       function escapeHtml(str) {
@@ -2153,8 +2214,35 @@
           .replace(/'/g, '&#039;');
       }
 
+      // Fungsi Salin ke Clipboard yang Bekerja di Sandbox Iframe maupun Browser Penuh
+      async function copyTextToClipboard(text) {
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+            return true;
+          }
+        } catch (err) {
+          // Lanjut ke fallback execCommand('copy')
+        }
+        try {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.style.position = 'fixed';
+          textarea.style.left = '-9999px';
+          textarea.style.top = '0';
+          document.body.appendChild(textarea);
+          textarea.focus();
+          textarea.select();
+          const ok = document.execCommand('copy');
+          textarea.remove();
+          return ok;
+        } catch (e) {
+          return false;
+        }
+      }
+
       /* ==========================================
-         2. SAFE LOCALSTORAGE UNTUK PREFERENSI & SESI
+         2. SAFE LOCALSTORAGE UNTUK PREFERENSI & SESI NAMA OFFLINE
          ========================================== */
       const StoragePrefs = {
         get(key, fallback) {
@@ -2350,150 +2438,124 @@
         currentReceiptDataUrl: null,
         chartMode: 'donut',
         historyQuery: '',
-        exportScope: 'global' // 'global' | 'project'
+        reportSheetScope: null // null | 'global' | 'project'
       };
 
       /* ==========================================
-         5. GENERATOR NOTA OTOMATIS MINIMALIS (HTML5 CANVAS)
-         - Header utama: Nama Akun / Penanggung Jawab (default: "Pengguna / Kasir")
-         - Rincian: No referensi, tanggal terpilih, nama proyek, deskripsi, total Rupiah, stempel "LUNAS / VALID"
-         - Watermark kecil elegan: "Suudi.Pro" di pojok bawah nota
+         5. GENERATOR NOTA OTOMATIS (DENGAN NAMA LOGIN PENANGGUNG JAWAB)
          ========================================== */
-      function generateCanvasReceiptDataUrl({
-        txNumber,
-        accountName,
-        projectName,
-        description,
-        qty,
-        unitPrice,
-        type,
-        dateStr
-      }) {
+      function generateCanvasReceiptDataUrl({ txNumber, accountName, projectName, description, qty, unitPrice, type, dateStr }) {
         const canvas = document.createElement('canvas');
-        canvas.width = 500;
-        canvas.height = 600;
+        canvas.width = 480;
+        canvas.height = 580;
         const ctx = canvas.getContext('2d');
 
-        // Background luar lembut
+        const issuer = String(accountName || getActiveAccountDisplayName()).slice(0, 32);
+
+        // Latar kertas nota bersih
         ctx.fillStyle = '#f1f5f9';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Kertas Nota Putih Bersih
         ctx.fillStyle = '#ffffff';
-        ctx.strokeStyle = '#e2e8f0';
+        ctx.strokeStyle = '#cbd5e1';
         ctx.lineWidth = 2;
-        ctx.fillRect(24, 24, 452, 552);
-        ctx.strokeRect(24, 24, 452, 552);
+        ctx.fillRect(24, 24, 432, 532);
+        ctx.strokeRect(24, 24, 432, 532);
 
-        // Aksen garis atas minimalis
-        ctx.fillStyle = type === 'kredit' ? '#10b981' : '#6366f1';
-        ctx.fillRect(24, 24, 452, 8);
+        // Aksen garis atas
+        ctx.fillStyle = type === 'kredit' ? '#059669' : '#4f46e5';
+        ctx.fillRect(24, 24, 432, 8);
 
-        // HEADER UTAMA: Nama Akun / Penanggung Jawab
-        const issuer = String(accountName || getActiveAccountDisplayName()).slice(0, 32);
+        // Header Utama: Nama Akun / Penanggung Jawab yang Login
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText(issuer, 48, 70);
+        ctx.fillText(issuer, 48, 68);
 
         ctx.fillStyle = '#64748b';
-        ctx.font = '600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
-        ctx.fillText('BUKTI TRANSAKSI & KWITANSI RESMI', 48, 92);
+        ctx.font = '600 12px -apple-system, sans-serif';
+        ctx.fillText('BUKTI TRANSAKSI & KWITANSI KAS', 48, 90);
 
-        // Badge Tipe Arus Kas di kanan atas
-        ctx.fillStyle = type === 'kredit' ? '#d1fae5' : '#e0e7ff';
-        ctx.fillRect(348, 52, 104, 28);
-        ctx.fillStyle = type === 'kredit' ? '#059669' : '#4f46e5';
-        ctx.font = 'bold 11px monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText(type === 'kredit' ? 'KREDIT MASUK' : 'DEBIT KELUAR', 400, 70);
-
-        // Garis pemisah tipis
+        // Informasi Nomor & Tanggal
         ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.moveTo(48, 114);
-        ctx.lineTo(452, 114);
+        ctx.moveTo(48, 108);
+        ctx.lineTo(432, 108);
         ctx.stroke();
 
-        // Metadata Transaksi
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#64748b';
-        ctx.font = '13px monospace';
-        ctx.fillText('NO. REFERENSI', 48, 146);
-        ctx.fillText('TANGGAL NOTA', 48, 174);
-        ctx.fillText('NAMA PROYEK', 48, 202);
-
-        ctx.fillStyle = '#0f172a';
+        ctx.fillStyle = '#334155';
         ctx.font = 'bold 13px monospace';
-        ctx.fillText(`: ${txNumber}`, 175, 146);
-        ctx.fillText(`: ${dateStr}`, 175, 174);
-        ctx.fillText(`: ${String(projectName || '-').slice(0, 26)}`, 175, 202);
+        ctx.fillText(`NO. NOTA : ${txNumber}`, 48, 138);
+        ctx.font = '13px monospace';
+        ctx.fillText(`TANGGAL  : ${dateStr}`, 48, 164);
+        ctx.fillText(`PROYEK   : ${String(projectName).slice(0, 28)}`, 48, 190);
+        ctx.fillText(`JENIS    : ${type === 'kredit' ? 'KREDIT (PEMASUKAN)' : 'DEBIT (PENGELUARAN)'}`, 48, 216);
 
         // Garis putus-putus
-        ctx.strokeStyle = '#cbd5e1';
-        ctx.setLineDash([5, 5]);
+        ctx.strokeStyle = '#94a3b8';
+        ctx.setLineDash([6, 6]);
         ctx.beginPath();
-        ctx.moveTo(48, 228);
-        ctx.lineTo(452, 228);
+        ctx.moveTo(48, 238);
+        ctx.lineTo(432, 238);
+        ctx.stroke();
+
+        // Rincian Item
+        ctx.fillStyle = '#64748b';
+        ctx.font = '13px monospace';
+        ctx.fillText('DESKRIPSI ITEM:', 48, 268);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 16px monospace';
+        const cleanDesc = String(description || 'Transaksi Proyek').slice(0, 34);
+        ctx.fillText(cleanDesc, 48, 294);
+
+        ctx.fillStyle = '#334155';
+        ctx.font = '14px monospace';
+        ctx.fillText(`RINCIAN  : ${qty} x ${formatRp(unitPrice)}`, 48, 326);
+
+        // Garis putus-putus kedua
+        ctx.beginPath();
+        ctx.moveTo(48, 352);
+        ctx.lineTo(432, 352);
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Rincian Deskripsi & Kalkulasi
-        ctx.fillStyle = '#64748b';
-        ctx.font = '600 12px -apple-system, sans-serif';
-        ctx.fillText('DESKRIPSI ITEM TRANSAKSI', 48, 260);
-
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 16px -apple-system, sans-serif';
-        ctx.fillText(String(description || 'Transaksi Kas Proyek').slice(0, 36), 48, 286);
-
-        ctx.fillStyle = '#475569';
-        ctx.font = '14px monospace';
-        ctx.fillText(`Kuantitas & Harga : ${qty} × ${formatRp(unitPrice)}`, 48, 316);
-
-        // Kotak Total Nominal Rupiah
+        // Total Nominal
         const total = (Number(qty) || 0) * (Number(unitPrice) || 0);
-        ctx.fillStyle = '#f8fafc';
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.fillRect(48, 344, 404, 78);
-        ctx.strokeRect(48, 344, 404, 78);
-
         ctx.fillStyle = '#64748b';
-        ctx.font = 'bold 12px -apple-system, sans-serif';
-        ctx.fillText('TOTAL NOMINAL RUPIAH', 66, 370);
+        ctx.font = 'bold 13px monospace';
+        ctx.fillText('TOTAL NOMINAL RUPIAH', 48, 386);
 
-        ctx.fillStyle = type === 'kredit' ? '#059669' : '#0f172a';
+        ctx.fillStyle = type === 'kredit' ? '#059669' : '#e11d48';
         ctx.font = 'bold 26px monospace';
-        ctx.fillText(formatRp(total), 66, 404);
+        ctx.fillText(formatRp(total), 48, 422);
 
-        // Cap Stempel "LUNAS / VALID"
+        // Penanggung Jawab di Kiri Bawah
+        ctx.fillStyle = '#64748b';
+        ctx.font = '12px -apple-system, sans-serif';
+        ctx.fillText('Penanggung Jawab:', 48, 468);
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 13px -apple-system, sans-serif';
+        ctx.fillText(issuer, 48, 488);
+
+        // Stempel Cap LUNAS / VALID
         ctx.save();
-        ctx.translate(362, 485);
+        ctx.translate(345, 472);
         ctx.rotate(-0.12);
         ctx.strokeStyle = '#10b981';
         ctx.lineWidth = 3;
-        ctx.strokeRect(-78, -24, 156, 48);
+        ctx.strokeRect(-76, -24, 152, 48);
         ctx.fillStyle = '#10b981';
         ctx.font = 'bold 17px monospace';
         ctx.textAlign = 'center';
         ctx.fillText('LUNAS / VALID', 0, 6);
         ctx.restore();
 
-        // Tanda Terima Penanggung Jawab
-        ctx.fillStyle = '#64748b';
-        ctx.font = '12px -apple-system, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('Penanggung Jawab:', 48, 472);
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 13px -apple-system, sans-serif';
-        ctx.fillText(issuer, 48, 492);
-
-        // Watermark kecil elegan "Suudi.Pro" di pojok kanan bawah nota
+        // Watermark kecil elegan Suudi.Pro di pojok bawah
         ctx.fillStyle = '#94a3b8';
         ctx.font = 'italic 11px -apple-system, sans-serif';
         ctx.textAlign = 'right';
-        ctx.fillText('Suudi.Pro', 452, 556);
+        ctx.fillText('Suudi.Pro', 432, 538);
 
         return canvas.toDataURL('image/png');
       }
@@ -2503,6 +2565,8 @@
         if (projects.length > 0) return;
 
         const now = Date.now();
+        const issuer = getActiveAccountDisplayName();
+
         const sampleProjects = [
           {
             id: 'proj_1',
@@ -2518,8 +2582,6 @@
           }
         ];
 
-        const issuerName = getActiveAccountDisplayName();
-
         const sampleTransactions = [
           {
             id: 'tx_101',
@@ -2530,8 +2592,8 @@
             unitPrice: 45000000,
             type: 'kredit',
             receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'REF-2026-101',
-              accountName: issuerName,
+              txNumber: 'INV-2026-101',
+              accountName: issuer,
               projectName: 'Renovasi Cafe Senopati',
               description: 'DP Termin 1 Klien (50%)',
               qty: 1,
@@ -2550,8 +2612,8 @@
             unitPrice: 165000,
             type: 'debit',
             receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'REF-2026-102',
-              accountName: issuerName,
+              txNumber: 'INV-2026-102',
+              accountName: issuer,
               projectName: 'Renovasi Cafe Senopati',
               description: 'Pembelian Granit Lantai 60x60',
               qty: 85,
@@ -2581,8 +2643,8 @@
             unitPrice: 28000000,
             type: 'kredit',
             receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'REF-2026-201',
-              accountName: issuerName,
+              txNumber: 'INV-2026-201',
+              accountName: issuer,
               projectName: 'Pengadaan IT Gudang Cikarang',
               description: 'Pencairan Dana Proyek Tahap Awal',
               qty: 1,
@@ -2601,8 +2663,8 @@
             unitPrice: 3400000,
             type: 'debit',
             receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'REF-2026-202',
-              accountName: issuerName,
+              txNumber: 'INV-2026-202',
+              accountName: issuer,
               projectName: 'Pengadaan IT Gudang Cikarang',
               description: 'Switch Gigabit Managed 24-Port',
               qty: 3,
@@ -2625,7 +2687,6 @@
         state.projects = await db.getAllProjects();
         state.transactions = await db.getAllTransactions();
 
-        // Urutkan proyek berdasarkan waktu dibuat, dan transaksi berdasarkan tanggal transaksi + createdAt
         state.projects.sort((a, b) => a.createdAt - b.createdAt);
         state.transactions.sort((a, b) => {
           const diff = getTxSortableTime(a) - getTxSortableTime(b);
@@ -2635,6 +2696,9 @@
         renderDashboard();
         if (state.activeProjectId) {
           renderProjectDetail(state.activeProjectId);
+        }
+        if (state.reportSheetScope) {
+          renderInPageReportSheet(state.reportSheetScope);
         }
         renderStatistics();
         renderHistory();
@@ -2703,10 +2767,10 @@
               </div>
               <div class="project-actions">
                 <button type="button" class="btn-icon" data-action="edit-project" data-id="${proj.id}" title="Ubah Nama Proyek">
-                  ✎ Ubah
+                  ✎
                 </button>
                 <button type="button" class="btn-icon danger" data-action="delete-project" data-id="${proj.id}" title="Hapus Proyek">
-                  🗑 Hapus
+                  🗑
                 </button>
               </div>
             </div>
@@ -2744,7 +2808,9 @@
 
       function openProjectDetail(projectId) {
         state.activeProjectId = projectId;
+        state.reportSheetScope = null;
         document.getElementById('dashboard-view').style.display = 'none';
+        document.getElementById('report-sheet-view').style.display = 'none';
         document.getElementById('project-detail-view').style.display = 'block';
         renderProjectDetail(projectId);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2752,7 +2818,9 @@
 
       function closeProjectDetail() {
         state.activeProjectId = null;
+        state.reportSheetScope = null;
         document.getElementById('project-detail-view').style.display = 'none';
+        document.getElementById('report-sheet-view').style.display = 'none';
         document.getElementById('dashboard-view').style.display = 'block';
       }
 
@@ -2780,7 +2848,7 @@
           tbody.innerHTML = `
             <tr>
               <td colspan="10" class="center-col" style="padding: 2rem; color: var(--text-muted);">
-                Belum ada transaksi tercatat pada proyek ini. Klik <strong>+ Tambah Transaksi Proyek Ini</strong> untuk menambahkan.
+                Belum ada transaksi tercatat pada proyek ini. Klik <strong>+ Tambah Transaksi</strong> untuk menambahkan.
               </td>
             </tr>
           `;
@@ -2809,11 +2877,9 @@
                  </button>`
               : `<span style="color: var(--text-muted); font-size: 0.74rem;">—</span>`;
 
-            const displayDate = formatDateDisplay(tx.txDate || tx.createdAt);
-
             tr.innerHTML = `
               <td class="center-col">${index + 1}</td>
-              <td style="white-space: nowrap; font-size: 0.77rem; color: var(--text-muted); font-weight: 600;">${escapeHtml(displayDate)}</td>
+              <td style="white-space: nowrap; font-size: 0.76rem; color: var(--text-muted); font-weight: 600;">${formatDateShort(tx.txDate || tx.createdAt)}</td>
               <td>
                 <div style="font-weight: 600;">${escapeHtml(tx.description)}</div>
               </td>
@@ -2824,7 +2890,7 @@
               <td class="num-col" style="font-weight: 700;">${formatRp(runningSaldo)}</td>
               <td class="center-col">${receiptCellHtml}</td>
               <td class="center-col">
-                <button type="button" class="btn-icon danger" data-delete-tx="${tx.id}" title="Hapus Transaksi">🗑 Hapus</button>
+                <button type="button" class="btn-icon danger" data-delete-tx="${tx.id}" title="Hapus Transaksi">🗑</button>
               </td>
             `;
 
@@ -2850,7 +2916,331 @@
       }
 
       /* ==========================================
-         7. TAB STATISTIK INTERAKTIF (NATIVE SVG DONUT & BAR)
+         7. LEMBAR LAPORAN SIAP CETAK IN-PAGE & SALIN TABEL EXCEL/SHEETS
+         ========================================== */
+      function buildReportData(scope) {
+        const projectMap = {};
+        state.projects.forEach(p => { projectMap[p.id] = p.name; });
+
+        const isProject = scope === 'project' && state.activeProjectId;
+        const activeProj = isProject
+          ? state.projects.find(p => p.id === state.activeProjectId)
+          : null;
+
+        const targetTxs = isProject
+          ? state.transactions.filter(t => t.projectId === state.activeProjectId)
+          : [...state.transactions];
+
+        let runningSaldo = 0;
+        let totalKredit = 0;
+        let totalDebit = 0;
+
+        const rows = targetTxs.map((tx, idx) => {
+          const qty = Number(tx.qty) || 0;
+          const hs = Number(tx.unitPrice) || 0;
+          const total = qty * hs;
+          const kredit = tx.type === 'kredit' ? total : 0;
+          const debit = tx.type === 'debit' ? total : 0;
+          totalKredit += kredit;
+          totalDebit += debit;
+          runningSaldo = runningSaldo + kredit - debit;
+
+          return {
+            no: idx + 1,
+            date: formatDateShort(tx.txDate || tx.createdAt),
+            projectName: projectMap[tx.projectId] || '-',
+            description: tx.description,
+            qty,
+            hs,
+            kredit,
+            debit,
+            saldo: runningSaldo,
+            hasReceipt: tx.receiptData ? 'Ada Nota' : '-'
+          };
+        });
+
+        const title = isProject && activeProj
+          ? `LAPORAN PROYEK: ${activeProj.name.toUpperCase()}`
+          : 'LAPORAN KEUANGAN KESELURUHAN (MULTI-PROYEK)';
+
+        const subtitle = isProject && activeProj
+          ? (activeProj.description || 'Rincian Transaksi & Mutasi Kas Proyek Pelanggan')
+          : `Rekapitulasi Gabungan dari ${state.projects.length} Proyek Aktif`;
+
+        const slug = (isProject && activeProj ? activeProj.name : 'laporan-keseluruhan')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-');
+
+        return {
+          isProject,
+          title,
+          subtitle,
+          slug,
+          issuer: getActiveAccountDisplayName(),
+          datePrinted: formatDateShort(Date.now()),
+          totalKredit,
+          totalDebit,
+          totalSaldo: totalKredit - totalDebit,
+          rows
+        };
+      }
+
+      function openInPageReportSheet(scope) {
+        state.reportSheetScope = scope;
+        document.getElementById('dashboard-view').style.display = 'none';
+        document.getElementById('project-detail-view').style.display = 'none';
+        document.getElementById('report-sheet-view').style.display = 'block';
+        renderInPageReportSheet(scope);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function closeInPageReportSheet() {
+        const prevScope = state.reportSheetScope;
+        state.reportSheetScope = null;
+        document.getElementById('report-sheet-view').style.display = 'none';
+        if (prevScope === 'project' && state.activeProjectId) {
+          document.getElementById('project-detail-view').style.display = 'block';
+        } else {
+          document.getElementById('dashboard-view').style.display = 'block';
+        }
+      }
+
+      function renderInPageReportSheet(scope) {
+        const data = buildReportData(scope);
+
+        document.getElementById('sheet-doc-title').textContent = data.title;
+        document.getElementById('sheet-doc-subtitle').textContent = data.subtitle;
+        document.getElementById('sheet-doc-issuer').textContent = data.issuer;
+        document.getElementById('sheet-doc-date').textContent = data.datePrinted;
+        document.getElementById('sheet-signature-name').textContent = data.issuer;
+
+        document.getElementById('sheet-sum-kredit').textContent = formatRp(data.totalKredit);
+        document.getElementById('sheet-sum-debit').textContent = formatRp(data.totalDebit);
+        document.getElementById('sheet-sum-saldo').textContent = formatRp(data.totalSaldo);
+
+        const thead = document.getElementById('sheet-table-head');
+        const tbody = document.getElementById('sheet-table-body');
+
+        if (data.isProject) {
+          thead.innerHTML = `
+            <tr>
+              <th style="text-align:center;">No</th>
+              <th>Tanggal</th>
+              <th>Deskripsi</th>
+              <th style="text-align:center;">Qty</th>
+              <th style="text-align:right;">Hs (Harga Satuan)</th>
+              <th style="text-align:right;">Kredit</th>
+              <th style="text-align:right;">Debit</th>
+              <th style="text-align:right;">Saldo</th>
+            </tr>
+          `;
+        } else {
+          thead.innerHTML = `
+            <tr>
+              <th style="text-align:center;">No</th>
+              <th>Tanggal</th>
+              <th>Proyek</th>
+              <th>Deskripsi</th>
+              <th style="text-align:center;">Qty</th>
+              <th style="text-align:right;">Hs (Harga Satuan)</th>
+              <th style="text-align:right;">Kredit</th>
+              <th style="text-align:right;">Debit</th>
+              <th style="text-align:right;">Saldo</th>
+            </tr>
+          `;
+        }
+
+        if (data.rows.length === 0) {
+          const colSpan = data.isProject ? 8 : 9;
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="${colSpan}" style="text-align:center; padding: 1.5rem; color: #64748b;">
+                Belum ada transaksi tercatat untuk dilaporkan.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = data.rows.map(r => `
+          <tr>
+            <td style="text-align:center;">${r.no}</td>
+            <td style="white-space:nowrap;">${escapeHtml(r.date)}</td>
+            ${data.isProject ? '' : `<td><strong>${escapeHtml(r.projectName)}</strong></td>`}
+            <td>${escapeHtml(r.description)}</td>
+            <td style="text-align:center;">${r.qty}</td>
+            <td style="text-align:right; white-space:nowrap;">${formatRp(r.hs)}</td>
+            <td style="text-align:right; white-space:nowrap; color:#059669;">${r.kredit > 0 ? formatRp(r.kredit) : '-'}</td>
+            <td style="text-align:right; white-space:nowrap; color:#dc2626;">${r.debit > 0 ? formatRp(r.debit) : '-'}</td>
+            <td style="text-align:right; white-space:nowrap; font-weight:700;">${formatRp(r.saldo)}</td>
+          </tr>
+        `).join('') + `
+          <tr style="background-color: #f8fafc; font-weight: 800;">
+            <td colspan="${data.isProject ? 5 : 6}" style="text-align:right;">TOTAL AKUMULASI</td>
+            <td style="text-align:right; color:#059669;">${formatRp(data.totalKredit)}</td>
+            <td style="text-align:right; color:#dc2626;">${formatRp(data.totalDebit)}</td>
+            <td style="text-align:right; color:#4f46e5;">${formatRp(data.totalSaldo)}</td>
+          </tr>
+        `;
+      }
+
+      document.getElementById('btn-open-global-sheet').addEventListener('click', () => {
+        openInPageReportSheet('global');
+      });
+
+      document.getElementById('btn-open-project-sheet').addEventListener('click', () => {
+        openInPageReportSheet('project');
+      });
+
+      document.getElementById('btn-close-report-sheet').addEventListener('click', closeInPageReportSheet);
+
+      // Tombol 1: Salin Tabel ke Clipboard (Format TSV yang langsung rapi saat Ctrl+V di Excel / Google Sheets)
+      document.getElementById('btn-copy-table-clipboard').addEventListener('click', async () => {
+        const data = buildReportData(state.reportSheetScope || 'global');
+        const lines = [];
+        lines.push(data.title);
+        lines.push(`Penanggung Jawab:\t${data.issuer}\tTanggal:\t${data.datePrinted}`);
+        lines.push('');
+
+        const headers = data.isProject
+          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Harga Satuan (Hs)', 'Kredit', 'Debit', 'Saldo']
+          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Harga Satuan (Hs)', 'Kredit', 'Debit', 'Saldo'];
+        lines.push(headers.join('\t'));
+
+        data.rows.forEach(r => {
+          const cleanDesc = String(r.description).replace(/[\t\r\n]+/g, ' ');
+          const cleanProj = String(r.projectName).replace(/[\t\r\n]+/g, ' ');
+          if (data.isProject) {
+            lines.push([r.no, r.date, cleanDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
+          } else {
+            lines.push([r.no, r.date, cleanProj, cleanDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
+          }
+        });
+
+        if (data.isProject) {
+          lines.push(['', '', 'TOTAL AKUMULASI', '', '', data.totalKredit, data.totalDebit, data.totalSaldo].join('\t'));
+        } else {
+          lines.push(['', '', '', 'TOTAL AKUMULASI', '', '', data.totalKredit, data.totalDebit, data.totalSaldo].join('\t'));
+        }
+
+        const tsvString = lines.join('\n');
+        const ok = await copyTextToClipboard(tsvString);
+        if (ok) {
+          showToast('Tabel berhasil disalin! Buka Excel / Google Sheets lalu tekan Ctrl+V (Tempel)');
+        } else {
+          showToast('Gagal menyalin otomatis, silakan blok tabel di layar lalu salin manual');
+        }
+      });
+
+      // Tombol 2: Cetak / Simpan PDF (Bekerja saat dibuka di browser penuh)
+      document.getElementById('btn-trigger-print-sheet').addEventListener('click', () => {
+        showToast('Membuka dialog cetak browser...');
+        setTimeout(() => {
+          window.print();
+        }, 120);
+      });
+
+      // Tombol 3: Unduh Berkas .XLS (XML Spreadsheet)
+      document.getElementById('btn-download-xls-sheet').addEventListener('click', () => {
+        const data = buildReportData(state.reportSheetScope || 'global');
+        const xmlEsc = (val) => String(val ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+
+        const headers = data.isProject
+          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo']
+          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo'];
+
+        const headerCells = headers
+          .map(h => `<Cell><Data ss:Type="String">${xmlEsc(h)}</Data></Cell>`)
+          .join('');
+
+        const bodyRows = data.rows.map(r => {
+          const cells = [];
+          cells.push(`<Cell><Data ss:Type="Number">${r.no}</Data></Cell>`);
+          cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.date)}</Data></Cell>`);
+          if (!data.isProject) {
+            cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.projectName)}</Data></Cell>`);
+          }
+          cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.description)}</Data></Cell>`);
+          cells.push(`<Cell><Data ss:Type="Number">${r.qty}</Data></Cell>`);
+          cells.push(`<Cell><Data ss:Type="Number">${r.hs}</Data></Cell>`);
+          cells.push(`<Cell><Data ss:Type="Number">${r.kredit}</Data></Cell>`);
+          cells.push(`<Cell><Data ss:Type="Number">${r.debit}</Data></Cell>`);
+          cells.push(`<Cell><Data ss:Type="Number">${r.saldo}</Data></Cell>`);
+          return `<Row>${cells.join('')}</Row>`;
+        }).join('\n');
+
+        const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+ <Worksheet ss:Name="Laporan Suudi.Pro">
+  <Table>
+   <Row><Cell><Data ss:Type="String">${xmlEsc(data.title)}</Data></Cell></Row>
+   <Row><Cell><Data ss:Type="String">Penanggung Jawab: ${xmlEsc(data.issuer)} | Tanggal: ${xmlEsc(data.datePrinted)}</Data></Cell></Row>
+   <Row>${headerCells}</Row>
+   ${bodyRows}
+  </Table>
+ </Worksheet>
+</Workbook>`;
+
+        const blob = new Blob([xmlContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `suudi-pro-${data.slug}.xls`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        showToast('Mengunduh berkas Excel (.xls)...');
+      });
+
+      // Tombol 4 & Tombol Ekspor CSV Proyek
+      function triggerCsvDownload(scope) {
+        const data = buildReportData(scope);
+        const headers = data.isProject
+          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Status Bukti']
+          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Status Bukti'];
+
+        const rows = [headers.join(',')];
+        data.rows.forEach(r => {
+          const safeDesc = `"${String(r.description).replace(/"/g, '""')}"`;
+          const dateCol = `"${r.date}"`;
+          const safeProj = `"${String(r.projectName).replace(/"/g, '""')}"`;
+          if (data.isProject) {
+            rows.push([r.no, dateCol, safeDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo, `"${r.hasReceipt}"`].join(','));
+          } else {
+            rows.push([r.no, dateCol, safeProj, safeDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo, `"${r.hasReceipt}"`].join(','));
+          }
+        });
+
+        const csvContent = '\uFEFF' + rows.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `suudi-pro-${data.slug}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        showToast('Berkas CSV berhasil disiapkan');
+      }
+
+      document.getElementById('btn-export-csv').addEventListener('click', () => {
+        triggerCsvDownload('project');
+      });
+
+      document.getElementById('btn-download-csv-sheet').addEventListener('click', () => {
+        triggerCsvDownload(state.reportSheetScope || 'global');
+      });
+
+      /* ==========================================
+         8. TAB STATISTIK INTERAKTIF (NATIVE SVG DONUT & BAR)
          ========================================== */
       function renderStatistics() {
         let totalKredit = 0;
@@ -3022,7 +3412,7 @@
       });
 
       /* ==========================================
-         8. TAB RIWAYAT (SEMUA MUTASI & FILTER PENCARIAN)
+         9. TAB RIWAYAT (SEMUA MUTASI & FILTER PENCARIAN)
          ========================================== */
       function renderHistory() {
         const listEl = document.getElementById('history-list-container');
@@ -3032,7 +3422,6 @@
         const projectMap = {};
         state.projects.forEach(p => { projectMap[p.id] = p.name; });
 
-        // Urutkan kronologis terbaru di atas berdasarkan tanggal transaksi
         const sortedTxs = [...state.transactions].sort((a, b) => {
           const diff = getTxSortableTime(b) - getTxSortableTime(a);
           return diff !== 0 ? diff : (b.createdAt - a.createdAt);
@@ -3074,7 +3463,7 @@
                 <div class="history-title">${escapeHtml(tx.description)}</div>
                 <div class="history-sub">
                   <span class="proj-pill">${escapeHtml(pName)}</span>
-                  <span>• ${formatDateDisplay(tx.txDate || tx.createdAt)}</span>
+                  <span>• ${formatDateShort(tx.txDate || tx.createdAt)}</span>
                   <span>• ${tx.qty} × ${formatRp(tx.unitPrice)}</span>
                 </div>
               </div>
@@ -3083,7 +3472,7 @@
               ${tx.receiptData ? `<img src="${tx.receiptData}" alt="Bukti" class="receipt-thumb" title="Klik untuk lihat nota">` : ''}
               <div>
                 <div class="history-amount ${isKredit ? 'text-success' : 'text-danger'}">
-                  ${isKredit ? '+ ' : '- '}${formatRp(nominal)}
+                  ${isKredit ? '+' : '-'}${formatRp(nominal)}
                 </div>
                 <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">
                   ${tx.type}
@@ -3106,7 +3495,7 @@
       });
 
       /* ==========================================
-         9. MODAL HELPERS & MANAJEMEN PROYEK
+         10. MODAL HELPERS & MANAJEMEN PROYEK
          ========================================== */
       function openModal(id) {
         const el = document.getElementById(id);
@@ -3184,7 +3573,7 @@
         if (type === 'project') {
           msgEl.textContent = `Hapus proyek "${label}" beserta seluruh riwayat transaksi dan foto buktinya? Tindakan ini tidak dapat dibatalkan.`;
         } else {
-          msgEl.textContent = `Hapus transaksi "${label}"? Saldo berjalan pada baris berikutnya akan langsung dikalkulasi ulang secara instan.`;
+          msgEl.textContent = `Hapus transaksi "${label}"? Saldo berjalan proyek akan diperbarui secara instan.`;
         }
         openModal('modal-confirm-delete');
       }
@@ -3198,7 +3587,7 @@
           showToast('Proyek telah dihapus');
         } else if (type === 'tx') {
           await db.deleteTransaction(id);
-          showToast('Transaksi dihapus & saldo dikalkulasi ulang');
+          showToast('Transaksi dihapus & saldo diperbarui');
         }
         state.pendingDelete = null;
         closeModal('modal-confirm-delete');
@@ -3208,7 +3597,7 @@
       document.getElementById('btn-back-dashboard').addEventListener('click', closeProjectDetail);
 
       /* ==========================================
-         10. FORMULIR TRANSAKSI & PEMBUAT NOTA OTOMATIS
+         11. FORMULIR TRANSAKSI & NOTA OTOMATIS BERIDENTITAS LOGIN
          ========================================== */
       const qtyInput = document.getElementById('tx-qty-input');
       const hsInput = document.getElementById('tx-hs-input');
@@ -3261,7 +3650,7 @@
         if (lockProjectId) {
           projectSelect.value = lockProjectId;
           projectSelect.disabled = true;
-          document.getElementById('modal-tx-title').textContent = 'Tambah Transaksi Proyek Ini';
+          document.getElementById('modal-tx-title').textContent = 'Tambah Transaksi Proyek';
         } else {
           projectSelect.disabled = false;
           if (state.activeProjectId) projectSelect.value = state.activeProjectId;
@@ -3335,7 +3724,6 @@
         }
       });
 
-      // Metode 3: Nota Otomatis (HTML5 Canvas Generator)
       document.getElementById('btn-attach-auto-receipt').addEventListener('click', () => {
         const selectedProjId = projectSelect.value;
         const proj = state.projects.find(p => p.id === selectedProjId);
@@ -3344,22 +3732,22 @@
         const unitPrice = Number(document.getElementById('tx-hs-input').value) || 0;
         const type = document.getElementById('tx-type-input').value;
         const pickedDate = dateInput.value || getTodayIsoDate();
-        const txNum = 'REF-' + Date.now().toString().slice(-6);
-        const issuerName = getActiveAccountDisplayName();
+        const txNum = 'AUTO-' + Date.now().toString().slice(-6);
+        const issuer = getActiveAccountDisplayName();
 
         const syntheticUrl = generateCanvasReceiptDataUrl({
           txNumber: txNum,
-          accountName: issuerName,
-          projectName: proj ? proj.name : 'Proyek Aktif',
+          accountName: issuer,
+          projectName: proj ? proj.name : 'Suudi.Pro Project',
           description: desc,
           qty,
           unitPrice,
           type,
-          dateStr: formatDateDisplay(pickedDate)
+          dateStr: formatDateShort(pickedDate)
         });
 
-        setReceiptAttachment(syntheticUrl, `Nota Otomatis (${txNum})`);
-        showToast('Nota otomatis berhasil dibuat atas nama ' + issuerName);
+        setReceiptAttachment(syntheticUrl, `Nota Otomatis (${issuer})`);
+        showToast('Nota otomatis dibuat atas nama: ' + issuer);
       });
 
       function setReceiptAttachment(dataUrl, statusText) {
@@ -3401,7 +3789,7 @@
 
         await db.saveTransaction(newTx);
         closeModal('modal-transaction');
-        showToast('Transaksi berhasil disimpan');
+        showToast('Transaksi berhasil disimpan ke proyek');
         await refreshStateAndRender();
       });
 
@@ -3411,302 +3799,35 @@
         document.getElementById('receipt-full-image').src = tx.receiptData;
         const total = (Number(tx.qty) || 0) * (Number(tx.unitPrice) || 0);
         document.getElementById('receipt-modal-caption').textContent =
-          `${tx.type.toUpperCase()} • ${formatDateDisplay(tx.txDate || tx.createdAt)} • Qty: ${tx.qty} × ${formatRp(tx.unitPrice)} = ${formatRp(total)}`;
+          `${tx.type.toUpperCase()} • ${formatDateShort(tx.txDate || tx.createdAt)} • Qty: ${tx.qty} × ${formatRp(tx.unitPrice)} = ${formatRp(total)}`;
         openModal('modal-receipt-preview');
       }
 
       /* ==========================================
-         11. EKSPOR & CETAK LAPORAN (EXCEL .XLS XML, CSV, PRINT/PDF)
-         - Mendukung Scope: 'global' (Laporan Keseluruhan Pribadi) & 'project' (Laporan Pelanggan)
-         ========================================== */
-      document.getElementById('btn-open-global-report').addEventListener('click', () => {
-        state.exportScope = 'global';
-        document.getElementById('modal-export-title').textContent = 'Laporan Keseluruhan (Pribadi)';
-        document.getElementById('modal-export-subtitle').textContent =
-          'Ekspor gabungan seluruh proyek aktif beserta akumulasi arus kas lengkap.';
-        openModal('modal-export-report');
-      });
-
-      document.getElementById('btn-open-project-report').addEventListener('click', () => {
-        if (!state.activeProjectId) return;
-        const proj = state.projects.find(p => p.id === state.activeProjectId);
-        state.exportScope = 'project';
-        document.getElementById('modal-export-title').textContent = 'Ekspor / Cetak Laporan (Pelanggan)';
-        document.getElementById('modal-export-subtitle').textContent =
-          `Laporan rincian transaksi khusus proyek: ${proj ? proj.name : ''}`;
-        openModal('modal-export-report');
-      });
-
-      function buildReportDataset() {
-        const projectMap = {};
-        state.projects.forEach(p => { projectMap[p.id] = p.name; });
-
-        const isProjectScope = state.exportScope === 'project' && state.activeProjectId;
-        const activeProj = isProjectScope
-          ? state.projects.find(p => p.id === state.activeProjectId)
-          : null;
-
-        const targetTxs = isProjectScope
-          ? state.transactions.filter(t => t.projectId === state.activeProjectId)
-          : [...state.transactions];
-
-        let runningSaldo = 0;
-        let totalKredit = 0;
-        let totalDebit = 0;
-
-        const rows = targetTxs.map((tx, idx) => {
-          const qty = Number(tx.qty) || 0;
-          const hs = Number(tx.unitPrice) || 0;
-          const total = qty * hs;
-          const kredit = tx.type === 'kredit' ? total : 0;
-          const debit = tx.type === 'debit' ? total : 0;
-          totalKredit += kredit;
-          totalDebit += debit;
-          runningSaldo = runningSaldo + kredit - debit;
-
-          return {
-            no: idx + 1,
-            date: formatDateDisplay(tx.txDate || tx.createdAt),
-            projectName: projectMap[tx.projectId] || '-',
-            description: tx.description,
-            qty,
-            hs,
-            kredit,
-            debit,
-            saldo: runningSaldo,
-            hasReceipt: tx.receiptData ? 'Ada Bukti' : 'Tanpa Bukti'
-          };
-        });
-
-        const title = isProjectScope && activeProj
-          ? `Laporan Proyek - ${activeProj.name}`
-          : 'Laporan Keuangan Keseluruhan (Multi-Proyek)';
-
-        const slug = (isProjectScope && activeProj ? activeProj.name : 'laporan-keseluruhan')
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-');
-
-        return {
-          isProjectScope,
-          title,
-          slug,
-          issuer: getActiveAccountDisplayName(),
-          printedAt: formatDateDisplay(Date.now()),
-          totalKredit,
-          totalDebit,
-          totalSaldo: totalKredit - totalDebit,
-          rows
-        };
-      }
-
-      // 1. Ekspor Excel (.xls XML Spreadsheet format kompatibel Excel & Google Sheets)
-      document.getElementById('btn-export-xls').addEventListener('click', () => {
-        const data = buildReportDataset();
-        const xmlEsc = (val) => String(val ?? '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-
-        const headers = data.isProjectScope
-          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Bukti']
-          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Bukti'];
-
-        let headerCells = headers
-          .map(h => `<Cell ss:StyleID="sHeader"><Data ss:Type="String">${xmlEsc(h)}</Data></Cell>`)
-          .join('');
-
-        let bodyRows = data.rows.map(r => {
-          const cells = [];
-          cells.push(`<Cell><Data ss:Type="Number">${r.no}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.date)}</Data></Cell>`);
-          if (!data.isProjectScope) {
-            cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.projectName)}</Data></Cell>`);
-          }
-          cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.description)}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="Number">${r.qty}</Data></Cell>`);
-          cells.push(`<Cell ss:StyleID="sCurrency"><Data ss:Type="Number">${r.hs}</Data></Cell>`);
-          cells.push(`<Cell ss:StyleID="sCurrency"><Data ss:Type="Number">${r.kredit}</Data></Cell>`);
-          cells.push(`<Cell ss:StyleID="sCurrency"><Data ss:Type="Number">${r.debit}</Data></Cell>`);
-          cells.push(`<Cell ss:StyleID="sCurrencyBold"><Data ss:Type="Number">${r.saldo}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.hasReceipt)}</Data></Cell>`);
-          return `<Row>${cells.join('')}</Row>`;
-        }).join('\n');
-
-        const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
- xmlns:o="urn:schemas-microsoft-com:office:office"
- xmlns:x="urn:schemas-microsoft-com:office:excel"
- xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
- <Styles>
-  <Style ss:ID="Default" ss:Name="Normal">
-   <Font ss:FontName="Calibri" ss:Size="11"/>
-  </Style>
-  <Style ss:ID="sTitle">
-   <Font ss:FontName="Calibri" ss:Size="14" ss:Bold="1"/>
-  </Style>
-  <Style ss:ID="sHeader">
-   <Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1" ss:Color="#FFFFFF"/>
-   <Interior ss:Color="#4F46E5" ss:Pattern="Solid"/>
-  </Style>
-  <Style ss:ID="sCurrency">
-   <NumberFormat ss:Format="&quot;Rp&quot;\ #,##0"/>
-  </Style>
-  <Style ss:ID="sCurrencyBold">
-   <Font ss:FontName="Calibri" ss:Size="11" ss:Bold="1"/>
-   <NumberFormat ss:Format="&quot;Rp&quot;\ #,##0"/>
-  </Style>
- </Styles>
- <Worksheet ss:Name="Laporan Suudi.Pro">
-  <Table>
-   <Row><Cell ss:StyleID="sTitle"><Data ss:Type="String">${xmlEsc(data.title)}</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">Penanggung Jawab: ${xmlEsc(data.issuer)} | Tanggal Cetak: ${xmlEsc(data.printedAt)}</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">Total Kredit: ${xmlEsc(formatRp(data.totalKredit))} | Total Debit: ${xmlEsc(formatRp(data.totalDebit))} | Saldo Akhir: ${xmlEsc(formatRp(data.totalSaldo))}</Data></Cell></Row>
-   <Row></Row>
-   <Row>${headerCells}</Row>
-   ${bodyRows}
-  </Table>
- </Worksheet>
-</Workbook>`;
-
-        const blob = new Blob([xmlContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `suudi-pro-${data.slug}.xls`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(url);
-        closeModal('modal-export-report');
-        showToast('Spreadsheet Excel (.xls) berhasil diunduh');
-      });
-
-      // 2. Ekspor CSV (.csv)
-      document.getElementById('btn-export-csv').addEventListener('click', () => {
-        const data = buildReportDataset();
-        const headers = data.isProjectScope
-          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Status Bukti']
-          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Status Bukti'];
-
-        const csvRows = [headers.join(',')];
-        data.rows.forEach(r => {
-          const safeDesc = `"${String(r.description).replace(/"/g, '""')}"`;
-          const safeDate = `"${String(r.date).replace(/"/g, '""')}"`;
-          const safeProj = `"${String(r.projectName).replace(/"/g, '""')}"`;
-          if (data.isProjectScope) {
-            csvRows.push([r.no, safeDate, safeDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo, `"${r.hasReceipt}"`].join(','));
-          } else {
-            csvRows.push([r.no, safeDate, safeProj, safeDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo, `"${r.hasReceipt}"`].join(','));
-          }
-        });
-
-        const csvContent = '\uFEFF' + csvRows.join('\n');
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `suudi-pro-${data.slug}.csv`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(url);
-        closeModal('modal-export-report');
-        showToast('Berkas CSV berhasil diunduh');
-      });
-
-      // 3. Cetak / Simpan PDF Resmi (@media print bersih tanpa elemen navigasi)
-      document.getElementById('btn-export-print').addEventListener('click', () => {
-        const data = buildReportDataset();
-        const printArea = document.getElementById('print-report-area');
-
-        const tableHeaders = data.isProjectScope
-          ? `<th>No</th><th>Tanggal</th><th>Deskripsi</th><th>Qty</th><th>Hs (Harga Satuan)</th><th>Kredit</th><th>Debit</th><th>Saldo</th>`
-          : `<th>No</th><th>Tanggal</th><th>Proyek</th><th>Deskripsi</th><th>Qty</th><th>Hs (Harga Satuan)</th><th>Kredit</th><th>Debit</th><th>Saldo</th>`;
-
-        const tableBody = data.rows.length === 0
-          ? `<tr><td colspan="${data.isProjectScope ? 8 : 9}" style="text-align:center; padding: 14px;">Belum ada data transaksi tercatat.</td></tr>`
-          : data.rows.map(r => `
-              <tr>
-                <td style="text-align:center;">${r.no}</td>
-                <td>${escapeHtml(r.date)}</td>
-                ${data.isProjectScope ? '' : `<td>${escapeHtml(r.projectName)}</td>`}
-                <td>${escapeHtml(r.description)}</td>
-                <td style="text-align:center;">${r.qty}</td>
-                <td style="text-align:right;">${formatRp(r.hs)}</td>
-                <td style="text-align:right;">${r.kredit > 0 ? formatRp(r.kredit) : '-'}</td>
-                <td style="text-align:right;">${r.debit > 0 ? formatRp(r.debit) : '-'}</td>
-                <td style="text-align:right; font-weight:bold;">${formatRp(r.saldo)}</td>
-              </tr>
-            `).join('');
-
-        printArea.innerHTML = `
-          <div class="print-header">
-            <div>
-              <div class="print-title">${escapeHtml(data.title)}</div>
-              <div class="print-meta">Penanggung Jawab: <strong>${escapeHtml(data.issuer)}</strong></div>
-            </div>
-            <div style="text-align: right;">
-              <div class="print-meta">Tanggal Cetak: ${escapeHtml(data.printedAt)}</div>
-              <div class="print-meta">Dokumen Resmi Terverifikasi</div>
-            </div>
-          </div>
-
-          <div class="print-summary-grid">
-            <div class="print-summary-box">
-              <span>Total Pemasukan (Kredit)</span>
-              <strong>${formatRp(data.totalKredit)}</strong>
-            </div>
-            <div class="print-summary-box">
-              <span>Total Pengeluaran (Debit)</span>
-              <strong>${formatRp(data.totalDebit)}</strong>
-            </div>
-            <div class="print-summary-box">
-              <span>Saldo Akhir</span>
-              <strong>${formatRp(data.totalSaldo)}</strong>
-            </div>
-          </div>
-
-          <table class="print-table">
-            <thead>
-              <tr>${tableHeaders}</tr>
-            </thead>
-            <tbody>
-              ${tableBody}
-            </tbody>
-          </table>
-
-          <div class="print-footer">
-            <span>Dicetak oleh: ${escapeHtml(data.issuer)}</span>
-            <span>Suudi.Pro — Multi-Project Finance System</span>
-          </div>
-        `;
-
-        closeModal('modal-export-report');
-        setTimeout(() => {
-          window.print();
-        }, 180);
-      });
-
-      /* ==========================================
          12. NAVIGASI BOTTOM TAB (5 MENU SIMETRIS)
          ========================================== */
+      function switchActiveTab(targetTab) {
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(b => {
+          b.classList.toggle('active', b.getAttribute('data-tab') === targetTab);
+        });
+        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+        const targetEl = document.getElementById(targetTab);
+        if (targetEl) targetEl.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
       document.querySelectorAll('.bottom-nav .nav-item').forEach(navBtn => {
         navBtn.addEventListener('click', () => {
-          const targetTab = navBtn.getAttribute('data-tab');
-          document.querySelectorAll('.bottom-nav .nav-item').forEach(b => b.classList.remove('active'));
-          navBtn.classList.add('active');
-
-          document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-          const targetEl = document.getElementById(targetTab);
-          if (targetEl) targetEl.classList.add('active');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          switchActiveTab(navBtn.getAttribute('data-tab'));
         });
       });
 
+      document.getElementById('header-user-pill').addEventListener('click', () => {
+        switchActiveTab('tab-profil');
+      });
+
       /* ==========================================
-         13. PROFIL: SIMULASI LOGIN, FONT, TEMA, JSON BACKUP
+         13. PROFIL: LOGIN NAMA OFFLINE, FONT, TEMA, JSON BACKUP
          ========================================== */
       function renderSessionState() {
         const session = StoragePrefs.get('user_session', null);
@@ -3714,12 +3835,12 @@
         const loggedInEl = document.getElementById('auth-logged-in');
         const headerLabel = document.getElementById('header-user-label');
 
-        if (session && (session.email || session.name)) {
+        if (session && (session.name || session.email)) {
           loggedOutEl.style.display = 'none';
           loggedInEl.style.display = 'block';
-          const displayName = (session.name && session.name.trim()) || session.email.split('@')[0];
+          const displayName = (session.name && session.name.trim()) || session.email;
           document.getElementById('session-name-display').textContent = displayName;
-          document.getElementById('session-email-display').textContent = session.email || '-';
+          document.getElementById('session-email-display').textContent = session.email || 'Penanggung Jawab Aktif';
           document.getElementById('session-avatar').textContent = displayName.charAt(0).toUpperCase();
           headerLabel.textContent = displayName;
         } else {
@@ -3731,19 +3852,21 @@
 
       document.getElementById('form-login').addEventListener('submit', (e) => {
         e.preventDefault();
-        const email = document.getElementById('login-email').value.trim();
         const name = document.getElementById('login-name').value.trim();
-        if (!email) return;
-        StoragePrefs.set('user_session', { email, name, loggedInAt: Date.now() });
+        const email = document.getElementById('login-email').value.trim();
+        if (!name && !email) return;
+        StoragePrefs.set('user_session', { name: name || email, email, loggedInAt: Date.now() });
         renderSessionState();
-        showToast('Sesi aktif sebagai ' + (name || email));
+        if (state.reportSheetScope) renderInPageReportSheet(state.reportSheetScope);
+        showToast('Identitas aktif: ' + (name || email));
       });
 
       document.getElementById('btn-logout').addEventListener('click', () => {
         StoragePrefs.remove('user_session');
         document.getElementById('form-login').reset();
         renderSessionState();
-        showToast('Sesi akun telah keluar');
+        if (state.reportSheetScope) renderInPageReportSheet(state.reportSheetScope);
+        showToast('Identitas dikembalikan ke default (Pengguna / Kasir)');
       });
 
       function applyFontSize(sizeStr) {
@@ -3780,7 +3903,7 @@
         });
       });
 
-      document.getElementById('btn-backup-json').addEventListener('click', async () => {
+      async function buildBackupJsonString() {
         const backupPayload = {
           app: 'Suudi.Pro',
           version: 3,
@@ -3793,8 +3916,11 @@
           projects: await db.getAllProjects(),
           transactions: await db.getAllTransactions()
         };
+        return JSON.stringify(backupPayload, null, 2);
+      }
 
-        const jsonStr = JSON.stringify(backupPayload, null, 2);
+      document.getElementById('btn-backup-json').addEventListener('click', async () => {
+        const jsonStr = await buildBackupJsonString();
         const blob = new Blob([jsonStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -3805,7 +3931,17 @@
         link.click();
         link.remove();
         URL.revokeObjectURL(url);
-        showToast('Berkas cadangan JSON berhasil diunduh');
+        showToast('Berkas cadangan JSON disiapkan');
+      });
+
+      document.getElementById('btn-copy-json-clipboard').addEventListener('click', async () => {
+        const jsonStr = await buildBackupJsonString();
+        const ok = await copyTextToClipboard(jsonStr);
+        if (ok) {
+          showToast('Data JSON berhasil disalin ke Clipboard');
+        } else {
+          showToast('Gagal menyalin JSON ke Clipboard');
+        }
       });
 
       const restoreInput = document.getElementById('input-restore-json');
