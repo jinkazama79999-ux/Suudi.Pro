@@ -26,20 +26,22 @@ jobs:
     - name: Install Cordova Global
       run: npm install -g cordova
 
-    - name: Create Cordova Project
+    - name: Create Cordova Project & Use Config
       run: |
+        # Membuat project Cordova dengan konfigurasi config.xml bawaan repository
         cordova create myApp com.suudi.pro SuudiPro
         cd myApp
+        # Menyalin config.xml dan icon.png buatan Anda ke dalam project Cordova
+        cp ../config.xml config.xml
+        if [ -f ../icon.png ]; then
+          cp ../icon.png icon.png
+        fi
         cordova platform add android
 
-    - name: Copy Web Files & Custom Icon
+    - name: Copy Web Files
       run: |
         rm -rf myApp/www/*
         cp -r index.html css js assets myApp/www/ 2>/dev/null || cp index.html myApp/www/
-        if [ -f icon.png ]; then
-          mkdir -p myApp/res/icon/android
-          cp icon.png myApp/res/icon/android/icon.png
-        fi
 
     - name: Build APK Debug
       run: |
