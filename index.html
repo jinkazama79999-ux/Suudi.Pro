@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Suudi.Pro — Manajemen Keuangan Multi-Proyek</title>
+  <title>Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)</title>
   <style>
     :root {
       --base-font-size: 16px;
@@ -15,7 +15,7 @@
       --wallet-grad-2: #8b5cf6;
       --bg-body: #f1f5f9;
       --bg-card: #ffffff;
-      --bg-nav: rgba(255, 255, 255, 0.84);
+      --bg-nav: rgba(255, 255, 255, 0.85);
       --bg-input: #f8fafc;
       --text-main: #0f172a;
       --text-muted: #64748b;
@@ -361,10 +361,10 @@
 
     .btn-wallet-report {
       width: 100%;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.22);
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.38);
-      padding: 0.65rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      padding: 0.68rem 1rem;
       border-radius: var(--radius-sm);
       font-size: 0.82rem;
       font-weight: 700;
@@ -379,7 +379,7 @@
     }
 
     .btn-wallet-report:hover {
-      background: rgba(255, 255, 255, 0.32);
+      background: rgba(255, 255, 255, 0.34);
     }
 
     /* Section Headings */
@@ -406,7 +406,7 @@
       gap: 0.42rem;
       border: none;
       border-radius: var(--radius-sm);
-      padding: 0.58rem 0.95rem;
+      padding: 0.6rem 0.95rem;
       font-size: 0.82rem;
       font-weight: 600;
       font-family: inherit;
@@ -725,7 +725,7 @@
     }
 
     /* ==============================================================
-       IN-PAGE PRINTABLE REPORT SHEET (LEMBAR LAPORAN SIAP CETAK)
+       ANDROID-READY IN-PAGE REPORT SHEET & CANVAS IMAGE GENERATOR
        ============================================================== */
     .report-sheet-toolbar {
       background-color: var(--bg-card);
@@ -749,8 +749,18 @@
 
     .report-toolbar-actions {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
       gap: 0.55rem;
+    }
+
+    .android-guide-banner {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.76rem;
+      line-height: 1.45;
     }
 
     .report-paper {
@@ -758,7 +768,7 @@
       color: #0f172a;
       border: 1px solid #cbd5e1;
       border-radius: 12px;
-      padding: 1.5rem;
+      padding: 1.35rem;
       box-shadow: var(--shadow-md);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
@@ -775,14 +785,14 @@
     }
 
     .report-paper-title {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: #0f172a;
       margin-bottom: 0.2rem;
     }
 
     .report-paper-meta {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: #475569;
       line-height: 1.45;
     }
@@ -790,7 +800,7 @@
     .report-paper-summary {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.65rem;
+      gap: 0.6rem;
       margin-bottom: 1.15rem;
     }
 
@@ -798,12 +808,12 @@
       background-color: #f8fafc;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
-      padding: 0.7rem 0.85rem;
+      padding: 0.65rem 0.75rem;
     }
 
     .report-sum-box span {
       display: block;
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       color: #475569;
       font-weight: 700;
       text-transform: uppercase;
@@ -811,9 +821,10 @@
     }
 
     .report-sum-box strong {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 800;
       color: #0f172a;
+      word-break: break-word;
     }
 
     .report-table-wrap {
@@ -824,14 +835,14 @@
     table.report-sheet-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: #0f172a;
     }
 
     table.report-sheet-table th,
     table.report-sheet-table td {
       border: 1px solid #94a3b8;
-      padding: 0.5rem 0.6rem;
+      padding: 0.48rem 0.55rem;
       text-align: left;
     }
 
@@ -840,18 +851,18 @@
       color: #0f172a;
       font-weight: 700;
       text-transform: uppercase;
-      font-size: 0.69rem;
+      font-size: 0.68rem;
       white-space: nowrap;
     }
 
     .report-paper-footer {
-      margin-top: 1.5rem;
+      margin-top: 1.4rem;
       padding-top: 0.85rem;
       border-top: 1px dashed #cbd5e1;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       color: #475569;
       flex-wrap: wrap;
       gap: 1rem;
@@ -859,11 +870,11 @@
 
     .signature-box {
       text-align: center;
-      min-width: 160px;
+      min-width: 150px;
     }
 
     .signature-space {
-      height: 44px;
+      height: 40px;
     }
 
     /* Statistics Tab */
@@ -1424,7 +1435,7 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       width: 100%;
-      max-width: 480px;
+      max-width: 520px;
       max-height: 90vh;
       overflow-y: auto;
       padding: 1.35rem;
@@ -1448,6 +1459,7 @@
       justify-content: flex-end;
       gap: 0.6rem;
       margin-top: 1.25rem;
+      flex-wrap: wrap;
     }
 
     .preview-img-full {
@@ -1555,7 +1567,7 @@
           <div class="brand-subtitle">Multi-Project Finance Wallet</div>
         </div>
       </div>
-      <div class="header-status" id="header-user-pill" title="Klik untuk atur nama penanggung jawab nota">
+      <div class="header-status" id="header-user-pill" title="Ketuk untuk atur nama penanggung jawab nota">
         <span class="status-dot"></span>
         <span id="header-user-label">Pengguna / Kasir</span>
       </div>
@@ -1563,7 +1575,7 @@
 
     <!-- MAIN CONTENT -->
     <main class="app-main">
-      <!-- TAB 1: BERANDA (DASBOR, RINCIAN PROYEK & LEMBAR LAPORAN SIAP CETAK) -->
+      <!-- TAB 1: BERANDA (DASBOR, RINCIAN PROYEK & LEMBAR LAPORAN ANDROID-READY) -->
       <section id="tab-beranda" class="tab-pane active">
         <!-- 1A. Tampilan Dasbor Utama -->
         <div id="dashboard-view">
@@ -1590,7 +1602,7 @@
               </div>
             </div>
             <button type="button" class="btn-wallet-report" id="btn-open-global-sheet">
-              <span>📄 Buka Lembar Laporan Keseluruhan (Siap Cetak & Salin Excel)</span>
+              <span>📄 Buka Lembar Laporan Keseluruhan (Android Ready)</span>
             </button>
           </div>
 
@@ -1612,7 +1624,7 @@
             </button>
             <div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
               <button type="button" class="btn btn-secondary" id="btn-open-project-sheet">
-                📄 Lembar Laporan & Salin Excel
+                📄 Lembar Laporan & Bagikan
               </button>
               <button type="button" class="btn btn-outline" id="btn-export-csv">
                 Ekspor CSV
@@ -1672,29 +1684,36 @@
           </div>
         </div>
 
-        <!-- 1C. Tampilan IN-PAGE LEMBAR LAPORAN SIAP CETAK & SALIN EXCEL -->
+        <!-- 1C. Tampilan IN-PAGE LEMBAR LAPORAN SIAP CETAK (ANDROID WEBVIEW & BROWSER READY) -->
         <div id="report-sheet-view" style="display: none;">
           <div class="report-sheet-toolbar">
             <div class="report-toolbar-top">
               <button type="button" class="btn btn-outline" id="btn-close-report-sheet">
                 ← Kembali
               </button>
-              <span style="font-size: 0.76rem; color: var(--text-muted); font-weight: 600;">
-                Tips: Klik <strong>Salin Tabel ke Clipboard</strong> lalu tekan <strong>Ctrl+V / Tempel</strong> di Excel atau Google Sheets.
+              <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">
+                Mode Android & Browser Aktif
               </span>
             </div>
+
+            <div class="android-guide-banner">
+              <strong>Solusi Anti-Blokir Android WebView / APK:</strong><br>
+              1. <strong>Salin Tabel ke Clipboard</strong>: Tempel langsung di aplikasi Excel / Google Sheets Android.<br>
+              2. <strong>Simpan / Bagikan Gambar Laporan (PNG)</strong>: Merender seluruh laporan ini menjadi gambar resolusi tinggi yang langsung bisa disimpan ke Galeri HP atau dikirim ke WhatsApp tanpa terblokir WebView.
+            </div>
+
             <div class="report-toolbar-actions">
               <button type="button" class="btn btn-success" id="btn-copy-table-clipboard">
-                📋 Salin Tabel ke Clipboard (Excel / Sheets)
+                📋 Salin Tabel (Tempel di Excel / Sheets)
               </button>
-              <button type="button" class="btn btn-primary" id="btn-trigger-print-sheet">
-                🖨️ Cetak / Simpan PDF (Browser)
+              <button type="button" class="btn btn-primary" id="btn-render-report-image">
+                🖼️ Buat Gambar Laporan (Simpan HP / WA)
               </button>
-              <button type="button" class="btn btn-secondary" id="btn-download-xls-sheet">
-                📗 Unduh Berkas .XLS
+              <button type="button" class="btn btn-secondary" id="btn-share-android-native">
+                📤 Bagikan (Android Share Sheet)
               </button>
-              <button type="button" class="btn btn-outline" id="btn-download-csv-sheet">
-                📄 Unduh Berkas .CSV
+              <button type="button" class="btn btn-outline" id="btn-trigger-print-sheet">
+                🖨️ Cetak / PDF
               </button>
             </div>
           </div>
@@ -1842,7 +1861,7 @@
         <!-- Login Offline Nama / Kasir (Tertera di Nota & Laporan) -->
         <div class="settings-group">
           <h3>Identitas Penanggung Jawab / Kasir (Offline)</h3>
-          <p class="settings-desc">Nama yang Anda masukkan disimpan secara lokal dan otomatis dicantumkan sebagai header utama pada Nota Otomatis serta Lembar Laporan.</p>
+          <p class="settings-desc">Nama yang Anda masukkan disimpan secara lokal di HP Android dan otomatis tertera pada Nota Otomatis serta Lembar Laporan.</p>
 
           <div id="auth-logged-out">
             <form id="form-login">
@@ -1852,9 +1871,9 @@
               </div>
               <div class="form-group">
                 <label class="form-label" for="login-email">Jabatan / Email / Kontak (Opsional)</label>
-                <input type="text" id="login-email" class="form-control" placeholder="Contoh: Manajer Proyek / admin@suudi.pro">
+                <input type="text" id="login-email" class="form-control" placeholder="Contoh: Manajer Proyek / 0812xxxx">
               </div>
-              <button type="submit" class="btn btn-primary" style="width: 100%;">Simpan & Aktifkan Identitas</button>
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk Sesi</button>
             </form>
           </div>
 
@@ -1867,7 +1886,7 @@
                   <div style="font-size: 0.78rem; color: var(--text-muted);" id="session-email-display">Penanggung Jawab Aktif</div>
                 </div>
               </div>
-              <button type="button" class="btn btn-danger" id="btn-logout">Ganti Nama / Keluar</button>
+              <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
             </div>
           </div>
         </div>
@@ -1907,19 +1926,22 @@
           </div>
         </div>
 
-        <!-- Pencadangan Offline JSON (Unduh File atau Salin/Tempel Teks JSON) -->
+        <!-- Pencadangan Offline JSON (Kompatibel Android WebView via Salin/Tempel Teks & File) -->
         <div class="settings-group">
-          <h3>Cadangkan & Pulihkan Data Lokal (JSON)</h3>
-          <p class="settings-desc">Seluruh proyek, transaksi, dan foto bukti tersimpan secara offline di IndexedDB peramban Anda.</p>
-          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-            <button type="button" class="btn btn-primary" id="btn-backup-json">
-              ↓ Unduh Cadangan (JSON)
+          <h3>Cadangkan & Pulihkan Data (Android Offline Ready)</h3>
+          <p class="settings-desc">Di aplikasi Android (WebView), Anda dapat menyalin kode JSON ke WhatsApp/Catatan HP atau memulihkan langsung dengan menempelkan teks JSON.</p>
+          <div style="display: flex; gap: 0.55rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-primary" id="btn-copy-json-clipboard">
+              📋 Salin Teks Backup (JSON)
             </button>
-            <button type="button" class="btn btn-secondary" id="btn-copy-json-clipboard">
-              📋 Salin Data JSON
+            <button type="button" class="btn btn-secondary" id="btn-open-paste-json">
+              📥 Tempel Teks Backup (JSON)
+            </button>
+            <button type="button" class="btn btn-outline" id="btn-backup-json">
+              ↓ Cadangkan Data (JSON)
             </button>
             <button type="button" class="btn btn-outline" id="btn-restore-trigger">
-              ↑ Pulihkan dari File JSON
+              ↑ Pulihkan Data (JSON)
             </button>
             <input type="file" id="input-restore-json" accept=".json,application/json" style="display: none;">
           </div>
@@ -1995,6 +2017,24 @@
           <button type="submit" class="btn btn-primary">Simpan Proyek</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: TEMPEL TEKS BACKUP JSON (SOLUSI ANDROID WEBVIEW) -->
+  <div class="modal-backdrop" id="modal-paste-json">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Pulihkan dari Teks JSON</h3>
+        <button type="button" class="btn-icon" data-close-modal="modal-paste-json">✕</button>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+        Tempelkan (Paste) kode cadangan JSON yang sebelumnya Anda salin:
+      </p>
+      <textarea id="paste-json-textarea" class="form-control" rows="6" placeholder='{"app":"Suudi.Pro","projects":[...]}'></textarea>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-close-modal="modal-paste-json">Batal</button>
+        <button type="button" class="btn btn-primary" id="btn-confirm-paste-json">Pulihkan Sekarang</button>
+      </div>
     </div>
   </div>
 
@@ -2105,18 +2145,19 @@
     </div>
   </div>
 
-  <!-- MODAL: PRATINJAU BUKTI NOTA UKURAN PENUH (LIGHTBOX) -->
+  <!-- MODAL: PRATINJAU BUKTI NOTA / GAMBAR LAPORAN UKURAN PENUH (LIGHTBOX) -->
   <div class="modal-backdrop" id="modal-receipt-preview">
-    <div class="modal-dialog" style="max-width: 560px;">
+    <div class="modal-dialog" style="max-width: 580px;">
       <div class="modal-header">
-        <h3 class="modal-title" id="receipt-modal-title">Pratinjau Bukti Nota</h3>
+        <h3 class="modal-title" id="receipt-modal-title">Pratinjau Dokumen</h3>
         <button type="button" class="btn-icon" data-close-modal="modal-receipt-preview">✕</button>
       </div>
       <div style="text-align: center;">
-        <img id="receipt-full-image" class="preview-img-full" src="" alt="Bukti Transaksi">
-        <p id="receipt-modal-caption" style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.65rem;"></p>
+        <img id="receipt-full-image" class="preview-img-full" src="" alt="Dokumen Pratinjau">
+        <p id="receipt-modal-caption" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.65rem;"></p>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-share-preview-img">📤 Bagikan Gambar</button>
         <button type="button" class="btn btn-outline" data-close-modal="modal-receipt-preview">Tutup</button>
       </div>
     </div>
@@ -2130,7 +2171,7 @@
       'use strict';
 
       /* ==========================================
-         1. UTILITAS LOGO FALLBACK, FORMATTER RUPIAH & CLIPBOARD
+         1. UTILITAS FORMATTER, TANGGAL & CLIPBOARD ANDROID
          ========================================== */
       const appLogo = document.getElementById('app-logo');
       function checkAppLogo() {
@@ -2214,16 +2255,13 @@
           .replace(/'/g, '&#039;');
       }
 
-      // Fungsi Salin ke Clipboard yang Bekerja di Sandbox Iframe maupun Browser Penuh
       async function copyTextToClipboard(text) {
         try {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(text);
             return true;
           }
-        } catch (err) {
-          // Lanjut ke fallback execCommand('copy')
-        }
+        } catch (err) {}
         try {
           const textarea = document.createElement('textarea');
           textarea.value = text;
@@ -2238,6 +2276,24 @@
           return ok;
         } catch (e) {
           return false;
+        }
+      }
+
+      // Konversi DataURL ke Blob File untuk Android Web Share API
+      function dataUrlToFile(dataUrl, filename) {
+        try {
+          const arr = dataUrl.split(',');
+          const mimeMatch = arr[0].match(/:(.*?);/);
+          const mime = mimeMatch ? mimeMatch[1] : 'image/png';
+          const bstr = atob(arr[1]);
+          let n = bstr.length;
+          const u8arr = new Uint8Array(n);
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+          return new File([u8arr], filename, { type: mime });
+        } catch (e) {
+          return null;
         }
       }
 
@@ -2442,7 +2498,7 @@
       };
 
       /* ==========================================
-         5. GENERATOR NOTA OTOMATIS (DENGAN NAMA LOGIN PENANGGUNG JAWAB)
+         5. GENERATOR NOTA OTOMATIS & GAMBAR LAPORAN PENUH (HTML5 CANVAS)
          ========================================== */
       function generateCanvasReceiptDataUrl({ txNumber, accountName, projectName, description, qty, unitPrice, type, dateStr }) {
         const canvas = document.createElement('canvas');
@@ -2452,7 +2508,6 @@
 
         const issuer = String(accountName || getActiveAccountDisplayName()).slice(0, 32);
 
-        // Latar kertas nota bersih
         ctx.fillStyle = '#f1f5f9';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -2462,21 +2517,19 @@
         ctx.fillRect(24, 24, 432, 532);
         ctx.strokeRect(24, 24, 432, 532);
 
-        // Aksen garis atas
         ctx.fillStyle = type === 'kredit' ? '#059669' : '#4f46e5';
         ctx.fillRect(24, 24, 432, 8);
 
-        // Header Utama: Nama Akun / Penanggung Jawab yang Login
+        // Header Utama: Nama Penanggung Jawab
         ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.font = 'bold 20px sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText(issuer, 48, 68);
 
         ctx.fillStyle = '#64748b';
-        ctx.font = '600 12px -apple-system, sans-serif';
+        ctx.font = '600 12px sans-serif';
         ctx.fillText('BUKTI TRANSAKSI & KWITANSI KAS', 48, 90);
 
-        // Informasi Nomor & Tanggal
         ctx.strokeStyle = '#e2e8f0';
         ctx.beginPath();
         ctx.moveTo(48, 108);
@@ -2491,7 +2544,6 @@
         ctx.fillText(`PROYEK   : ${String(projectName).slice(0, 28)}`, 48, 190);
         ctx.fillText(`JENIS    : ${type === 'kredit' ? 'KREDIT (PEMASUKAN)' : 'DEBIT (PENGELUARAN)'}`, 48, 216);
 
-        // Garis putus-putus
         ctx.strokeStyle = '#94a3b8';
         ctx.setLineDash([6, 6]);
         ctx.beginPath();
@@ -2499,7 +2551,6 @@
         ctx.lineTo(432, 238);
         ctx.stroke();
 
-        // Rincian Item
         ctx.fillStyle = '#64748b';
         ctx.font = '13px monospace';
         ctx.fillText('DESKRIPSI ITEM:', 48, 268);
@@ -2513,14 +2564,12 @@
         ctx.font = '14px monospace';
         ctx.fillText(`RINCIAN  : ${qty} x ${formatRp(unitPrice)}`, 48, 326);
 
-        // Garis putus-putus kedua
         ctx.beginPath();
         ctx.moveTo(48, 352);
         ctx.lineTo(432, 352);
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Total Nominal
         const total = (Number(qty) || 0) * (Number(unitPrice) || 0);
         ctx.fillStyle = '#64748b';
         ctx.font = 'bold 13px monospace';
@@ -2530,15 +2579,13 @@
         ctx.font = 'bold 26px monospace';
         ctx.fillText(formatRp(total), 48, 422);
 
-        // Penanggung Jawab di Kiri Bawah
         ctx.fillStyle = '#64748b';
-        ctx.font = '12px -apple-system, sans-serif';
+        ctx.font = '12px sans-serif';
         ctx.fillText('Penanggung Jawab:', 48, 468);
         ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 13px -apple-system, sans-serif';
+        ctx.font = 'bold 13px sans-serif';
         ctx.fillText(issuer, 48, 488);
 
-        // Stempel Cap LUNAS / VALID
         ctx.save();
         ctx.translate(345, 472);
         ctx.rotate(-0.12);
@@ -2551,11 +2598,177 @@
         ctx.fillText('LUNAS / VALID', 0, 6);
         ctx.restore();
 
-        // Watermark kecil elegan Suudi.Pro di pojok bawah
         ctx.fillStyle = '#94a3b8';
-        ctx.font = 'italic 11px -apple-system, sans-serif';
+        ctx.font = 'italic 11px sans-serif';
         ctx.textAlign = 'right';
         ctx.fillText('Suudi.Pro', 432, 538);
+
+        return canvas.toDataURL('image/png');
+      }
+
+      // Generator Gambar Lembar Laporan Penuh (PNG Resolusi Tinggi) untuk Disimpan/Dibagikan di HP Android
+      function generateReportSheetImageDataUrl(data) {
+        const rowH = 34;
+        const headerH = 230;
+        const footerH = 120;
+        const totalRows = Math.max(1, data.rows.length);
+        const canvasW = 900;
+        const canvasH = headerH + (totalRows + 2) * rowH + footerH;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = canvasW;
+        canvas.height = canvasH;
+        const ctx = canvas.getContext('2d');
+
+        // Kertas putih
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvasW, canvasH);
+
+        // Garis tepi atas
+        ctx.fillStyle = '#4f46e5';
+        ctx.fillRect(0, 0, canvasW, 10);
+
+        // Judul & Kop
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 22px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(data.title.slice(0, 52), 36, 52);
+
+        ctx.fillStyle = '#475569';
+        ctx.font = '14px sans-serif';
+        ctx.fillText(data.subtitle.slice(0, 70), 36, 76);
+
+        ctx.textAlign = 'right';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillStyle = '#0f172a';
+        ctx.fillText(`Penanggung Jawab: ${data.issuer}`, canvasW - 36, 52);
+        ctx.font = '13px sans-serif';
+        ctx.fillStyle = '#64748b';
+        ctx.fillText(`Tanggal Cetak: ${data.datePrinted}`, canvasW - 36, 76);
+
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(36, 94);
+        ctx.lineTo(canvasW - 36, 94);
+        ctx.stroke();
+
+        // 3 Kotak Ringkasan
+        const boxW = (canvasW - 72 - 24) / 3;
+        const summaryItems = [
+          { label: 'TOTAL KREDIT (MASUK)', val: formatRp(data.totalKredit), color: '#059669' },
+          { label: 'TOTAL DEBIT (KELUAR)', val: formatRp(data.totalDebit), color: '#dc2626' },
+          { label: 'SALDO AKHIR', val: formatRp(data.totalSaldo), color: '#4f46e5' }
+        ];
+
+        summaryItems.forEach((item, idx) => {
+          const bx = 36 + idx * (boxW + 12);
+          const by = 112;
+          ctx.fillStyle = '#f8fafc';
+          ctx.strokeStyle = '#cbd5e1';
+          ctx.lineWidth = 1;
+          ctx.fillRect(bx, by, boxW, 68);
+          ctx.strokeRect(bx, by, boxW, 68);
+
+          ctx.textAlign = 'left';
+          ctx.fillStyle = '#64748b';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(item.label, bx + 14, by + 24);
+
+          ctx.fillStyle = item.color;
+          ctx.font = 'bold 18px monospace';
+          ctx.fillText(item.val, bx + 14, by + 52);
+        });
+
+        // Header Tabel
+        let curY = 204;
+        ctx.fillStyle = '#f1f5f9';
+        ctx.fillRect(36, curY, canvasW - 72, rowH);
+        ctx.strokeStyle = '#94a3b8';
+        ctx.strokeRect(36, curY, canvasW - 72, rowH);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('NO', 46, curY + 22);
+        ctx.fillText('TANGGAL', 90, curY + 22);
+        ctx.fillText('DESKRIPSI / PROYEK', 195, curY + 22);
+        ctx.textAlign = 'center';
+        ctx.fillText('QTY', 490, curY + 22);
+        ctx.textAlign = 'right';
+        ctx.fillText('KREDIT', 620, curY + 22);
+        ctx.fillText('DEBIT', 740, curY + 22);
+        ctx.fillText('SALDO', canvasW - 46, curY + 22);
+
+        curY += rowH;
+
+        // Baris Transaksi
+        ctx.font = '12px sans-serif';
+        data.rows.forEach((r) => {
+          ctx.strokeStyle = '#cbd5e1';
+          ctx.strokeRect(36, curY, canvasW - 72, rowH);
+
+          ctx.fillStyle = '#0f172a';
+          ctx.textAlign = 'left';
+          ctx.fillText(String(r.no), 46, curY + 22);
+          ctx.fillText(r.date, 90, curY + 22);
+
+          const descLabel = data.isProject
+            ? r.description
+            : `[${r.projectName}] ${r.description}`;
+          ctx.fillText(descLabel.slice(0, 38), 195, curY + 22);
+
+          ctx.textAlign = 'center';
+          ctx.fillText(String(r.qty), 490, curY + 22);
+
+          ctx.textAlign = 'right';
+          ctx.fillStyle = '#059669';
+          ctx.fillText(r.kredit > 0 ? formatRp(r.kredit) : '-', 620, curY + 22);
+
+          ctx.fillStyle = '#dc2626';
+          ctx.fillText(r.debit > 0 ? formatRp(r.debit) : '-', 740, curY + 22);
+
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillText(formatRp(r.saldo), canvasW - 46, curY + 22);
+          ctx.font = '12px sans-serif';
+
+          curY += rowH;
+        });
+
+        // Baris Total
+        ctx.fillStyle = '#f8fafc';
+        ctx.fillRect(36, curY, canvasW - 72, rowH);
+        ctx.strokeStyle = '#94a3b8';
+        ctx.strokeRect(36, curY, canvasW - 72, rowH);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('TOTAL AKUMULASI', 195, curY + 22);
+
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#059669';
+        ctx.fillText(formatRp(data.totalKredit), 620, curY + 22);
+        ctx.fillStyle = '#dc2626';
+        ctx.fillText(formatRp(data.totalDebit), 740, curY + 22);
+        ctx.fillStyle = '#4f46e5';
+        ctx.fillText(formatRp(data.totalSaldo), canvasW - 46, curY + 22);
+
+        // Footer Tanda Tangan
+        curY += rowH + 36;
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#64748b';
+        ctx.font = 'italic 12px sans-serif';
+        ctx.fillText('Suudi.Pro — Dokumen Laporan Keuangan Resmi', 36, curY + 30);
+
+        ctx.textAlign = 'right';
+        ctx.font = '12px sans-serif';
+        ctx.fillStyle = '#475569';
+        ctx.fillText('Penanggung Jawab,', canvasW - 46, curY);
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillStyle = '#0f172a';
+        ctx.fillText(data.issuer, canvasW - 46, curY + 46);
 
         return canvas.toDataURL('image/png');
       }
@@ -2916,7 +3129,7 @@
       }
 
       /* ==========================================
-         7. LEMBAR LAPORAN SIAP CETAK IN-PAGE & SALIN TABEL EXCEL/SHEETS
+         7. LEMBAR LAPORAN SIAP CETAK IN-PAGE (ANDROID WEBVIEW & SHARE READY)
          ========================================== */
       function buildReportData(scope) {
         const projectMap = {};
@@ -2955,7 +3168,7 @@
             kredit,
             debit,
             saldo: runningSaldo,
-            hasReceipt: tx.receiptData ? 'Ada Nota' : '-'
+            hasReceipt: tx.receiptData ? 'Ada Bukti' : 'Tanpa Bukti'
           };
         });
 
@@ -2983,6 +3196,37 @@
           totalSaldo: totalKredit - totalDebit,
           rows
         };
+      }
+
+      function buildTsvReportString(scope) {
+        const data = buildReportData(scope);
+        const lines = [];
+        lines.push(data.title);
+        lines.push(`Penanggung Jawab:\t${data.issuer}\tTanggal:\t${data.datePrinted}`);
+        lines.push('');
+
+        const headers = data.isProject
+          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Harga Satuan (Hs)', 'Kredit', 'Debit', 'Saldo']
+          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Harga Satuan (Hs)', 'Kredit', 'Debit', 'Saldo'];
+        lines.push(headers.join('\t'));
+
+        data.rows.forEach(r => {
+          const cleanDesc = String(r.description).replace(/[\t\r\n]+/g, ' ');
+          const cleanProj = String(r.projectName).replace(/[\t\r\n]+/g, ' ');
+          if (data.isProject) {
+            lines.push([r.no, r.date, cleanDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
+          } else {
+            lines.push([r.no, r.date, cleanProj, cleanDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
+          }
+        });
+
+        if (data.isProject) {
+          lines.push(['', '', 'TOTAL AKUMULASI', '', '', data.totalKredit, data.totalDebit, data.totalSaldo].join('\t'));
+        } else {
+          lines.push(['', '', '', 'TOTAL AKUMULASI', '', '', data.totalKredit, data.totalDebit, data.totalSaldo].join('\t'));
+        }
+
+        return lines.join('\n');
       }
 
       function openInPageReportSheet(scope) {
@@ -3094,149 +3338,127 @@
 
       document.getElementById('btn-close-report-sheet').addEventListener('click', closeInPageReportSheet);
 
-      // Tombol 1: Salin Tabel ke Clipboard (Format TSV yang langsung rapi saat Ctrl+V di Excel / Google Sheets)
+      // Aksi 1: Salin Tabel ke Clipboard (Bekerja di semua Android WebView & Browser)
       document.getElementById('btn-copy-table-clipboard').addEventListener('click', async () => {
-        const data = buildReportData(state.reportSheetScope || 'global');
-        const lines = [];
-        lines.push(data.title);
-        lines.push(`Penanggung Jawab:\t${data.issuer}\tTanggal:\t${data.datePrinted}`);
-        lines.push('');
-
-        const headers = data.isProject
-          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Harga Satuan (Hs)', 'Kredit', 'Debit', 'Saldo']
-          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Harga Satuan (Hs)', 'Kredit', 'Debit', 'Saldo'];
-        lines.push(headers.join('\t'));
-
-        data.rows.forEach(r => {
-          const cleanDesc = String(r.description).replace(/[\t\r\n]+/g, ' ');
-          const cleanProj = String(r.projectName).replace(/[\t\r\n]+/g, ' ');
-          if (data.isProject) {
-            lines.push([r.no, r.date, cleanDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
-          } else {
-            lines.push([r.no, r.date, cleanProj, cleanDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
-          }
-        });
-
-        if (data.isProject) {
-          lines.push(['', '', 'TOTAL AKUMULASI', '', '', data.totalKredit, data.totalDebit, data.totalSaldo].join('\t'));
-        } else {
-          lines.push(['', '', '', 'TOTAL AKUMULASI', '', '', data.totalKredit, data.totalDebit, data.totalSaldo].join('\t'));
-        }
-
-        const tsvString = lines.join('\n');
-        const ok = await copyTextToClipboard(tsvString);
+        const tsv = buildTsvReportString(state.reportSheetScope || 'global');
+        const ok = await copyTextToClipboard(tsv);
         if (ok) {
-          showToast('Tabel berhasil disalin! Buka Excel / Google Sheets lalu tekan Ctrl+V (Tempel)');
+          showToast('Tabel berhasil disalin! Buka Excel / Google Sheets Android lalu Tempel (Paste)');
         } else {
-          showToast('Gagal menyalin otomatis, silakan blok tabel di layar lalu salin manual');
+          showToast('Gagal menyalin otomatis');
         }
       });
 
-      // Tombol 2: Cetak / Simpan PDF (Bekerja saat dibuka di browser penuh)
+      // Aksi 2: Buat Gambar Laporan Resolusi Tinggi (Bisa Tekan Lama -> Simpan Gambar di Android atau Share WA)
+      document.getElementById('btn-render-report-image').addEventListener('click', () => {
+        const data = buildReportData(state.reportSheetScope || 'global');
+        const imgDataUrl = generateReportSheetImageDataUrl(data);
+        document.getElementById('receipt-modal-title').textContent = 'Gambar Lembar Laporan (Siap Simpan / Share)';
+        document.getElementById('receipt-full-image').src = imgDataUrl;
+        document.getElementById('receipt-modal-caption').textContent =
+          'Di HP Android: Ketuk tombol "Bagikan Gambar" di bawah, atau tekan lama pada gambar laporan ini untuk menyimpan ke Galeri / kirim ke WhatsApp.';
+        openModal('modal-receipt-preview');
+      });
+
+      // Aksi 3: Bagikan via Android Native Share Sheet (navigator.share)
+      document.getElementById('btn-share-android-native').addEventListener('click', async () => {
+        const data = buildReportData(state.reportSheetScope || 'global');
+        const imgDataUrl = generateReportSheetImageDataUrl(data);
+        const fileObj = dataUrlToFile(imgDataUrl, `laporan-${data.slug}.png`);
+        const tsvText = buildTsvReportString(state.reportSheetScope || 'global');
+
+        if (navigator.share) {
+          try {
+            if (fileObj && navigator.canShare && navigator.canShare({ files: [fileObj] })) {
+              await navigator.share({
+                title: data.title,
+                text: `${data.title} — Penanggung Jawab: ${data.issuer}`,
+                files: [fileObj]
+              });
+              return;
+            }
+            await navigator.share({
+              title: data.title,
+              text: tsvText
+            });
+            return;
+          } catch (err) {
+            // Pengguna membatalkan share atau WebView tidak mengizinkan navigator.share
+          }
+        }
+        // Fallback otomatis: salin ke clipboard & tampilkan gambar laporan
+        await copyTextToClipboard(tsvText);
+        document.getElementById('btn-render-report-image').click();
+        showToast('Teks laporan disalin & Gambar laporan siap disimpan!');
+      });
+
+      // Tombol Bagikan Gambar di dalam Modal Pratinjau
+      document.getElementById('btn-share-preview-img').addEventListener('click', async () => {
+        const src = document.getElementById('receipt-full-image').src;
+        if (!src) return;
+        const fileObj = dataUrlToFile(src, `dokumen-suudi-pro-${Date.now()}.png`);
+        if (navigator.share && fileObj && navigator.canShare && navigator.canShare({ files: [fileObj] })) {
+          try {
+            await navigator.share({
+              title: 'Dokumen Suudi.Pro',
+              files: [fileObj]
+            });
+            return;
+          } catch (e) {}
+        }
+        // Fallback unduh/buka gambar
+        const link = document.createElement('a');
+        link.href = src;
+        link.download = `suudi-pro-dokumen-${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        showToast('Tekan lama pada gambar di layar untuk menyimpan ke Galeri Android');
+      });
+
+      // Aksi 4: Cetak / Simpan PDF (Mendukung Android Print Manager Bridge atau window.print)
       document.getElementById('btn-trigger-print-sheet').addEventListener('click', () => {
-        showToast('Membuka dialog cetak browser...');
+        if (window.Android && typeof window.Android.printPage === 'function') {
+          window.Android.printPage();
+          return;
+        }
+        showToast('Membuka layanan cetak / PDF...');
         setTimeout(() => {
           window.print();
         }, 120);
       });
 
-      // Tombol 3: Unduh Berkas .XLS (XML Spreadsheet)
-      document.getElementById('btn-download-xls-sheet').addEventListener('click', () => {
-        const data = buildReportData(state.reportSheetScope || 'global');
-        const xmlEsc = (val) => String(val ?? '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-
-        const headers = data.isProject
-          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo']
-          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo'];
-
-        const headerCells = headers
-          .map(h => `<Cell><Data ss:Type="String">${xmlEsc(h)}</Data></Cell>`)
-          .join('');
-
-        const bodyRows = data.rows.map(r => {
-          const cells = [];
-          cells.push(`<Cell><Data ss:Type="Number">${r.no}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.date)}</Data></Cell>`);
-          if (!data.isProject) {
-            cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.projectName)}</Data></Cell>`);
-          }
-          cells.push(`<Cell><Data ss:Type="String">${xmlEsc(r.description)}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="Number">${r.qty}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="Number">${r.hs}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="Number">${r.kredit}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="Number">${r.debit}</Data></Cell>`);
-          cells.push(`<Cell><Data ss:Type="Number">${r.saldo}</Data></Cell>`);
-          return `<Row>${cells.join('')}</Row>`;
-        }).join('\n');
-
-        const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
- xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
- <Worksheet ss:Name="Laporan Suudi.Pro">
-  <Table>
-   <Row><Cell><Data ss:Type="String">${xmlEsc(data.title)}</Data></Cell></Row>
-   <Row><Cell><Data ss:Type="String">Penanggung Jawab: ${xmlEsc(data.issuer)} | Tanggal: ${xmlEsc(data.datePrinted)}</Data></Cell></Row>
-   <Row>${headerCells}</Row>
-   ${bodyRows}
-  </Table>
- </Worksheet>
-</Workbook>`;
-
-        const blob = new Blob([xmlContent], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `suudi-pro-${data.slug}.xls`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(url);
-        showToast('Mengunduh berkas Excel (.xls)...');
-      });
-
-      // Tombol 4 & Tombol Ekspor CSV Proyek
-      function triggerCsvDownload(scope) {
-        const data = buildReportData(scope);
-        const headers = data.isProject
-          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Status Bukti']
-          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Status Bukti'];
-
+      // Tombol Ekspor CSV Proyek (Menyalin ke Clipboard sekaligus mengunduh CSV agar tidak gagal di Android WebView)
+      document.getElementById('btn-export-csv').addEventListener('click', async () => {
+        if (!state.activeProjectId) return;
+        const data = buildReportData('project');
+        const headers = ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Status Bukti'];
         const rows = [headers.join(',')];
+
         data.rows.forEach(r => {
           const safeDesc = `"${String(r.description).replace(/"/g, '""')}"`;
           const dateCol = `"${r.date}"`;
-          const safeProj = `"${String(r.projectName).replace(/"/g, '""')}"`;
-          if (data.isProject) {
-            rows.push([r.no, dateCol, safeDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo, `"${r.hasReceipt}"`].join(','));
-          } else {
-            rows.push([r.no, dateCol, safeProj, safeDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo, `"${r.hasReceipt}"`].join(','));
-          }
+          rows.push([r.no, dateCol, safeDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo, `"${r.hasReceipt}"`].join(','));
         });
 
         const csvContent = '\uFEFF' + rows.join('\n');
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `suudi-pro-${data.slug}.csv`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(url);
-        showToast('Berkas CSV berhasil disiapkan');
-      }
+        // Salin juga format TSV ke clipboard supaya di Android WebView tetap langsung bisa dipaste ke Excel
+        const tsvContent = buildTsvReportString('project');
+        await copyTextToClipboard(tsvContent);
 
-      document.getElementById('btn-export-csv').addEventListener('click', () => {
-        triggerCsvDownload('project');
-      });
+        try {
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `suudi-pro-${data.slug}.csv`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+        } catch (e) {}
 
-      document.getElementById('btn-download-csv-sheet').addEventListener('click', () => {
-        triggerCsvDownload(state.reportSheetScope || 'global');
+        showToast('Data CSV diunduh & Tabel otomatis disalin ke Clipboard HP Anda!');
       });
 
       /* ==========================================
@@ -3919,29 +4141,64 @@
         return JSON.stringify(backupPayload, null, 2);
       }
 
-      document.getElementById('btn-backup-json').addEventListener('click', async () => {
-        const jsonStr = await buildBackupJsonString();
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        const dateStamp = new Date().toISOString().slice(0, 10);
-        link.href = url;
-        link.download = `suudi-pro-backup-${dateStamp}.json`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(url);
-        showToast('Berkas cadangan JSON disiapkan');
-      });
-
       document.getElementById('btn-copy-json-clipboard').addEventListener('click', async () => {
         const jsonStr = await buildBackupJsonString();
         const ok = await copyTextToClipboard(jsonStr);
         if (ok) {
-          showToast('Data JSON berhasil disalin ke Clipboard');
+          showToast('Teks Backup JSON berhasil disalin ke Clipboard HP!');
         } else {
-          showToast('Gagal menyalin JSON ke Clipboard');
+          showToast('Gagal menyalin JSON');
         }
+      });
+
+      document.getElementById('btn-open-paste-json').addEventListener('click', () => {
+        document.getElementById('paste-json-textarea').value = '';
+        openModal('modal-paste-json');
+      });
+
+      document.getElementById('btn-confirm-paste-json').addEventListener('click', async () => {
+        const raw = document.getElementById('paste-json-textarea').value.trim();
+        if (!raw) return;
+        try {
+          const parsed = JSON.parse(raw);
+          if (!Array.isArray(parsed.projects) || !Array.isArray(parsed.transactions)) {
+            showToast('Format kode JSON tidak valid');
+            return;
+          }
+          await db.replaceAllData(parsed.projects, parsed.transactions);
+          if (parsed.preferences) {
+            if (parsed.preferences.theme) applyTheme(parsed.preferences.theme);
+            if (parsed.preferences.fontSize) applyFontSize(parsed.preferences.fontSize);
+            if (parsed.preferences.userSession) {
+              StoragePrefs.set('user_session', parsed.preferences.userSession);
+              renderSessionState();
+            }
+          }
+          closeModal('modal-paste-json');
+          closeProjectDetail();
+          await refreshStateAndRender();
+          showToast('Data berhasil dipulihkan dari teks JSON!');
+        } catch (e) {
+          showToast('Kode JSON tidak lengkap atau rusak');
+        }
+      });
+
+      document.getElementById('btn-backup-json').addEventListener('click', async () => {
+        const jsonStr = await buildBackupJsonString();
+        await copyTextToClipboard(jsonStr);
+        try {
+          const blob = new Blob([jsonStr], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          const dateStamp = new Date().toISOString().slice(0, 10);
+          link.href = url;
+          link.download = `suudi-pro-backup-${dateStamp}.json`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+        } catch (e) {}
+        showToast('JSON disalin ke Clipboard & diunduh!');
       });
 
       const restoreInput = document.getElementById('input-restore-json');
