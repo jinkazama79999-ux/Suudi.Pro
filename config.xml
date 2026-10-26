@@ -1,20 +1,27 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="com.suudi.pro" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="com.suudi.pro" version="1.0.0"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
     <name>SuudiPro</name>
-    <description>Aplikasi HTML to APK Buatan Sendiri</description>
+    <description>Aplikasi Manajemen Keuangan Multi-Proyek Suudi.Pro</description>
     <author email="dev@suudi.pro" href="https://suudi.pro">Suudi Developer</author>
+
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
-    
-    <!-- Preferensi WebView Android -->
+
+    <!-- Preferensi WebView & Kompatibilitas AndroidX -->
+    <preference name="AndroidXEnabled" value="true" />
     <preference name="MixedContentMode" value="compatibility" />
     <preference name="AndroidInsecureFileModeEnabled" value="true" />
     <preference name="AllowUntrustedCerts" value="true" />
     <preference name="Fullscreen" value="false" />
+    <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,assets,root" />
 
-    <!-- Plugin Inti Pendukung Ekspor & Cetak di Android -->
+    <!-- Plugin Inti Pendukung Ekspor Excel/Gambar, Cetak PDF & Kamera di Android -->
     <plugin name="cordova-plugin-file" spec="^8.0.0" />
     <plugin name="cordova-plugin-printer" spec="^0.8.0" />
     <plugin name="cordova-plugin-camera" spec="^7.0.0" />
@@ -23,11 +30,15 @@
     <platform name="android">
         <icon src="icon.png" />
 
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" />
+        </edit-config>
+
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.CAMERA" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
         </config-file>
     </platform>
 </widget>
