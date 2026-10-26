@@ -8,8 +8,20 @@
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     
-    <!-- Pengaturan Ikon Kustom untuk Android -->
+    <!-- Pengaturan Preferensi untuk WebView Android -->
+    <preference name="MixedContentMode" value="compatibility" />
+    <preference name="AndroidInsecureFileModeEnabled" value="true" />
+    
+    <!-- Pengaturan Platform Android (Izin & Fitur) -->
     <platform name="android">
         <icon src="icon.png" />
+        
+        <!-- Menambahkan Izin Sistem agar tidak kosong -->
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+        </edit-config>
     </platform>
 </widget>
