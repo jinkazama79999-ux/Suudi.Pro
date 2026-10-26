@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)</title>
+  
+  <!-- Jembatan Native Cordova (Wajib ada agar plugin Android APK aktif) -->
+  <script src="cordova.js"></script>
+
   <style>
     :root {
       --base-font-size: 16px;
@@ -101,7 +105,6 @@
       overflow-x: hidden;
     }
 
-    /* Mobile-First App Shell */
     .app-shell {
       width: 100%;
       max-width: 768px;
@@ -113,7 +116,6 @@
       padding-bottom: 6.5rem;
     }
 
-    /* Header & Logo Container */
     .app-header {
       position: sticky;
       top: 0;
@@ -214,7 +216,6 @@
       flex-shrink: 0;
     }
 
-    /* Main Content Container */
     .app-main {
       flex: 1;
       padding: 1.25rem;
@@ -230,17 +231,10 @@
     }
 
     @keyframes fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Main Wallet Card */
     .wallet-card {
       background: linear-gradient(135deg, var(--wallet-grad-1), var(--wallet-grad-2));
       color: #ffffff;
@@ -262,18 +256,6 @@
       height: 150px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.1);
-      pointer-events: none;
-    }
-
-    .wallet-card::after {
-      content: "";
-      position: absolute;
-      left: -25px;
-      bottom: -45px;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
       pointer-events: none;
     }
 
@@ -378,11 +360,6 @@
       font-family: inherit;
     }
 
-    .btn-wallet-report:hover {
-      background: rgba(255, 255, 255, 0.34);
-    }
-
-    /* Section Headings */
     .section-header {
       display: flex;
       align-items: center;
@@ -398,7 +375,6 @@
       color: var(--text-main);
     }
 
-    /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -416,18 +392,12 @@
       white-space: nowrap;
     }
 
-    .btn:active {
-      transform: scale(0.96);
-    }
+    .btn:active { transform: scale(0.96); }
 
     .btn-primary {
       background-color: var(--primary);
       color: #ffffff;
       box-shadow: 0 4px 12px var(--primary-glow);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-dark);
     }
 
     .btn-secondary {
@@ -441,19 +411,8 @@
       border: 1px solid var(--border-color);
     }
 
-    .btn-outline:hover {
-      background-color: var(--bg-input);
-    }
-
-    .btn-danger {
-      background-color: var(--danger);
-      color: #ffffff;
-    }
-
-    .btn-success {
-      background-color: var(--success);
-      color: #ffffff;
-    }
+    .btn-danger { background-color: var(--danger); color: #ffffff; }
+    .btn-success { background-color: var(--success); color: #ffffff; }
 
     .btn-icon {
       padding: 0.42rem 0.55rem;
@@ -469,21 +428,8 @@
       font-size: 0.74rem;
       font-weight: 600;
       font-family: inherit;
-      transition: var(--transition);
     }
 
-    .btn-icon:hover {
-      color: var(--primary);
-      border-color: var(--primary);
-    }
-
-    .btn-icon.danger:hover {
-      color: var(--danger);
-      border-color: var(--danger);
-      background-color: var(--danger-bg);
-    }
-
-    /* Project Cards List */
     .projects-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -498,13 +444,6 @@
       box-shadow: var(--shadow-sm);
       transition: var(--transition);
       cursor: pointer;
-      position: relative;
-    }
-
-    .project-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--primary);
     }
 
     .project-card-top {
@@ -541,14 +480,11 @@
       border-top: 1px dashed var(--border-color);
     }
 
-    .proj-stat {
-      font-size: 0.75rem;
-    }
-
     .proj-stat span {
       display: block;
       color: var(--text-muted);
       margin-bottom: 0.1rem;
+      font-size: 0.7rem;
     }
 
     .proj-stat strong {
@@ -560,7 +496,6 @@
     .text-danger { color: var(--danger); }
     .text-primary { color: var(--primary); }
 
-    /* Empty State */
     .empty-state {
       background-color: var(--bg-card);
       border: 1px dashed var(--border-color);
@@ -570,26 +505,6 @@
       color: var(--text-muted);
     }
 
-    .empty-state svg {
-      width: 3rem;
-      height: 3rem;
-      color: var(--primary);
-      opacity: 0.65;
-      margin-bottom: 0.75rem;
-    }
-
-    .empty-state h4 {
-      font-size: 0.98rem;
-      color: var(--text-main);
-      margin-bottom: 0.3rem;
-    }
-
-    .empty-state p {
-      font-size: 0.82rem;
-      margin-bottom: 1.1rem;
-    }
-
-    /* Project Detail View */
     .detail-topbar {
       display: flex;
       align-items: center;
@@ -660,8 +575,7 @@
       min-width: 720px;
     }
 
-    table.tx-table th,
-    table.tx-table td {
+    table.tx-table th, table.tx-table td {
       padding: 0.72rem 0.75rem;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
@@ -674,20 +588,7 @@
       font-weight: 700;
       font-size: 0.71rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
       white-space: nowrap;
-    }
-
-    table.tx-table tbody tr {
-      transition: background-color 0.15s ease;
-    }
-
-    table.tx-table tbody tr.has-receipt {
-      cursor: pointer;
-    }
-
-    table.tx-table tbody tr:hover {
-      background-color: var(--bg-input);
     }
 
     .num-col {
@@ -721,12 +622,8 @@
       border-radius: 6px;
       object-fit: cover;
       border: 1px solid var(--border-color);
-      vertical-align: middle;
     }
 
-    /* ==============================================================
-       ANDROID-READY IN-PAGE REPORT SHEET & CANVAS IMAGE GENERATOR
-       ============================================================== */
     .report-sheet-toolbar {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -749,18 +646,8 @@
 
     .report-toolbar-actions {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 0.55rem;
-    }
-
-    .android-guide-banner {
-      background-color: var(--primary-light);
-      color: var(--primary);
-      border: 1px solid var(--primary);
-      border-radius: var(--radius-sm);
-      padding: 0.65rem 0.85rem;
-      font-size: 0.76rem;
-      line-height: 1.45;
     }
 
     .report-paper {
@@ -770,7 +657,6 @@
       border-radius: 12px;
       padding: 1.35rem;
       box-shadow: var(--shadow-md);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
     .report-paper-header {
@@ -839,8 +725,7 @@
       color: #0f172a;
     }
 
-    table.report-sheet-table th,
-    table.report-sheet-table td {
+    table.report-sheet-table th, table.report-sheet-table td {
       border: 1px solid #94a3b8;
       padding: 0.48rem 0.55rem;
       text-align: left;
@@ -873,11 +758,8 @@
       min-width: 150px;
     }
 
-    .signature-space {
-      height: 40px;
-    }
+    .signature-space { height: 40px; }
 
-    /* Statistics Tab */
     .stats-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -914,13 +796,6 @@
       font-size: 1.15rem;
       font-weight: 800;
       color: var(--text-main);
-      word-break: break-word;
-    }
-
-    .stat-metric-box .sub {
-      font-size: 0.73rem;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
     }
 
     .chart-stage {
@@ -975,49 +850,27 @@
     .progress-segment-kredit {
       background: linear-gradient(90deg, #10b981, #34d399);
       height: 100%;
-      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .progress-segment-debit {
       background: linear-gradient(90deg, #f87171, #ef4444);
       height: 100%;
-      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* History Tab (Riwayat) */
     .search-bar-wrap {
       position: relative;
       margin-bottom: 1rem;
     }
 
-    .search-bar-wrap svg {
-      position: absolute;
-      left: 0.9rem;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 1.1rem;
-      height: 1.1rem;
-      color: var(--text-muted);
-      pointer-events: none;
-    }
-
     .search-input {
       width: 100%;
-      padding: 0.75rem 1rem 0.75rem 2.65rem;
+      padding: 0.75rem 1rem 0.75rem 1rem;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
       background-color: var(--bg-card);
       color: var(--text-main);
       font-size: 0.88rem;
-      font-family: inherit;
       outline: none;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-    }
-
-    .search-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-light);
     }
 
     .history-list {
@@ -1036,17 +889,9 @@
       justify-content: space-between;
       gap: 0.85rem;
       box-shadow: var(--shadow-sm);
-      transition: var(--transition);
     }
 
-    .history-item.clickable {
-      cursor: pointer;
-    }
-
-    .history-item:hover {
-      border-color: var(--primary);
-      transform: translateY(-1px);
-    }
+    .history-item.clickable { cursor: pointer; }
 
     .history-left {
       display: flex;
@@ -1065,23 +910,10 @@
       justify-content: center;
       font-weight: 800;
       flex-shrink: 0;
-      font-size: 1rem;
     }
 
-    .history-badge-icon.kredit {
-      background-color: var(--success-bg);
-      color: var(--success);
-    }
-
-    .history-badge-icon.debit {
-      background-color: var(--danger-bg);
-      color: var(--danger);
-    }
-
-    .history-info {
-      min-width: 0;
-      flex: 1;
-    }
+    .history-badge-icon.kredit { background-color: var(--success-bg); color: var(--success); }
+    .history-badge-icon.debit { background-color: var(--danger-bg); color: var(--danger); }
 
     .history-title {
       font-size: 0.9rem;
@@ -1125,7 +957,6 @@
       font-variant-numeric: tabular-nums;
     }
 
-    /* Profile & Settings */
     .settings-group {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -1147,9 +978,7 @@
       margin-bottom: 1rem;
     }
 
-    .form-group {
-      margin-bottom: 0.9rem;
-    }
+    .form-group { margin-bottom: 0.9rem; }
 
     .form-label {
       display: block;
@@ -1169,12 +998,6 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
       outline: none;
-      transition: var(--transition);
-    }
-
-    .form-control:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-light);
     }
 
     .segmented-options {
@@ -1193,8 +1016,6 @@
       font-weight: 600;
       cursor: pointer;
       text-align: center;
-      transition: var(--transition);
-      font-family: inherit;
     }
 
     .option-btn.active {
@@ -1223,14 +1044,6 @@
       font-size: 0.74rem;
       font-weight: 600;
       cursor: pointer;
-      transition: var(--transition);
-      font-family: inherit;
-    }
-
-    .attach-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      background-color: var(--primary-light);
     }
 
     .theme-grid {
@@ -1251,8 +1064,6 @@
       font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
-      transition: var(--transition);
-      font-family: inherit;
     }
 
     .theme-swatch-btn.active {
@@ -1290,10 +1101,8 @@
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 1rem;
     }
 
-    /* 5-Menu Symmetric Frosted Glass Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -1323,32 +1132,14 @@
       gap: 0.22rem;
       padding: 0.35rem 0;
       color: var(--text-muted);
-      font-family: inherit;
       font-size: 0.68rem;
       font-weight: 600;
       cursor: pointer;
-      border-radius: var(--radius-sm);
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
       position: relative;
     }
 
-    .nav-item svg {
-      width: 1.3rem;
-      height: 1.3rem;
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .nav-item:active {
-      transform: scale(0.9);
-    }
-
-    .nav-item.active {
-      color: var(--primary);
-    }
-
-    .nav-item.active svg {
-      transform: translateY(-3px) scale(1.08);
-    }
+    .nav-item svg { width: 1.3rem; height: 1.3rem; }
+    .nav-item.active { color: var(--primary); }
 
     .nav-item.active::after {
       content: "";
@@ -1360,7 +1151,6 @@
       background-color: var(--primary);
     }
 
-    /* Center Floating Action Button (FAB) */
     .nav-fab-wrap {
       display: flex;
       flex-direction: column;
@@ -1381,24 +1171,10 @@
       justify-content: center;
       cursor: pointer;
       transform: translateY(-14px);
-      box-shadow: 0 8px 20px var(--primary-glow), 0 0 0 4px var(--primary-light);
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+      box-shadow: 0 8px 20px var(--primary-glow);
     }
 
-    .nav-fab-btn svg {
-      width: 1.55rem;
-      height: 1.55rem;
-      transition: transform 0.25s ease;
-    }
-
-    .nav-fab-btn:hover {
-      transform: translateY(-17px) scale(1.05);
-      box-shadow: 0 12px 26px var(--primary-glow), 0 0 0 6px var(--primary-light);
-    }
-
-    .nav-fab-btn:active {
-      transform: translateY(-12px) scale(0.93);
-    }
+    .nav-fab-btn svg { width: 1.55rem; height: 1.55rem; }
 
     .nav-fab-label {
       font-size: 0.66rem;
@@ -1407,7 +1183,6 @@
       margin-top: -10px;
     }
 
-    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -1418,17 +1193,9 @@
       justify-content: center;
       padding: 1rem;
       z-index: 100;
-      animation: fadeIn 0.2s ease;
     }
 
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    .modal-backdrop.open { display: flex; }
 
     .modal-dialog {
       background-color: var(--bg-card);
@@ -1449,10 +1216,7 @@
       margin-bottom: 1rem;
     }
 
-    .modal-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
+    .modal-title { font-size: 1.05rem; font-weight: 700; }
 
     .modal-footer {
       display: flex;
@@ -1470,7 +1234,6 @@
       background-color: var(--bg-input);
     }
 
-    /* Toast Notification */
     .toast-container {
       position: fixed;
       top: 1rem;
@@ -1493,37 +1256,20 @@
       font-size: 0.82rem;
       font-weight: 600;
       box-shadow: var(--shadow-md);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      animation: fadeSlideUp 0.25s ease;
     }
 
-    /* ==============================================================
-       ATURAN CETAK (@media print) — MENCETAK LEMBAR LAPORAN BERSIH
-       ============================================================== */
     @media print {
       body {
         background: #ffffff !important;
         color: #0f172a !important;
         display: block !important;
       }
-      .app-header,
-      .bottom-nav,
-      .report-sheet-toolbar,
-      #dashboard-view,
-      #project-detail-view,
-      #tab-statistik,
-      #tab-riwayat,
-      #tab-profil,
-      .modal-backdrop,
-      .toast-container {
+      .app-header, .bottom-nav, .report-sheet-toolbar, #dashboard-view,
+      #project-detail-view, #tab-statistik, #tab-riwayat, #tab-profil,
+      .modal-backdrop, .toast-container {
         display: none !important;
       }
-      .app-shell,
-      .app-main,
-      #tab-beranda,
-      #report-sheet-view {
+      .app-shell, .app-main, #tab-beranda, #report-sheet-view {
         display: block !important;
         padding: 0 !important;
         margin: 0 !important;
@@ -1535,20 +1281,6 @@
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
-      }
-      table.report-sheet-table th {
-        background-color: #f1f5f9 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-    }
-
-    @media (min-width: 600px) {
-      .projects-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .theme-grid {
-        grid-template-columns: repeat(4, 1fr);
       }
     }
   </style>
@@ -1567,7 +1299,7 @@
           <div class="brand-subtitle">Multi-Project Finance Wallet</div>
         </div>
       </div>
-      <div class="header-status" id="header-user-pill" title="Ketuk untuk atur nama penanggung jawab nota">
+      <div class="header-status" id="header-user-pill" title="Ketuk untuk atur penanggung jawab">
         <span class="status-dot"></span>
         <span id="header-user-label">Pengguna / Kasir</span>
       </div>
@@ -1575,9 +1307,9 @@
 
     <!-- MAIN CONTENT -->
     <main class="app-main">
-      <!-- TAB 1: BERANDA (DASBOR, RINCIAN PROYEK & LEMBAR LAPORAN ANDROID-READY) -->
+      <!-- TAB 1: BERANDA -->
       <section id="tab-beranda" class="tab-pane active">
-        <!-- 1A. Tampilan Dasbor Utama -->
+        <!-- 1A. Dasbor Utama -->
         <div id="dashboard-view">
           <div class="wallet-card">
             <div class="wallet-top">
@@ -1602,7 +1334,7 @@
               </div>
             </div>
             <button type="button" class="btn-wallet-report" id="btn-open-global-sheet">
-              <span>📄 Buka Lembar Laporan Keseluruhan (Android Ready)</span>
+              <span>📄 Buka Lembar Laporan Keseluruhan (Pribadi)</span>
             </button>
           </div>
 
@@ -1616,18 +1348,15 @@
           <div id="projects-container" class="projects-grid"></div>
         </div>
 
-        <!-- 1B. Tampilan Rincian Transaksi Proyek -->
+        <!-- 1B. Rincian Proyek -->
         <div id="project-detail-view" style="display: none;">
           <div class="detail-topbar">
             <button type="button" class="btn btn-outline" id="btn-back-dashboard">
-              ← Kembali ke Beranda
+              ← Kembali
             </button>
             <div style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
               <button type="button" class="btn btn-secondary" id="btn-open-project-sheet">
-                📄 Lembar Laporan & Bagikan
-              </button>
-              <button type="button" class="btn btn-outline" id="btn-export-csv">
-                Ekspor CSV
+                📄 Lembar Laporan & Ekspor
               </button>
               <button type="button" class="btn btn-primary" id="btn-open-add-tx">
                 + Tambah Transaksi
@@ -1670,7 +1399,7 @@
                     <th>Tanggal</th>
                     <th>Deskripsi</th>
                     <th class="center-col">Qty</th>
-                    <th class="num-col">Hs (Harga Satuan)</th>
+                    <th class="num-col">Hs</th>
                     <th class="num-col">Kredit</th>
                     <th class="num-col">Debit</th>
                     <th class="num-col">Saldo</th>
@@ -1684,7 +1413,7 @@
           </div>
         </div>
 
-        <!-- 1C. Tampilan IN-PAGE LEMBAR LAPORAN SIAP CETAK (ANDROID WEBVIEW & BROWSER READY) -->
+        <!-- 1C. Lembar Laporan Resmi In-Page -->
         <div id="report-sheet-view" style="display: none;">
           <div class="report-sheet-toolbar">
             <div class="report-toolbar-top">
@@ -1692,33 +1421,32 @@
                 ← Kembali
               </button>
               <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">
-                Mode Android & Browser Aktif
+                Opsi Ekspor Dokumen
               </span>
             </div>
 
-            <div class="android-guide-banner">
-              <strong>Solusi Anti-Blokir Android WebView / APK:</strong><br>
-              1. <strong>Salin Tabel ke Clipboard</strong>: Tempel langsung di aplikasi Excel / Google Sheets Android.<br>
-              2. <strong>Simpan / Bagikan Gambar Laporan (PNG)</strong>: Merender seluruh laporan ini menjadi gambar resolusi tinggi yang langsung bisa disimpan ke Galeri HP atau dikirim ke WhatsApp tanpa terblokir WebView.
-            </div>
-
             <div class="report-toolbar-actions">
-              <button type="button" class="btn btn-success" id="btn-copy-table-clipboard">
-                📋 Salin Tabel (Tempel di Excel / Sheets)
+              <button type="button" class="btn btn-success" id="btn-export-excel-file">
+                📊 Unduh Excel / Sheets (.xls)
               </button>
-              <button type="button" class="btn btn-primary" id="btn-render-report-image">
-                🖼️ Buat Gambar Laporan (Simpan HP / WA)
+              <button type="button" class="btn btn-outline" id="btn-export-csv-file">
+                📑 Unduh Format CSV (.csv)
               </button>
-              <button type="button" class="btn btn-secondary" id="btn-share-android-native">
-                📤 Bagikan (Android Share Sheet)
+              <button type="button" class="btn btn-primary" id="btn-trigger-print-sheet">
+                🖨️ Cetak / Simpan PDF
               </button>
-              <button type="button" class="btn btn-outline" id="btn-trigger-print-sheet">
-                🖨️ Cetak / PDF
+              <button type="button" class="btn btn-secondary" id="btn-render-report-image">
+                🖼️ Buat Gambar Laporan (PNG)
+              </button>
+              <button type="button" class="btn btn-outline" id="btn-copy-table-clipboard">
+                📋 Salin Tabel (Clipboard)
+              </button>
+              <button type="button" class="btn btn-outline" id="btn-share-android-native">
+                📤 Bagikan Laporan
               </button>
             </div>
           </div>
 
-          <!-- Lembar Kertas Laporan Resmi di Dalam Layar Aplikasi -->
           <div class="report-paper" id="printable-paper-container">
             <div class="report-paper-header">
               <div>
@@ -1727,7 +1455,7 @@
               </div>
               <div class="report-paper-meta" style="text-align: right;">
                 <div>Penanggung Jawab: <strong id="sheet-doc-issuer">Pengguna / Kasir</strong></div>
-                <div>Tanggal Laporan: <span id="sheet-doc-date">-</span></div>
+                <div>Tanggal: <span id="sheet-doc-date">-</span></div>
               </div>
             </div>
 
@@ -1756,7 +1484,7 @@
             <div class="report-paper-footer">
               <div>
                 <div>Catatan: Seluruh nominal dalam mata uang Rupiah (IDR).</div>
-                <div style="font-size: 0.68rem; color: #94a3b8; margin-top: 0.2rem;">Suudi.Pro — Sistem Manajemen Kas Multi-Proyek</div>
+                <div style="font-size: 0.68rem; color: #94a3b8; margin-top: 0.2rem;">Suudi.Pro — Multi-Project Finance Wallet</div>
               </div>
               <div class="signature-box">
                 <div>Penanggung Jawab,</div>
@@ -1768,17 +1496,16 @@
         </div>
       </section>
 
-      <!-- TAB 2: STATISTIK INTERAKTIF -->
+      <!-- TAB 2: STATISTIK -->
       <section id="tab-statistik" class="tab-pane">
         <div class="section-header">
-          <h2 class="section-title">Statistik & Visualisasi Kas</h2>
+          <h2 class="section-title">Statistik Kas</h2>
           <div class="segmented-options" style="grid-template-columns: 1fr 1fr; width: auto; min-width: 240px;" id="chart-type-switcher">
             <button type="button" class="option-btn active" data-chart-mode="donut">Grafik Donat</button>
             <button type="button" class="option-btn" data-chart-mode="bar">Grafik Batang</button>
           </div>
         </div>
 
-        <!-- Kartu Ringkasan Metrik -->
         <div class="stats-metric-grid">
           <div class="stat-metric-box">
             <span class="label">Rasio Pengeluaran (%)</span>
@@ -1792,10 +1519,9 @@
           </div>
         </div>
 
-        <!-- Panggung Grafik SVG Native (Donut Chart vs Bar Chart) -->
         <div class="stats-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
-            <strong style="font-size: 0.92rem;" id="active-chart-title">Proporsi Kredit vs Debit (Donut Chart)</strong>
+            <strong style="font-size: 0.92rem;" id="active-chart-title">Proporsi Kredit vs Debit</strong>
             <span id="stat-net-percentage" class="text-primary" style="font-size: 0.8rem; font-weight: 700;">0% / 0%</span>
           </div>
 
@@ -1804,10 +1530,9 @@
             <div id="stat-bar-debit" class="progress-segment-debit" style="width: 50%;"></div>
           </div>
 
-          <!-- View 1: Native SVG Donut Chart -->
           <div id="chart-view-donut" class="chart-stage">
             <div class="donut-wrap">
-              <svg id="svg-donut-chart" width="210" height="210" viewBox="0 0 210 210" role="img" aria-label="Grafik Donat Kredit vs Debit"></svg>
+              <svg id="svg-donut-chart" width="210" height="210" viewBox="0 0 210 210"></svg>
               <div class="ratio-legend">
                 <div class="legend-item">
                   <span class="legend-dot" style="background-color: var(--success);"></span>
@@ -1821,59 +1546,52 @@
             </div>
           </div>
 
-          <!-- View 2: Native SVG Bar Chart (Perbandingan Pengeluaran Antar-Proyek) -->
           <div id="chart-view-bar" class="chart-stage" style="display: none;">
             <div id="svg-bar-chart-container" style="width: 100%; overflow-x: auto;"></div>
           </div>
         </div>
 
-        <!-- Rincian Perbandingan Proyek -->
         <div class="stats-card">
           <h3 style="font-size: 0.92rem; font-weight: 700; margin-bottom: 0.35rem;">Rincian Arus Kas Per Proyek</h3>
           <div id="stat-project-bars" style="display: flex; flex-direction: column; gap: 0.85rem; margin-top: 0.75rem;"></div>
         </div>
       </section>
 
-      <!-- TAB 4: RIWAYAT (SEMUA MUTASI) -->
+      <!-- TAB 3: RIWAYAT -->
       <section id="tab-riwayat" class="tab-pane">
         <div class="section-header">
-          <h2 class="section-title">Riwayat Semua Mutasi</h2>
+          <h2 class="section-title">Riwayat Mutasi</h2>
           <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;" id="history-total-badge">0 Mutasi</span>
         </div>
 
         <div class="search-bar-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="search" id="history-search-input" class="search-input" placeholder="Cari deskripsi transaksi atau nama proyek...">
+          <input type="search" id="history-search-input" class="search-input" placeholder="Cari transaksi atau nama proyek...">
         </div>
 
         <div id="history-list-container" class="history-list"></div>
       </section>
 
-      <!-- TAB 5: PROFIL, AKUN OFFLINE & PERSONALISASI -->
+      <!-- TAB 4: PROFIL & BACKUP -->
       <section id="tab-profil" class="tab-pane">
         <div class="section-header">
-          <h2 class="section-title">Profil Penanggung Jawab & Personalisasi</h2>
+          <h2 class="section-title">Profil & Pengaturan</h2>
         </div>
 
-        <!-- Login Offline Nama / Kasir (Tertera di Nota & Laporan) -->
         <div class="settings-group">
-          <h3>Identitas Penanggung Jawab / Kasir (Offline)</h3>
-          <p class="settings-desc">Nama yang Anda masukkan disimpan secara lokal di HP Android dan otomatis tertera pada Nota Otomatis serta Lembar Laporan.</p>
+          <h3>Identitas Penanggung Jawab (Offline)</h3>
+          <p class="settings-desc">Nama ini otomatis tertera pada nota transaksi dan lembar laporan resmi.</p>
 
           <div id="auth-logged-out">
             <form id="form-login">
               <div class="form-group">
-                <label class="form-label" for="login-name">Nama Lengkap / Penanggung Jawab (Wajib)</label>
-                <input type="text" id="login-name" class="form-control" placeholder="Contoh: H. Suudi / Budi Santoso" required>
+                <label class="form-label" for="login-name">Nama Lengkap / Penanggung Jawab</label>
+                <input type="text" id="login-name" class="form-control" placeholder="Contoh: H. Suudi" required>
               </div>
               <div class="form-group">
-                <label class="form-label" for="login-email">Jabatan / Email / Kontak (Opsional)</label>
-                <input type="text" id="login-email" class="form-control" placeholder="Contoh: Manajer Proyek / 0812xxxx">
+                <label class="form-label" for="login-email">Jabatan / Kontak (Opsional)</label>
+                <input type="text" id="login-email" class="form-control" placeholder="Contoh: Manajer Operasional">
               </div>
-              <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk Sesi</button>
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Simpan Identitas</button>
             </form>
           </div>
 
@@ -1886,26 +1604,22 @@
                   <div style="font-size: 0.78rem; color: var(--text-muted);" id="session-email-display">Penanggung Jawab Aktif</div>
                 </div>
               </div>
-              <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
+              <button type="button" class="btn btn-danger" id="btn-logout">Reset</button>
             </div>
           </div>
         </div>
 
-        <!-- Ukuran Huruf Dinamis -->
         <div class="settings-group">
-          <h3>Kustomisasi Ukuran Teks</h3>
-          <p class="settings-desc">Sesuaikan skala teks aplikasi secara instan (--base-font-size).</p>
+          <h3>Ukuran Font Teks</h3>
           <div class="segmented-options" id="font-size-selector">
-            <button type="button" class="option-btn" data-size="14px">Kecil (14px)</button>
-            <button type="button" class="option-btn active" data-size="16px">Normal (16px)</button>
-            <button type="button" class="option-btn" data-size="18px">Besar (18px)</button>
+            <button type="button" class="option-btn" data-size="14px">Kecil</button>
+            <button type="button" class="option-btn active" data-size="16px">Normal</button>
+            <button type="button" class="option-btn" data-size="18px">Besar</button>
           </div>
         </div>
 
-        <!-- Kustomisasi Tema -->
         <div class="settings-group">
-          <h3>Kustomisasi Tema Instan</h3>
-          <p class="settings-desc">Pilih skema warna antarmuka sesuai preferensi kerja Anda.</p>
+          <h3>Tema Tampilan</h3>
           <div class="theme-grid" id="theme-selector">
             <button type="button" class="theme-swatch-btn active" data-theme="purple">
               <span class="swatch-circle" style="background: #6366f1;"></span>
@@ -1913,89 +1627,65 @@
             </button>
             <button type="button" class="theme-swatch-btn" data-theme="blue">
               <span class="swatch-circle" style="background: #0284c7;"></span>
-              <span>Biru Profesional</span>
+              <span>Biru</span>
             </button>
             <button type="button" class="theme-swatch-btn" data-theme="green">
               <span class="swatch-circle" style="background: #059669;"></span>
-              <span>Hijau Kas</span>
+              <span>Hijau</span>
             </button>
             <button type="button" class="theme-swatch-btn" data-theme="dark">
-              <span class="swatch-circle" style="background: #0f172a; border: 2px solid #818cf8;"></span>
-              <span>Dark Mode</span>
+              <span class="swatch-circle" style="background: #0f172a; border: 1px solid #818cf8;"></span>
+              <span>Gelap</span>
             </button>
           </div>
         </div>
 
-        <!-- Pencadangan Offline JSON (Kompatibel Android WebView via Salin/Tempel Teks & File) -->
         <div class="settings-group">
-          <h3>Cadangkan & Pulihkan Data (Android Offline Ready)</h3>
-          <p class="settings-desc">Di aplikasi Android (WebView), Anda dapat menyalin kode JSON ke WhatsApp/Catatan HP atau memulihkan langsung dengan menempelkan teks JSON.</p>
+          <h3>Cadangkan & Pulihkan (JSON)</h3>
+          <p class="settings-desc">Simpan cadangan ke Google Drive atau pulihkan data pembukuan Anda.</p>
           <div style="display: flex; gap: 0.55rem; flex-wrap: wrap;">
-            <button type="button" class="btn btn-primary" id="btn-copy-json-clipboard">
-              📋 Salin Teks Backup (JSON)
-            </button>
-            <button type="button" class="btn btn-secondary" id="btn-open-paste-json">
-              📥 Tempel Teks Backup (JSON)
-            </button>
-            <button type="button" class="btn btn-outline" id="btn-backup-json">
-              ↓ Cadangkan Data (JSON)
-            </button>
-            <button type="button" class="btn btn-outline" id="btn-restore-trigger">
-              ↑ Pulihkan Data (JSON)
-            </button>
+            <button type="button" class="btn btn-primary" id="btn-backup-json">↓ Unduh Berkas Cadangan</button>
+            <button type="button" class="btn btn-outline" id="btn-restore-trigger">↑ Pulihkan dari Berkas</button>
+            <button type="button" class="btn btn-secondary" id="btn-copy-json-clipboard">📋 Salin Teks JSON</button>
+            <button type="button" class="btn btn-outline" id="btn-open-paste-json">📥 Tempel Teks JSON</button>
             <input type="file" id="input-restore-json" accept=".json,application/json" style="display: none;">
           </div>
         </div>
       </section>
     </main>
 
-    <!-- 5-MENU SYMMETRIC BOTTOM NAVIGATION BAR -->
-    <nav class="bottom-nav" aria-label="Navigasi Utama">
+    <!-- BOTTOM NAV 5 MENU -->
+    <nav class="bottom-nav">
       <button type="button" class="nav-item active" data-tab="tab-beranda">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
         <span>Beranda</span>
       </button>
 
       <button type="button" class="nav-item" data-tab="tab-statistik">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="20" x2="18" y2="10"/>
-          <line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6" y1="20" x2="6" y2="14"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         <span>Statistik</span>
       </button>
 
       <div class="nav-fab-wrap">
-        <button type="button" class="nav-fab-btn" id="btn-fab-quick-tx" title="Tambah Catatan Transaksi Cepat">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"/>
-            <line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
+        <button type="button" class="nav-fab-btn" id="btn-fab-quick-tx">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
         <span class="nav-fab-label">Catat</span>
       </div>
 
       <button type="button" class="nav-item" data-tab="tab-riwayat">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/>
-          <polyline points="12 7 12 12 15.5 14"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>
         <span>Riwayat</span>
       </button>
 
       <button type="button" class="nav-item" data-tab="tab-profil">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span>Profil</span>
       </button>
     </nav>
   </div>
 
-  <!-- MODAL: TAMBAH / UBAH PROYEK -->
+  <!-- MODAL: PROYEK -->
   <div class="modal-backdrop" id="modal-project">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -2006,11 +1696,11 @@
         <input type="hidden" id="project-id-input">
         <div class="form-group">
           <label class="form-label" for="project-name-input">Nama Proyek</label>
-          <input type="text" id="project-name-input" class="form-control" placeholder="Contoh: Renovasi Ruko Grand Wisata" required>
+          <input type="text" id="project-name-input" class="form-control" placeholder="Contoh: Pembuatan Pagar Ruko" required>
         </div>
         <div class="form-group">
           <label class="form-label" for="project-desc-input">Keterangan / Klien (Opsional)</label>
-          <input type="text" id="project-desc-input" class="form-control" placeholder="Contoh: Termin Q4 - PT Maju Jaya">
+          <input type="text" id="project-desc-input" class="form-control" placeholder="Contoh: PT Sumber Rezeki">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" data-close-modal="modal-project">Batal</button>
@@ -2020,42 +1710,7 @@
     </div>
   </div>
 
-  <!-- MODAL: TEMPEL TEKS BACKUP JSON (SOLUSI ANDROID WEBVIEW) -->
-  <div class="modal-backdrop" id="modal-paste-json">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 class="modal-title">Pulihkan dari Teks JSON</h3>
-        <button type="button" class="btn-icon" data-close-modal="modal-paste-json">✕</button>
-      </div>
-      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-        Tempelkan (Paste) kode cadangan JSON yang sebelumnya Anda salin:
-      </p>
-      <textarea id="paste-json-textarea" class="form-control" rows="6" placeholder='{"app":"Suudi.Pro","projects":[...]}'></textarea>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline" data-close-modal="modal-paste-json">Batal</button>
-        <button type="button" class="btn btn-primary" id="btn-confirm-paste-json">Pulihkan Sekarang</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: KONFIRMASI HAPUS -->
-  <div class="modal-backdrop" id="modal-confirm-delete">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 class="modal-title">Konfirmasi Hapus</h3>
-        <button type="button" class="btn-icon" data-close-modal="modal-confirm-delete">✕</button>
-      </div>
-      <p id="confirm-delete-message" style="font-size: 0.88rem; color: var(--text-muted);">
-        Apakah Anda yakin ingin menghapus item ini? Tindakan ini tidak dapat dibatalkan.
-      </p>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline" data-close-modal="modal-confirm-delete">Batal</button>
-        <button type="button" class="btn btn-danger" id="btn-confirm-delete-yes">Ya, Hapus</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: FORMULIR TRANSAKSI (GLOBAL & SPESIFIK PROYEK) -->
+  <!-- MODAL: TRANSAKSI -->
   <div class="modal-backdrop" id="modal-transaction">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -2065,11 +1720,11 @@
       <form id="form-transaction">
         <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 0.65rem;">
           <div class="form-group">
-            <label class="form-label" for="tx-project-select">Pilih Proyek Target</label>
+            <label class="form-label" for="tx-project-select">Proyek Target</label>
             <select id="tx-project-select" class="form-control" required></select>
           </div>
           <div class="form-group">
-            <label class="form-label" for="tx-date-input">Tanggal Transaksi</label>
+            <label class="form-label" for="tx-date-input">Tanggal</label>
             <input type="date" id="tx-date-input" class="form-control" required>
           </div>
         </div>
@@ -2085,7 +1740,7 @@
 
         <div class="form-group">
           <label class="form-label" for="tx-desc-input">Deskripsi Transaksi</label>
-          <input type="text" id="tx-desc-input" class="form-control" placeholder="Contoh: Pembelian Semen 50 Sak / Pencairan Termin 1" required>
+          <input type="text" id="tx-desc-input" class="form-control" placeholder="Beli semen / Pembayaran termin" required>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.65rem;">
@@ -2100,40 +1755,32 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="tx-total-preview">Total Otomatis (Qty × Hs)</label>
-          <input type="text" id="tx-total-preview" class="form-control" value="Rp 0" readonly style="font-weight: 700; color: var(--primary);">
+          <label class="form-label">Total Otomatis: <strong id="tx-total-preview" style="color: var(--primary);">Rp 0</strong></label>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Lampiran Bukti Transaksi (3 Metode Fleksibel)</label>
+          <label class="form-label">Bukti Transaksi</label>
           <div class="attachment-methods-grid">
             <button type="button" class="attach-btn" id="btn-attach-camera">
-              <span>📷</span>
-              <span>Ambil Kamera</span>
+              <span>📷</span><span>Kamera</span>
             </button>
             <button type="button" class="attach-btn" id="btn-attach-gallery">
-              <span>🖼️</span>
-              <span>Pilih Galeri</span>
+              <span>🖼️</span><span>Galeri</span>
             </button>
             <button type="button" class="attach-btn" id="btn-attach-auto-receipt">
-              <span>🧾</span>
-              <span>Nota Otomatis</span>
+              <span>🧾</span><span>Nota Otomatis</span>
             </button>
           </div>
 
-          <!-- Input file tersembunyi untuk Kamera dan Galeri -->
           <input type="file" id="tx-receipt-input" accept="image/*" capture="environment" style="display: none;">
           <input type="file" id="tx-gallery-input" accept="image/*" style="display: none;">
 
-          <div id="tx-receipt-preview-wrap" style="display: none; margin-top: 0.65rem; align-items: center; justify-content: space-between; gap: 0.6rem; padding: 0.55rem 0.75rem; background: var(--bg-input); border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+          <div id="tx-receipt-preview-wrap" style="display: none; margin-top: 0.65rem; align-items: center; justify-content: space-between; padding: 0.55rem; background: var(--bg-input); border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
             <div style="display: flex; align-items: center; gap: 0.65rem;">
-              <img id="tx-receipt-thumb-preview" src="" alt="Pratinjau Nota" style="width: 44px; height: 44px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color);">
-              <div>
-                <div style="font-size: 0.76rem; color: var(--success); font-weight: 700;" id="tx-receipt-status-text">Bukti Nota Terlampir</div>
-                <div style="font-size: 0.68rem; color: var(--text-muted);">Siap disimpan ke IndexedDB</div>
-              </div>
+              <img id="tx-receipt-thumb-preview" src="" alt="Pratinjau" style="width: 44px; height: 44px; object-fit: cover; border-radius: 8px;">
+              <span style="font-size: 0.75rem; color: var(--success); font-weight: 700;" id="tx-receipt-status-text">Nota Terlampir</span>
             </div>
-            <button type="button" class="btn-icon danger" id="btn-clear-receipt" title="Hapus Lampiran">✕</button>
+            <button type="button" class="btn-icon danger" id="btn-clear-receipt">✕</button>
           </div>
         </div>
 
@@ -2145,15 +1792,45 @@
     </div>
   </div>
 
-  <!-- MODAL: PRATINJAU BUKTI NOTA / GAMBAR LAPORAN UKURAN PENUH (LIGHTBOX) -->
+  <!-- MODAL: KONFIRMASI HAPUS -->
+  <div class="modal-backdrop" id="modal-confirm-delete">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Konfirmasi Hapus</h3>
+        <button type="button" class="btn-icon" data-close-modal="modal-confirm-delete">✕</button>
+      </div>
+      <p id="confirm-delete-message" style="font-size: 0.88rem; color: var(--text-muted);"></p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-close-modal="modal-confirm-delete">Batal</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-delete-yes">Ya, Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TEMPEL TEKS JSON -->
+  <div class="modal-backdrop" id="modal-paste-json">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Pulihkan Data dari Teks JSON</h3>
+        <button type="button" class="btn-icon" data-close-modal="modal-paste-json">✕</button>
+      </div>
+      <textarea id="paste-json-textarea" class="form-control" rows="6" placeholder='{"app":"Suudi.Pro", ...}'></textarea>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-close-modal="modal-paste-json">Batal</button>
+        <button type="button" class="btn btn-primary" id="btn-confirm-paste-json">Pulihkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LIGHTBOX PRATINJAU NOTA -->
   <div class="modal-backdrop" id="modal-receipt-preview">
     <div class="modal-dialog" style="max-width: 580px;">
       <div class="modal-header">
-        <h3 class="modal-title" id="receipt-modal-title">Pratinjau Dokumen</h3>
+        <h3 class="modal-title" id="receipt-modal-title">Pratinjau Bukti</h3>
         <button type="button" class="btn-icon" data-close-modal="modal-receipt-preview">✕</button>
       </div>
       <div style="text-align: center;">
-        <img id="receipt-full-image" class="preview-img-full" src="" alt="Dokumen Pratinjau">
+        <img id="receipt-full-image" class="preview-img-full" src="" alt="Pratinjau">
         <p id="receipt-modal-caption" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.65rem;"></p>
       </div>
       <div class="modal-footer">
@@ -2163,40 +1840,18 @@
     </div>
   </div>
 
-  <!-- TOAST CONTAINER -->
   <div class="toast-container" id="toast-container"></div>
 
   <script>
     (function () {
       'use strict';
 
-      /* ==========================================
-         1. UTILITAS FORMATTER, TANGGAL & CLIPBOARD ANDROID
-         ========================================== */
-      const appLogo = document.getElementById('app-logo');
-      function checkAppLogo() {
-        const srcAttr = appLogo.getAttribute('src');
-        if (!srcAttr || srcAttr.trim() === '') {
-          appLogo.classList.add('logo-hidden');
-        } else {
-          appLogo.classList.remove('logo-hidden');
-        }
-      }
-      appLogo.addEventListener('error', () => appLogo.classList.add('logo-hidden'));
-      appLogo.addEventListener('load', () => appLogo.classList.remove('logo-hidden'));
-      checkAppLogo();
-
-      const rupiahNumberFormat = new Intl.NumberFormat('id-ID', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-      });
+      /* 1. UTILITAS FORMATTER & HELPER */
+      const rupiahNumberFormat = new Intl.NumberFormat('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
       function formatRp(value) {
         const num = Math.round(Number(value) || 0);
-        if (num < 0) {
-          return '-Rp ' + rupiahNumberFormat.format(Math.abs(num));
-        }
-        return 'Rp ' + rupiahNumberFormat.format(num);
+        return (num < 0 ? '-Rp ' : 'Rp ') + rupiahNumberFormat.format(Math.abs(num));
       }
 
       function getTodayIsoDate() {
@@ -2207,30 +1862,13 @@
         return `${yyyy}-${mm}-${dd}`;
       }
 
-      function formatDateShort(txDateOrTs) {
-        if (typeof txDateOrTs === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(txDateOrTs)) {
-          const [y, m, d] = txDateOrTs.split('-').map(Number);
-          const dateObj = new Date(y, m - 1, d);
-          return dateObj.toLocaleDateString('id-ID', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-          });
+      function formatDateShort(dateStr) {
+        if (!dateStr) return '-';
+        if (typeof dateStr === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+          const [y, m, d] = dateStr.split('-').map(Number);
+          return new Date(y, m - 1, d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
         }
-        const d = new Date(Number(txDateOrTs) || Date.now());
-        return d.toLocaleDateString('id-ID', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric'
-        });
-      }
-
-      function getTxSortableTime(tx) {
-        if (tx.txDate && /^\d{4}-\d{2}-\d{2}$/.test(tx.txDate)) {
-          const [y, m, d] = tx.txDate.split('-').map(Number);
-          return new Date(y, m - 1, d, 12, 0, 0).getTime();
-        }
-        return Number(tx.createdAt) || 0;
+        return new Date(Number(dateStr) || Date.now()).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
       }
 
       function showToast(message) {
@@ -2248,11 +1886,11 @@
 
       function escapeHtml(str) {
         return String(str || '')
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#039;');
+          .replace(/&/g, '&')
+          .replace(/</g, '<')
+          .replace(/>/g, '>')
+          .replace(/"/g, '"')
+          .replace(/'/g, ''');
       }
 
       async function copyTextToClipboard(text) {
@@ -2261,231 +1899,175 @@
             await navigator.clipboard.writeText(text);
             return true;
           }
-        } catch (err) {}
+        } catch (e) {}
         try {
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          textarea.style.position = 'fixed';
-          textarea.style.left = '-9999px';
-          textarea.style.top = '0';
-          document.body.appendChild(textarea);
-          textarea.focus();
-          textarea.select();
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
           const ok = document.execCommand('copy');
-          textarea.remove();
+          ta.remove();
           return ok;
-        } catch (e) {
+        } catch (err) {
           return false;
         }
       }
 
-      // Konversi DataURL ke Blob File untuk Android Web Share API
+      // Solusi Unduhan Universal (Kompatibel Browser & Android WebView)
+      function safeDownloadFile(content, fileName, mimeType) {
+        try {
+          // Metode 1: Blob URL (Browser biasa)
+          const blob = new Blob([content], { type: mimeType });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        } catch (e) {
+          // Metode 2: Data URI Fallback jika Blob diblokir WebView
+          const encodedUri = 'data:' + mimeType + ';base64,' + btoa(unescape(encodeURIComponent(content)));
+          const a = document.createElement('a');
+          a.href = encodedUri;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        }
+      }
+
       function dataUrlToFile(dataUrl, filename) {
         try {
           const arr = dataUrl.split(',');
-          const mimeMatch = arr[0].match(/:(.*?);/);
-          const mime = mimeMatch ? mimeMatch[1] : 'image/png';
+          const mime = arr[0].match(/:(.*?);/)[1];
           const bstr = atob(arr[1]);
           let n = bstr.length;
           const u8arr = new Uint8Array(n);
-          while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-          }
+          while (n--) u8arr[n] = bstr.charCodeAt(n);
           return new File([u8arr], filename, { type: mime });
         } catch (e) {
           return null;
         }
       }
 
-      /* ==========================================
-         2. SAFE LOCALSTORAGE UNTUK PREFERENSI & SESI NAMA OFFLINE
-         ========================================== */
+      /* 2. LOCAL STORAGE PREFERENCES */
       const StoragePrefs = {
         get(key, fallback) {
           try {
             const raw = localStorage.getItem('suudi_pro_' + key);
             return raw ? JSON.parse(raw) : fallback;
-          } catch (e) {
-            return fallback;
-          }
+          } catch (e) { return fallback; }
         },
-        set(key, value) {
-          try {
-            localStorage.setItem('suudi_pro_' + key, JSON.stringify(value));
-          } catch (e) {}
+        set(key, val) {
+          try { localStorage.setItem('suudi_pro_' + key, JSON.stringify(val)); } catch (e) {}
         },
         remove(key) {
-          try {
-            localStorage.removeItem('suudi_pro_' + key);
-          } catch (e) {}
+          try { localStorage.removeItem('suudi_pro_' + key); } catch (e) {}
         }
       };
 
       function getActiveAccountDisplayName() {
-        const session = StoragePrefs.get('user_session', null);
-        if (session) {
-          if (session.name && session.name.trim()) return session.name.trim();
-          if (session.email && session.email.trim()) return session.email.trim();
-        }
-        return 'Pengguna / Kasir';
+        const s = StoragePrefs.get('user_session', null);
+        return (s && s.name && s.name.trim()) ? s.name.trim() : 'Pengguna / Kasir';
       }
 
-      /* ==========================================
-         3. INDEXEDDB NATIVE LAYER (OFFLINE-FIRST)
-         ========================================== */
+      /* 3. INDEXEDDB */
       const DB_NAME = 'SuudiProFinanceDB';
       const DB_VERSION = 1;
 
       class FinanceDB {
-        constructor() {
-          this.db = null;
-          this.memoryFallback = { projects: [], transactions: [] };
-          this.useFallback = false;
-        }
-
+        constructor() { this.db = null; }
         async init() {
-          if (!window.indexedDB) {
-            this.useFallback = true;
-            return;
-          }
           return new Promise((resolve) => {
-            try {
-              const request = indexedDB.open(DB_NAME, DB_VERSION);
-              request.onupgradeneeded = (e) => {
-                const db = e.target.result;
-                if (!db.objectStoreNames.contains('projects')) {
-                  db.createObjectStore('projects', { keyPath: 'id' });
-                }
-                if (!db.objectStoreNames.contains('transactions')) {
-                  const txStore = db.createObjectStore('transactions', { keyPath: 'id' });
-                  txStore.createIndex('projectId', 'projectId', { unique: false });
-                }
-              };
-              request.onsuccess = (e) => {
-                this.db = e.target.result;
-                resolve();
-              };
-              request.onerror = () => {
-                this.useFallback = true;
-                resolve();
-              };
-            } catch (err) {
-              this.useFallback = true;
-              resolve();
-            }
-          });
-        }
-
-        async getAllProjects() {
-          if (this.useFallback) return [...this.memoryFallback.projects];
-          return new Promise((resolve) => {
-            const tx = this.db.transaction('projects', 'readonly');
-            const req = tx.objectStore('projects').getAll();
-            req.onsuccess = () => resolve(req.result || []);
-            req.onerror = () => resolve([]);
-          });
-        }
-
-        async saveProject(project) {
-          if (this.useFallback) {
-            const idx = this.memoryFallback.projects.findIndex(p => p.id === project.id);
-            if (idx >= 0) this.memoryFallback.projects[idx] = project;
-            else this.memoryFallback.projects.push(project);
-            return project;
-          }
-          return new Promise((resolve, reject) => {
-            const tx = this.db.transaction('projects', 'readwrite');
-            tx.objectStore('projects').put(project);
-            tx.oncomplete = () => resolve(project);
-            tx.onerror = (e) => reject(e);
-          });
-        }
-
-        async deleteProjectAndTransactions(projectId) {
-          if (this.useFallback) {
-            this.memoryFallback.projects = this.memoryFallback.projects.filter(p => p.id !== projectId);
-            this.memoryFallback.transactions = this.memoryFallback.transactions.filter(t => t.projectId !== projectId);
-            return;
-          }
-          return new Promise((resolve, reject) => {
-            const tx = this.db.transaction(['projects', 'transactions'], 'readwrite');
-            tx.objectStore('projects').delete(projectId);
-            const txStore = tx.objectStore('transactions');
-            const index = txStore.index('projectId');
-            const range = IDBKeyRange.only(projectId);
-            index.openCursor(range).onsuccess = (e) => {
-              const cursor = e.target.result;
-              if (cursor) {
-                cursor.delete();
-                cursor.continue();
+            const req = indexedDB.open(DB_NAME, DB_VERSION);
+            req.onupgradeneeded = (e) => {
+              const d = e.target.result;
+              if (!d.objectStoreNames.contains('projects')) d.createObjectStore('projects', { keyPath: 'id' });
+              if (!d.objectStoreNames.contains('transactions')) {
+                const txs = d.createObjectStore('transactions', { keyPath: 'id' });
+                txs.createIndex('projectId', 'projectId', { unique: false });
               }
             };
-            tx.oncomplete = () => resolve();
-            tx.onerror = (e) => reject(e);
+            req.onsuccess = (e) => { this.db = e.target.result; resolve(); };
+            req.onerror = () => resolve();
           });
         }
-
+        async getAllProjects() {
+          return new Promise(r => {
+            const tx = this.db.transaction('projects', 'readonly');
+            const req = tx.objectStore('projects').getAll();
+            req.onsuccess = () => r(req.result || []);
+            req.onerror = () => r([]);
+          });
+        }
+        async saveProject(p) {
+          return new Promise((r, j) => {
+            const tx = this.db.transaction('projects', 'readwrite');
+            tx.objectStore('projects').put(p);
+            tx.oncomplete = () => r(p);
+            tx.onerror = (e) => j(e);
+          });
+        }
+        async deleteProjectAndTransactions(pid) {
+          return new Promise((r, j) => {
+            const tx = this.db.transaction(['projects', 'transactions'], 'readwrite');
+            tx.objectStore('projects').delete(pid);
+            const tStore = tx.objectStore('transactions');
+            const idx = tStore.index('projectId');
+            idx.openCursor(IDBKeyRange.only(pid)).onsuccess = (ev) => {
+              const c = ev.target.result;
+              if (c) { c.delete(); c.continue(); }
+            };
+            tx.oncomplete = () => r();
+            tx.onerror = (e) => j(e);
+          });
+        }
         async getAllTransactions() {
-          if (this.useFallback) return [...this.memoryFallback.transactions];
-          return new Promise((resolve) => {
+          return new Promise(r => {
             const tx = this.db.transaction('transactions', 'readonly');
             const req = tx.objectStore('transactions').getAll();
-            req.onsuccess = () => resolve(req.result || []);
-            req.onerror = () => resolve([]);
+            req.onsuccess = () => r(req.result || []);
+            req.onerror = () => r([]);
           });
         }
-
-        async saveTransaction(transaction) {
-          if (this.useFallback) {
-            this.memoryFallback.transactions.push(transaction);
-            return transaction;
-          }
-          return new Promise((resolve, reject) => {
+        async saveTransaction(t) {
+          return new Promise((r, j) => {
             const tx = this.db.transaction('transactions', 'readwrite');
-            tx.objectStore('transactions').put(transaction);
-            tx.oncomplete = () => resolve(transaction);
-            tx.onerror = (e) => reject(e);
+            tx.objectStore('transactions').put(t);
+            tx.oncomplete = () => r(t);
+            tx.onerror = (e) => j(e);
           });
         }
-
-        async deleteTransaction(txId) {
-          if (this.useFallback) {
-            this.memoryFallback.transactions = this.memoryFallback.transactions.filter(t => t.id !== txId);
-            return;
-          }
-          return new Promise((resolve, reject) => {
+        async deleteTransaction(tid) {
+          return new Promise((r, j) => {
             const tx = this.db.transaction('transactions', 'readwrite');
-            tx.objectStore('transactions').delete(txId);
-            tx.oncomplete = () => resolve();
-            tx.onerror = (e) => reject(e);
+            tx.objectStore('transactions').delete(tid);
+            tx.oncomplete = () => r();
+            tx.onerror = (e) => j(e);
           });
         }
-
-        async replaceAllData(projects, transactions) {
-          if (this.useFallback) {
-            this.memoryFallback.projects = [...projects];
-            this.memoryFallback.transactions = [...transactions];
-            return;
-          }
-          return new Promise((resolve, reject) => {
+        async replaceAllData(projs, txs) {
+          return new Promise((r, j) => {
             const tx = this.db.transaction(['projects', 'transactions'], 'readwrite');
-            const pStore = tx.objectStore('projects');
-            const tStore = tx.objectStore('transactions');
-            pStore.clear();
-            tStore.clear();
-            projects.forEach(p => pStore.put(p));
-            transactions.forEach(t => tStore.put(t));
-            tx.oncomplete = () => resolve();
-            tx.onerror = (e) => reject(e);
+            const pS = tx.objectStore('projects');
+            const tS = tx.objectStore('transactions');
+            pS.clear(); tS.clear();
+            projs.forEach(p => pS.put(p));
+            txs.forEach(t => tS.put(t));
+            tx.oncomplete = () => r();
+            tx.onerror = (e) => j(e);
           });
         }
       }
 
       const db = new FinanceDB();
 
-      /* ==========================================
-         4. STATE APLIKASI
-         ========================================== */
+      /* 4. STATE GLOBAL */
       const state = {
         projects: [],
         transactions: [],
@@ -2494,23 +2076,19 @@
         currentReceiptDataUrl: null,
         chartMode: 'donut',
         historyQuery: '',
-        reportSheetScope: null // null | 'global' | 'project'
+        reportSheetScope: null
       };
 
-      /* ==========================================
-         5. GENERATOR NOTA OTOMATIS & GAMBAR LAPORAN PENUH (HTML5 CANVAS)
-         ========================================== */
+      /* 5. CANVAS NOTA OTOMATIS & LEMBAR LAPORAN GAMBAR */
       function generateCanvasReceiptDataUrl({ txNumber, accountName, projectName, description, qty, unitPrice, type, dateStr }) {
         const canvas = document.createElement('canvas');
         canvas.width = 480;
         canvas.height = 580;
         const ctx = canvas.getContext('2d');
-
         const issuer = String(accountName || getActiveAccountDisplayName()).slice(0, 32);
 
         ctx.fillStyle = '#f1f5f9';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         ctx.fillStyle = '#ffffff';
         ctx.strokeStyle = '#cbd5e1';
         ctx.lineWidth = 2;
@@ -2520,21 +2098,17 @@
         ctx.fillStyle = type === 'kredit' ? '#059669' : '#4f46e5';
         ctx.fillRect(24, 24, 432, 8);
 
-        // Header Utama: Nama Penanggung Jawab
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 20px sans-serif';
-        ctx.textAlign = 'left';
         ctx.fillText(issuer, 48, 68);
 
         ctx.fillStyle = '#64748b';
         ctx.font = '600 12px sans-serif';
-        ctx.fillText('BUKTI TRANSAKSI & KWITANSI KAS', 48, 90);
+        ctx.fillText('BUKTI TRANSAKSI & KWITANSI', 48, 90);
 
         ctx.strokeStyle = '#e2e8f0';
         ctx.beginPath();
-        ctx.moveTo(48, 108);
-        ctx.lineTo(432, 108);
-        ctx.stroke();
+        ctx.moveTo(48, 108); ctx.lineTo(432, 108); ctx.stroke();
 
         ctx.fillStyle = '#334155';
         ctx.font = 'bold 13px monospace';
@@ -2542,49 +2116,34 @@
         ctx.font = '13px monospace';
         ctx.fillText(`TANGGAL  : ${dateStr}`, 48, 164);
         ctx.fillText(`PROYEK   : ${String(projectName).slice(0, 28)}`, 48, 190);
-        ctx.fillText(`JENIS    : ${type === 'kredit' ? 'KREDIT (PEMASUKAN)' : 'DEBIT (PENGELUARAN)'}`, 48, 216);
+        ctx.fillText(`JENIS    : ${type === 'kredit' ? 'KREDIT (MASUK)' : 'DEBIT (KELUAR)'}`, 48, 216);
 
         ctx.strokeStyle = '#94a3b8';
         ctx.setLineDash([6, 6]);
         ctx.beginPath();
-        ctx.moveTo(48, 238);
-        ctx.lineTo(432, 238);
-        ctx.stroke();
+        ctx.moveTo(48, 238); ctx.lineTo(432, 238); ctx.stroke();
+        ctx.setLineDash([]);
 
         ctx.fillStyle = '#64748b';
         ctx.font = '13px monospace';
-        ctx.fillText('DESKRIPSI ITEM:', 48, 268);
+        ctx.fillText('DESKRIPSI:', 48, 268);
 
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 16px monospace';
-        const cleanDesc = String(description || 'Transaksi Proyek').slice(0, 34);
-        ctx.fillText(cleanDesc, 48, 294);
+        ctx.fillText(String(description || 'Transaksi').slice(0, 34), 48, 294);
 
         ctx.fillStyle = '#334155';
         ctx.font = '14px monospace';
         ctx.fillText(`RINCIAN  : ${qty} x ${formatRp(unitPrice)}`, 48, 326);
 
-        ctx.beginPath();
-        ctx.moveTo(48, 352);
-        ctx.lineTo(432, 352);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
         const total = (Number(qty) || 0) * (Number(unitPrice) || 0);
         ctx.fillStyle = '#64748b';
         ctx.font = 'bold 13px monospace';
-        ctx.fillText('TOTAL NOMINAL RUPIAH', 48, 386);
+        ctx.fillText('TOTAL NOMINAL', 48, 386);
 
         ctx.fillStyle = type === 'kredit' ? '#059669' : '#e11d48';
         ctx.font = 'bold 26px monospace';
         ctx.fillText(formatRp(total), 48, 422);
-
-        ctx.fillStyle = '#64748b';
-        ctx.font = '12px sans-serif';
-        ctx.fillText('Penanggung Jawab:', 48, 468);
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 13px sans-serif';
-        ctx.fillText(issuer, 48, 488);
 
         ctx.save();
         ctx.translate(345, 472);
@@ -2606,7 +2165,6 @@
         return canvas.toDataURL('image/png');
       }
 
-      // Generator Gambar Lembar Laporan Penuh (PNG Resolusi Tinggi) untuk Disimpan/Dibagikan di HP Android
       function generateReportSheetImageDataUrl(data) {
         const rowH = 34;
         const headerH = 230;
@@ -2620,18 +2178,13 @@
         canvas.height = canvasH;
         const ctx = canvas.getContext('2d');
 
-        // Kertas putih
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvasW, canvasH);
-
-        // Garis tepi atas
         ctx.fillStyle = '#4f46e5';
         ctx.fillRect(0, 0, canvasW, 10);
 
-        // Judul & Kop
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 22px sans-serif';
-        ctx.textAlign = 'left';
         ctx.fillText(data.title.slice(0, 52), 36, 52);
 
         ctx.fillStyle = '#475569';
@@ -2640,593 +2193,245 @@
 
         ctx.textAlign = 'right';
         ctx.font = 'bold 14px sans-serif';
-        ctx.fillStyle = '#0f172a';
         ctx.fillText(`Penanggung Jawab: ${data.issuer}`, canvasW - 36, 52);
         ctx.font = '13px sans-serif';
         ctx.fillStyle = '#64748b';
-        ctx.fillText(`Tanggal Cetak: ${data.datePrinted}`, canvasW - 36, 76);
+        ctx.fillText(`Tanggal: ${data.datePrinted}`, canvasW - 36, 76);
 
-        ctx.strokeStyle = '#0f172a';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(36, 94);
-        ctx.lineTo(canvasW - 36, 94);
-        ctx.stroke();
-
-        // 3 Kotak Ringkasan
-        const boxW = (canvasW - 72 - 24) / 3;
-        const summaryItems = [
-          { label: 'TOTAL KREDIT (MASUK)', val: formatRp(data.totalKredit), color: '#059669' },
-          { label: 'TOTAL DEBIT (KELUAR)', val: formatRp(data.totalDebit), color: '#dc2626' },
-          { label: 'SALDO AKHIR', val: formatRp(data.totalSaldo), color: '#4f46e5' }
-        ];
-
-        summaryItems.forEach((item, idx) => {
-          const bx = 36 + idx * (boxW + 12);
-          const by = 112;
-          ctx.fillStyle = '#f8fafc';
-          ctx.strokeStyle = '#cbd5e1';
-          ctx.lineWidth = 1;
-          ctx.fillRect(bx, by, boxW, 68);
-          ctx.strokeRect(bx, by, boxW, 68);
-
-          ctx.textAlign = 'left';
-          ctx.fillStyle = '#64748b';
-          ctx.font = 'bold 11px sans-serif';
-          ctx.fillText(item.label, bx + 14, by + 24);
-
-          ctx.fillStyle = item.color;
-          ctx.font = 'bold 18px monospace';
-          ctx.fillText(item.val, bx + 14, by + 52);
-        });
-
-        // Header Tabel
         let curY = 204;
         ctx.fillStyle = '#f1f5f9';
         ctx.fillRect(36, curY, canvasW - 72, rowH);
-        ctx.strokeStyle = '#94a3b8';
-        ctx.strokeRect(36, curY, canvasW - 72, rowH);
-
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 12px sans-serif';
         ctx.textAlign = 'left';
         ctx.fillText('NO', 46, curY + 22);
         ctx.fillText('TANGGAL', 90, curY + 22);
-        ctx.fillText('DESKRIPSI / PROYEK', 195, curY + 22);
-        ctx.textAlign = 'center';
-        ctx.fillText('QTY', 490, curY + 22);
+        ctx.fillText('DESKRIPSI', 195, curY + 22);
         ctx.textAlign = 'right';
         ctx.fillText('KREDIT', 620, curY + 22);
         ctx.fillText('DEBIT', 740, curY + 22);
         ctx.fillText('SALDO', canvasW - 46, curY + 22);
 
         curY += rowH;
-
-        // Baris Transaksi
         ctx.font = '12px sans-serif';
-        data.rows.forEach((r) => {
+        data.rows.forEach(r => {
           ctx.strokeStyle = '#cbd5e1';
           ctx.strokeRect(36, curY, canvasW - 72, rowH);
-
           ctx.fillStyle = '#0f172a';
           ctx.textAlign = 'left';
           ctx.fillText(String(r.no), 46, curY + 22);
           ctx.fillText(r.date, 90, curY + 22);
-
-          const descLabel = data.isProject
-            ? r.description
-            : `[${r.projectName}] ${r.description}`;
-          ctx.fillText(descLabel.slice(0, 38), 195, curY + 22);
-
-          ctx.textAlign = 'center';
-          ctx.fillText(String(r.qty), 490, curY + 22);
-
+          ctx.fillText(r.description.slice(0, 38), 195, curY + 22);
           ctx.textAlign = 'right';
           ctx.fillStyle = '#059669';
           ctx.fillText(r.kredit > 0 ? formatRp(r.kredit) : '-', 620, curY + 22);
-
           ctx.fillStyle = '#dc2626';
           ctx.fillText(r.debit > 0 ? formatRp(r.debit) : '-', 740, curY + 22);
-
           ctx.fillStyle = '#0f172a';
-          ctx.font = 'bold 12px sans-serif';
           ctx.fillText(formatRp(r.saldo), canvasW - 46, curY + 22);
-          ctx.font = '12px sans-serif';
-
           curY += rowH;
         });
-
-        // Baris Total
-        ctx.fillStyle = '#f8fafc';
-        ctx.fillRect(36, curY, canvasW - 72, rowH);
-        ctx.strokeStyle = '#94a3b8';
-        ctx.strokeRect(36, curY, canvasW - 72, rowH);
-
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 12px sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('TOTAL AKUMULASI', 195, curY + 22);
-
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#059669';
-        ctx.fillText(formatRp(data.totalKredit), 620, curY + 22);
-        ctx.fillStyle = '#dc2626';
-        ctx.fillText(formatRp(data.totalDebit), 740, curY + 22);
-        ctx.fillStyle = '#4f46e5';
-        ctx.fillText(formatRp(data.totalSaldo), canvasW - 46, curY + 22);
-
-        // Footer Tanda Tangan
-        curY += rowH + 36;
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#64748b';
-        ctx.font = 'italic 12px sans-serif';
-        ctx.fillText('Suudi.Pro — Dokumen Laporan Keuangan Resmi', 36, curY + 30);
-
-        ctx.textAlign = 'right';
-        ctx.font = '12px sans-serif';
-        ctx.fillStyle = '#475569';
-        ctx.fillText('Penanggung Jawab,', canvasW - 46, curY);
-        ctx.font = 'bold 14px sans-serif';
-        ctx.fillStyle = '#0f172a';
-        ctx.fillText(data.issuer, canvasW - 46, curY + 46);
 
         return canvas.toDataURL('image/png');
       }
 
-      async function seedInitialDataIfEmpty() {
-        const projects = await db.getAllProjects();
-        if (projects.length > 0) return;
-
-        const now = Date.now();
-        const issuer = getActiveAccountDisplayName();
-
-        const sampleProjects = [
-          {
-            id: 'proj_1',
-            name: 'Renovasi Cafe Senopati',
-            description: 'Interior & MEP - Termin Aktif',
-            createdAt: now - 86400000 * 5
-          },
-          {
-            id: 'proj_2',
-            name: 'Pengadaan IT Gudang Cikarang',
-            description: 'Instalasi Server & Jaringan Lokal',
-            createdAt: now - 86400000 * 2
-          }
-        ];
-
-        const sampleTransactions = [
-          {
-            id: 'tx_101',
-            projectId: 'proj_1',
-            txDate: '2026-10-20',
-            description: 'DP Termin 1 Klien (50%)',
-            qty: 1,
-            unitPrice: 45000000,
-            type: 'kredit',
-            receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'INV-2026-101',
-              accountName: issuer,
-              projectName: 'Renovasi Cafe Senopati',
-              description: 'DP Termin 1 Klien (50%)',
-              qty: 1,
-              unitPrice: 45000000,
-              type: 'kredit',
-              dateStr: '20 Okt 2026'
-            }),
-            createdAt: now - 86400000 * 4
-          },
-          {
-            id: 'tx_102',
-            projectId: 'proj_1',
-            txDate: '2026-10-21',
-            description: 'Pembelian Granit Lantai 60x60',
-            qty: 85,
-            unitPrice: 165000,
-            type: 'debit',
-            receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'INV-2026-102',
-              accountName: issuer,
-              projectName: 'Renovasi Cafe Senopati',
-              description: 'Pembelian Granit Lantai 60x60',
-              qty: 85,
-              unitPrice: 165000,
-              type: 'debit',
-              dateStr: '21 Okt 2026'
-            }),
-            createdAt: now - 86400000 * 3
-          },
-          {
-            id: 'tx_103',
-            projectId: 'proj_1',
-            txDate: '2026-10-22',
-            description: 'Upah Tukang Minggu Ke-1',
-            qty: 6,
-            unitPrice: 1250000,
-            type: 'debit',
-            receiptData: null,
-            createdAt: now - 86400000 * 2
-          },
-          {
-            id: 'tx_201',
-            projectId: 'proj_2',
-            txDate: '2026-10-23',
-            description: 'Pencairan Dana Proyek Tahap Awal',
-            qty: 1,
-            unitPrice: 28000000,
-            type: 'kredit',
-            receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'INV-2026-201',
-              accountName: issuer,
-              projectName: 'Pengadaan IT Gudang Cikarang',
-              description: 'Pencairan Dana Proyek Tahap Awal',
-              qty: 1,
-              unitPrice: 28000000,
-              type: 'kredit',
-              dateStr: '23 Okt 2026'
-            }),
-            createdAt: now - 86400000 * 1
-          },
-          {
-            id: 'tx_202',
-            projectId: 'proj_2',
-            txDate: '2026-10-24',
-            description: 'Switch Gigabit Managed 24-Port',
-            qty: 3,
-            unitPrice: 3400000,
-            type: 'debit',
-            receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'INV-2026-202',
-              accountName: issuer,
-              projectName: 'Pengadaan IT Gudang Cikarang',
-              description: 'Switch Gigabit Managed 24-Port',
-              qty: 3,
-              unitPrice: 3400000,
-              type: 'debit',
-              dateStr: '24 Okt 2026'
-            }),
-            createdAt: now - 3600000 * 12
-          }
-        ];
-
-        for (const p of sampleProjects) await db.saveProject(p);
-        for (const t of sampleTransactions) await db.saveTransaction(t);
-      }
-
-      /* ==========================================
-         6. KALKULASI & RENDER SELURUH TAMPILAN
-         ========================================== */
+      /* 6. LOGIKA RENDER */
       async function refreshStateAndRender() {
         state.projects = await db.getAllProjects();
         state.transactions = await db.getAllTransactions();
 
         state.projects.sort((a, b) => a.createdAt - b.createdAt);
         state.transactions.sort((a, b) => {
-          const diff = getTxSortableTime(a) - getTxSortableTime(b);
-          return diff !== 0 ? diff : (a.createdAt - b.createdAt);
+          const tA = a.txDate ? new Date(a.txDate).getTime() : a.createdAt;
+          const tB = b.txDate ? new Date(b.txDate).getTime() : b.createdAt;
+          return tA - tB;
         });
 
         renderDashboard();
-        if (state.activeProjectId) {
-          renderProjectDetail(state.activeProjectId);
-        }
-        if (state.reportSheetScope) {
-          renderInPageReportSheet(state.reportSheetScope);
-        }
+        if (state.activeProjectId) renderProjectDetail(state.activeProjectId);
+        if (state.reportSheetScope) renderInPageReportSheet(state.reportSheetScope);
         renderStatistics();
         renderHistory();
       }
 
-      function computeProjectSummary(projectId) {
-        const txs = state.transactions.filter(t => t.projectId === projectId);
-        let kredit = 0;
-        let debit = 0;
+      function computeProjectSummary(pid) {
+        const txs = state.transactions.filter(t => t.projectId === pid);
+        let kredit = 0, debit = 0;
         txs.forEach(t => {
-          const total = (Number(t.qty) || 0) * (Number(t.unitPrice) || 0);
-          if (t.type === 'kredit') kredit += total;
-          else debit += total;
+          const tot = (Number(t.qty) || 0) * (Number(t.unitPrice) || 0);
+          if (t.type === 'kredit') kredit += tot; else debit += tot;
         });
-        return {
-          count: txs.length,
-          kredit,
-          debit,
-          saldo: kredit - debit
-        };
+        return { count: txs.length, kredit, debit, saldo: kredit - debit };
       }
 
       function renderDashboard() {
-        let totalKredit = 0;
-        let totalDebit = 0;
-
+        let tKredit = 0, tDebit = 0;
         state.transactions.forEach(t => {
-          const amount = (Number(t.qty) || 0) * (Number(t.unitPrice) || 0);
-          if (t.type === 'kredit') totalKredit += amount;
-          else totalDebit += amount;
+          const a = (Number(t.qty) || 0) * (Number(t.unitPrice) || 0);
+          if (t.type === 'kredit') tKredit += a; else tDebit += a;
         });
 
-        const totalSaldo = totalKredit - totalDebit;
-
-        document.getElementById('main-total-saldo').textContent = formatRp(totalSaldo);
-        document.getElementById('main-total-kredit').textContent = formatRp(totalKredit);
-        document.getElementById('main-total-debit').textContent = formatRp(totalDebit);
+        document.getElementById('main-total-saldo').textContent = formatRp(tKredit - tDebit);
+        document.getElementById('main-total-kredit').textContent = formatRp(tKredit);
+        document.getElementById('main-total-debit').textContent = formatRp(tDebit);
         document.getElementById('wallet-project-count').textContent = `${state.projects.length} Proyek Aktif`;
 
-        const container = document.getElementById('projects-container');
-        container.innerHTML = '';
-
+        const cont = document.getElementById('projects-container');
+        cont.innerHTML = '';
         if (state.projects.length === 0) {
-          container.innerHTML = `
-            <div class="empty-state" style="grid-column: 1 / -1;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <rect x="2" y="6" width="20" height="14" rx="2"/>
-                <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-              </svg>
-              <h4>Belum Ada Proyek</h4>
-              <p>Mulai kelola arus kas dengan membuat proyek pertama Anda.</p>
-            </div>
-          `;
+          cont.innerHTML = `<div class="empty-state"><h4>Belum Ada Proyek</h4><p>Klik tombol "+ Proyek Baru" di atas.</p></div>`;
           return;
         }
 
-        state.projects.forEach(proj => {
-          const summary = computeProjectSummary(proj.id);
-          const card = document.createElement('div');
-          card.className = 'project-card';
-          card.innerHTML = `
+        state.projects.forEach(p => {
+          const s = computeProjectSummary(p.id);
+          const el = document.createElement('div');
+          el.className = 'project-card';
+          el.innerHTML = `
             <div class="project-card-top">
               <div>
-                <div class="project-name">${escapeHtml(proj.name)}</div>
-                <div class="project-meta">${escapeHtml(proj.description || 'Tanpa keterangan tambahan')} • ${summary.count} transaksi</div>
+                <div class="project-name">${escapeHtml(p.name)}</div>
+                <div class="project-meta">${escapeHtml(p.description || '-')} • ${s.count} transaksi</div>
               </div>
               <div class="project-actions">
-                <button type="button" class="btn-icon" data-action="edit-project" data-id="${proj.id}" title="Ubah Nama Proyek">
-                  ✎
-                </button>
-                <button type="button" class="btn-icon danger" data-action="delete-project" data-id="${proj.id}" title="Hapus Proyek">
-                  🗑
-                </button>
+                <button type="button" class="btn-icon" data-action="edit" data-id="${p.id}">✎</button>
+                <button type="button" class="btn-icon danger" data-action="delete" data-id="${p.id}">🗑</button>
               </div>
             </div>
             <div class="project-stats-row">
-              <div class="proj-stat">
-                <span>Kredit</span>
-                <strong class="text-success">${formatRp(summary.kredit)}</strong>
-              </div>
-              <div class="proj-stat">
-                <span>Debit</span>
-                <strong class="text-danger">${formatRp(summary.debit)}</strong>
-              </div>
-              <div class="proj-stat">
-                <span>Saldo Proyek</span>
-                <strong class="text-primary">${formatRp(summary.saldo)}</strong>
-              </div>
+              <div class="proj-stat"><span>Kredit</span><strong class="text-success">${formatRp(s.kredit)}</strong></div>
+              <div class="proj-stat"><span>Debit</span><strong class="text-danger">${formatRp(s.debit)}</strong></div>
+              <div class="proj-stat"><span>Saldo</span><strong class="text-primary">${formatRp(s.saldo)}</strong></div>
             </div>
           `;
-
-          card.addEventListener('click', (e) => {
-            const actionBtn = e.target.closest('[data-action]');
-            if (actionBtn) {
+          el.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-action]');
+            if (btn) {
               e.stopPropagation();
-              const act = actionBtn.getAttribute('data-action');
-              if (act === 'edit-project') openEditProjectModal(proj.id);
-              if (act === 'delete-project') openDeleteConfirm('project', proj.id, proj.name);
+              if (btn.getAttribute('data-action') === 'edit') openEditProjectModal(p.id);
+              if (btn.getAttribute('data-action') === 'delete') openDeleteConfirm('project', p.id, p.name);
               return;
             }
-            openProjectDetail(proj.id);
+            openProjectDetail(p.id);
           });
-
-          container.appendChild(card);
+          cont.appendChild(el);
         });
       }
 
-      function openProjectDetail(projectId) {
-        state.activeProjectId = projectId;
-        state.reportSheetScope = null;
+      function openProjectDetail(pid) {
+        state.activeProjectId = pid;
         document.getElementById('dashboard-view').style.display = 'none';
         document.getElementById('report-sheet-view').style.display = 'none';
         document.getElementById('project-detail-view').style.display = 'block';
-        renderProjectDetail(projectId);
+        renderProjectDetail(pid);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       function closeProjectDetail() {
         state.activeProjectId = null;
-        state.reportSheetScope = null;
         document.getElementById('project-detail-view').style.display = 'none';
         document.getElementById('report-sheet-view').style.display = 'none';
         document.getElementById('dashboard-view').style.display = 'block';
       }
 
-      function renderProjectDetail(projectId) {
-        const proj = state.projects.find(p => p.id === projectId);
-        if (!proj) {
-          closeProjectDetail();
-          return;
-        }
+      function renderProjectDetail(pid) {
+        const p = state.projects.find(item => item.id === pid);
+        if (!p) return closeProjectDetail();
 
-        document.getElementById('detail-project-name').textContent = proj.name;
-        document.getElementById('detail-project-subtitle').textContent = proj.description || 'Buku kas & bukti transaksi proyek';
+        document.getElementById('detail-project-name').textContent = p.name;
+        document.getElementById('detail-project-subtitle').textContent = p.description || 'Rincian transaksi kas';
 
-        const txs = state.transactions.filter(t => t.projectId === projectId);
+        const txs = state.transactions.filter(t => t.projectId === pid);
         document.getElementById('detail-tx-count').textContent = `${txs.length} Transaksi`;
 
         const tbody = document.getElementById('tx-table-body');
         tbody.innerHTML = '';
-
-        let runningSaldo = 0;
-        let totalKredit = 0;
-        let totalDebit = 0;
+        let bal = 0, cr = 0, dbVal = 0;
 
         if (txs.length === 0) {
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="10" class="center-col" style="padding: 2rem; color: var(--text-muted);">
-                Belum ada transaksi tercatat pada proyek ini. Klik <strong>+ Tambah Transaksi</strong> untuk menambahkan.
-              </td>
-            </tr>
-          `;
+          tbody.innerHTML = `<tr><td colspan="10" class="center-col" style="padding: 2rem; color: var(--text-muted);">Belum ada transaksi. Klik "+ Tambah Transaksi".</td></tr>`;
         } else {
-          txs.forEach((tx, index) => {
-            const qty = Number(tx.qty) || 0;
-            const hs = Number(tx.unitPrice) || 0;
-            const nominal = qty * hs;
-            const kreditVal = tx.type === 'kredit' ? nominal : 0;
-            const debitVal = tx.type === 'debit' ? nominal : 0;
-
-            totalKredit += kreditVal;
-            totalDebit += debitVal;
-            runningSaldo = runningSaldo + kreditVal - debitVal;
+          txs.forEach((tx, i) => {
+            const tot = (Number(tx.qty) || 0) * (Number(tx.unitPrice) || 0);
+            const cVal = tx.type === 'kredit' ? tot : 0;
+            const dVal = tx.type === 'debit' ? tot : 0;
+            cr += cVal; dbVal += dVal; bal = bal + cVal - dVal;
 
             const tr = document.createElement('tr');
-            if (tx.receiptData) {
-              tr.className = 'has-receipt';
-              tr.title = 'Klik untuk melihat pratinjau bukti nota ukuran penuh';
-            }
-
-            const receiptCellHtml = tx.receiptData
-              ? `<button type="button" class="receipt-badge" data-preview-tx="${tx.id}">
-                   <img src="${tx.receiptData}" alt="Nota" class="receipt-thumb">
-                   <span>Lihat</span>
-                 </button>`
-              : `<span style="color: var(--text-muted); font-size: 0.74rem;">—</span>`;
-
             tr.innerHTML = `
-              <td class="center-col">${index + 1}</td>
-              <td style="white-space: nowrap; font-size: 0.76rem; color: var(--text-muted); font-weight: 600;">${formatDateShort(tx.txDate || tx.createdAt)}</td>
-              <td>
-                <div style="font-weight: 600;">${escapeHtml(tx.description)}</div>
-              </td>
-              <td class="center-col">${qty}</td>
-              <td class="num-col">${formatRp(hs)}</td>
-              <td class="num-col text-success">${kreditVal > 0 ? formatRp(kreditVal) : '-'}</td>
-              <td class="num-col text-danger">${debitVal > 0 ? formatRp(debitVal) : '-'}</td>
-              <td class="num-col" style="font-weight: 700;">${formatRp(runningSaldo)}</td>
-              <td class="center-col">${receiptCellHtml}</td>
+              <td class="center-col">${i + 1}</td>
+              <td style="white-space: nowrap; font-size: 0.76rem; color: var(--text-muted);">${formatDateShort(tx.txDate)}</td>
+              <td><strong>${escapeHtml(tx.description)}</strong></td>
+              <td class="center-col">${tx.qty}</td>
+              <td class="num-col">${formatRp(tx.unitPrice)}</td>
+              <td class="num-col text-success">${cVal > 0 ? formatRp(cVal) : '-'}</td>
+              <td class="num-col text-danger">${dVal > 0 ? formatRp(dVal) : '-'}</td>
+              <td class="num-col" style="font-weight: 700;">${formatRp(bal)}</td>
               <td class="center-col">
-                <button type="button" class="btn-icon danger" data-delete-tx="${tx.id}" title="Hapus Transaksi">🗑</button>
+                ${tx.receiptData ? `<button type="button" class="receipt-badge" data-preview="${tx.id}"><img src="${tx.receiptData}" class="receipt-thumb">Lihat</button>` : '-'}
+              </td>
+              <td class="center-col">
+                <button type="button" class="btn-icon danger" data-del="${tx.id}">🗑</button>
               </td>
             `;
 
             tr.addEventListener('click', (e) => {
-              const delBtn = e.target.closest('[data-delete-tx]');
-              if (delBtn) {
+              const dBtn = e.target.closest('[data-del]');
+              if (dBtn) {
                 e.stopPropagation();
                 openDeleteConfirm('tx', tx.id, tx.description);
                 return;
               }
-              if (tx.receiptData) {
-                openReceiptPreviewModal(tx);
-              }
+              if (tx.receiptData) openReceiptPreviewModal(tx);
             });
-
             tbody.appendChild(tr);
           });
         }
 
-        document.getElementById('detail-total-kredit').textContent = formatRp(totalKredit);
-        document.getElementById('detail-total-debit').textContent = formatRp(totalDebit);
-        document.getElementById('detail-total-saldo').textContent = formatRp(runningSaldo);
+        document.getElementById('detail-total-kredit').textContent = formatRp(cr);
+        document.getElementById('detail-total-debit').textContent = formatRp(dbVal);
+        document.getElementById('detail-total-saldo').textContent = formatRp(bal);
       }
 
-      /* ==========================================
-         7. LEMBAR LAPORAN SIAP CETAK IN-PAGE (ANDROID WEBVIEW & SHARE READY)
-         ========================================== */
+      /* 7. EKSPOR LAPORAN (EXCEL, CSV, PRINT/PDF) */
       function buildReportData(scope) {
-        const projectMap = {};
-        state.projects.forEach(p => { projectMap[p.id] = p.name; });
-
+        const pMap = {};
+        state.projects.forEach(p => pMap[p.id] = p.name);
         const isProject = scope === 'project' && state.activeProjectId;
-        const activeProj = isProject
-          ? state.projects.find(p => p.id === state.activeProjectId)
-          : null;
+        const activeProj = isProject ? state.projects.find(p => p.id === state.activeProjectId) : null;
+        const targetTxs = isProject ? state.transactions.filter(t => t.projectId === state.activeProjectId) : [...state.transactions];
 
-        const targetTxs = isProject
-          ? state.transactions.filter(t => t.projectId === state.activeProjectId)
-          : [...state.transactions];
-
-        let runningSaldo = 0;
-        let totalKredit = 0;
-        let totalDebit = 0;
-
-        const rows = targetTxs.map((tx, idx) => {
-          const qty = Number(tx.qty) || 0;
-          const hs = Number(tx.unitPrice) || 0;
-          const total = qty * hs;
-          const kredit = tx.type === 'kredit' ? total : 0;
-          const debit = tx.type === 'debit' ? total : 0;
-          totalKredit += kredit;
-          totalDebit += debit;
-          runningSaldo = runningSaldo + kredit - debit;
-
+        let bal = 0, tCr = 0, tDb = 0;
+        const rows = targetTxs.map((t, idx) => {
+          const tot = (Number(t.qty) || 0) * (Number(t.unitPrice) || 0);
+          const cr = t.type === 'kredit' ? tot : 0;
+          const db = t.type === 'debit' ? tot : 0;
+          tCr += cr; tDb += db; bal = bal + cr - db;
           return {
             no: idx + 1,
-            date: formatDateShort(tx.txDate || tx.createdAt),
-            projectName: projectMap[tx.projectId] || '-',
-            description: tx.description,
-            qty,
-            hs,
-            kredit,
-            debit,
-            saldo: runningSaldo,
-            hasReceipt: tx.receiptData ? 'Ada Bukti' : 'Tanpa Bukti'
+            date: formatDateShort(t.txDate),
+            projectName: pMap[t.projectId] || '-',
+            description: t.description,
+            qty: t.qty,
+            hs: t.unitPrice,
+            kredit: cr,
+            debit: db,
+            saldo: bal
           };
         });
 
-        const title = isProject && activeProj
-          ? `LAPORAN PROYEK: ${activeProj.name.toUpperCase()}`
-          : 'LAPORAN KEUANGAN KESELURUHAN (MULTI-PROYEK)';
-
-        const subtitle = isProject && activeProj
-          ? (activeProj.description || 'Rincian Transaksi & Mutasi Kas Proyek Pelanggan')
-          : `Rekapitulasi Gabungan dari ${state.projects.length} Proyek Aktif`;
-
-        const slug = (isProject && activeProj ? activeProj.name : 'laporan-keseluruhan')
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-');
-
         return {
           isProject,
-          title,
-          subtitle,
-          slug,
+          title: isProject && activeProj ? `LAPORAN PROYEK: ${activeProj.name.toUpperCase()}` : 'LAPORAN KEUANGAN KESELURUHAN',
+          subtitle: isProject && activeProj ? (activeProj.description || 'Laporan Transaksi Kas') : `Rekapitulasi ${state.projects.length} Proyek`,
+          slug: (isProject && activeProj ? activeProj.name : 'laporan-keseluruhan').toLowerCase().replace(/[^a-z0-9]+/g, '-'),
           issuer: getActiveAccountDisplayName(),
-          datePrinted: formatDateShort(Date.now()),
-          totalKredit,
-          totalDebit,
-          totalSaldo: totalKredit - totalDebit,
+          datePrinted: formatDateShort(getTodayIsoDate()),
+          totalKredit: tCr,
+          totalDebit: tDb,
+          totalSaldo: tCr - tDb,
           rows
         };
-      }
-
-      function buildTsvReportString(scope) {
-        const data = buildReportData(scope);
-        const lines = [];
-        lines.push(data.title);
-        lines.push(`Penanggung Jawab:\t${data.issuer}\tTanggal:\t${data.datePrinted}`);
-        lines.push('');
-
-        const headers = data.isProject
-          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Harga Satuan (Hs)', 'Kredit', 'Debit', 'Saldo']
-          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Harga Satuan (Hs)', 'Kredit', 'Debit', 'Saldo'];
-        lines.push(headers.join('\t'));
-
-        data.rows.forEach(r => {
-          const cleanDesc = String(r.description).replace(/[\t\r\n]+/g, ' ');
-          const cleanProj = String(r.projectName).replace(/[\t\r\n]+/g, ' ');
-          if (data.isProject) {
-            lines.push([r.no, r.date, cleanDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
-          } else {
-            lines.push([r.no, r.date, cleanProj, cleanDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
-          }
-        });
-
-        if (data.isProject) {
-          lines.push(['', '', 'TOTAL AKUMULASI', '', '', data.totalKredit, data.totalDebit, data.totalSaldo].join('\t'));
-        } else {
-          lines.push(['', '', '', 'TOTAL AKUMULASI', '', '', data.totalKredit, data.totalDebit, data.totalSaldo].join('\t'));
-        }
-
-        return lines.join('\n');
       }
 
       function openInPageReportSheet(scope) {
@@ -3238,476 +2443,334 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      function closeInPageReportSheet() {
-        const prevScope = state.reportSheetScope;
-        state.reportSheetScope = null;
-        document.getElementById('report-sheet-view').style.display = 'none';
-        if (prevScope === 'project' && state.activeProjectId) {
-          document.getElementById('project-detail-view').style.display = 'block';
-        } else {
-          document.getElementById('dashboard-view').style.display = 'block';
-        }
-      }
-
       function renderInPageReportSheet(scope) {
-        const data = buildReportData(scope);
+        const d = buildReportData(scope);
+        document.getElementById('sheet-doc-title').textContent = d.title;
+        document.getElementById('sheet-doc-subtitle').textContent = d.subtitle;
+        document.getElementById('sheet-doc-issuer').textContent = d.issuer;
+        document.getElementById('sheet-doc-date').textContent = d.datePrinted;
+        document.getElementById('sheet-signature-name').textContent = d.issuer;
 
-        document.getElementById('sheet-doc-title').textContent = data.title;
-        document.getElementById('sheet-doc-subtitle').textContent = data.subtitle;
-        document.getElementById('sheet-doc-issuer').textContent = data.issuer;
-        document.getElementById('sheet-doc-date').textContent = data.datePrinted;
-        document.getElementById('sheet-signature-name').textContent = data.issuer;
+        document.getElementById('sheet-sum-kredit').textContent = formatRp(d.totalKredit);
+        document.getElementById('sheet-sum-debit').textContent = formatRp(d.totalDebit);
+        document.getElementById('sheet-sum-saldo').textContent = formatRp(d.totalSaldo);
 
-        document.getElementById('sheet-sum-kredit').textContent = formatRp(data.totalKredit);
-        document.getElementById('sheet-sum-debit').textContent = formatRp(data.totalDebit);
-        document.getElementById('sheet-sum-saldo').textContent = formatRp(data.totalSaldo);
+        const th = document.getElementById('sheet-table-head');
+        const tb = document.getElementById('sheet-table-body');
 
-        const thead = document.getElementById('sheet-table-head');
-        const tbody = document.getElementById('sheet-table-body');
+        th.innerHTML = `
+          <tr>
+            <th style="text-align:center;">No</th>
+            <th>Tanggal</th>
+            ${d.isProject ? '' : '<th>Proyek</th>'}
+            <th>Deskripsi</th>
+            <th style="text-align:center;">Qty</th>
+            <th style="text-align:right;">Hs</th>
+            <th style="text-align:right;">Kredit</th>
+            <th style="text-align:right;">Debit</th>
+            <th style="text-align:right;">Saldo</th>
+          </tr>
+        `;
 
-        if (data.isProject) {
-          thead.innerHTML = `
-            <tr>
-              <th style="text-align:center;">No</th>
-              <th>Tanggal</th>
-              <th>Deskripsi</th>
-              <th style="text-align:center;">Qty</th>
-              <th style="text-align:right;">Hs (Harga Satuan)</th>
-              <th style="text-align:right;">Kredit</th>
-              <th style="text-align:right;">Debit</th>
-              <th style="text-align:right;">Saldo</th>
-            </tr>
-          `;
-        } else {
-          thead.innerHTML = `
-            <tr>
-              <th style="text-align:center;">No</th>
-              <th>Tanggal</th>
-              <th>Proyek</th>
-              <th>Deskripsi</th>
-              <th style="text-align:center;">Qty</th>
-              <th style="text-align:right;">Hs (Harga Satuan)</th>
-              <th style="text-align:right;">Kredit</th>
-              <th style="text-align:right;">Debit</th>
-              <th style="text-align:right;">Saldo</th>
-            </tr>
-          `;
-        }
-
-        if (data.rows.length === 0) {
-          const colSpan = data.isProject ? 8 : 9;
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="${colSpan}" style="text-align:center; padding: 1.5rem; color: #64748b;">
-                Belum ada transaksi tercatat untuk dilaporkan.
-              </td>
-            </tr>
-          `;
+        if (d.rows.length === 0) {
+          tb.innerHTML = `<tr><td colspan="${d.isProject ? 8 : 9}" style="text-align:center; padding:1.5rem; color:#64748b;">Belum ada data untuk dilaporkan.</td></tr>`;
           return;
         }
 
-        tbody.innerHTML = data.rows.map(r => `
+        tb.innerHTML = d.rows.map(r => `
           <tr>
             <td style="text-align:center;">${r.no}</td>
             <td style="white-space:nowrap;">${escapeHtml(r.date)}</td>
-            ${data.isProject ? '' : `<td><strong>${escapeHtml(r.projectName)}</strong></td>`}
+            ${d.isProject ? '' : `<td><strong>${escapeHtml(r.projectName)}</strong></td>`}
             <td>${escapeHtml(r.description)}</td>
             <td style="text-align:center;">${r.qty}</td>
-            <td style="text-align:right; white-space:nowrap;">${formatRp(r.hs)}</td>
-            <td style="text-align:right; white-space:nowrap; color:#059669;">${r.kredit > 0 ? formatRp(r.kredit) : '-'}</td>
-            <td style="text-align:right; white-space:nowrap; color:#dc2626;">${r.debit > 0 ? formatRp(r.debit) : '-'}</td>
-            <td style="text-align:right; white-space:nowrap; font-weight:700;">${formatRp(r.saldo)}</td>
+            <td style="text-align:right;">${formatRp(r.hs)}</td>
+            <td style="text-align:right; color:#059669;">${r.kredit > 0 ? formatRp(r.kredit) : '-'}</td>
+            <td style="text-align:right; color:#dc2626;">${r.debit > 0 ? formatRp(r.debit) : '-'}</td>
+            <td style="text-align:right; font-weight:700;">${formatRp(r.saldo)}</td>
           </tr>
         `).join('') + `
-          <tr style="background-color: #f8fafc; font-weight: 800;">
-            <td colspan="${data.isProject ? 5 : 6}" style="text-align:right;">TOTAL AKUMULASI</td>
-            <td style="text-align:right; color:#059669;">${formatRp(data.totalKredit)}</td>
-            <td style="text-align:right; color:#dc2626;">${formatRp(data.totalDebit)}</td>
-            <td style="text-align:right; color:#4f46e5;">${formatRp(data.totalSaldo)}</td>
+          <tr style="background:#f8fafc; font-weight:800;">
+            <td colspan="${d.isProject ? 5 : 6}" style="text-align:right;">TOTAL AKUMULASI</td>
+            <td style="text-align:right; color:#059669;">${formatRp(d.totalKredit)}</td>
+            <td style="text-align:right; color:#dc2626;">${formatRp(d.totalDebit)}</td>
+            <td style="text-align:right; color:#4f46e5;">${formatRp(d.totalSaldo)}</td>
           </tr>
         `;
       }
 
-      document.getElementById('btn-open-global-sheet').addEventListener('click', () => {
-        openInPageReportSheet('global');
+      // 1. Ekspor Excel / Spreadsheet Langsung (.xls XML)
+      document.getElementById('btn-export-excel-file').addEventListener('click', () => {
+        const d = buildReportData(state.reportSheetScope || 'global');
+        if (d.rows.length === 0) return showToast('Belum ada data transaksi!');
+
+        let rowsXml = '';
+        d.rows.forEach(r => {
+          rowsXml += `
+            <tr>
+              <td>${r.no}</td>
+              <td>${r.date}</td>
+              ${d.isProject ? '' : `<td>${r.projectName}</td>`}
+              <td>${r.description}</td>
+              <td>${r.qty}</td>
+              <td>${r.hs}</td>
+              <td>${r.kredit}</td>
+              <td>${r.debit}</td>
+              <td>${r.saldo}</td>
+            </tr>`;
+        });
+
+        const excelContent = `
+          <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+          <head><meta charset="UTF-8"></head>
+          <body>
+            <h2>${d.title}</h2>
+            <p>Penanggung Jawab: ${d.issuer} | Tanggal: ${d.datePrinted}</p>
+            <table border="1">
+              <tr style="background:#f1f5f9; font-weight:bold;">
+                <th>No</th><th>Tanggal</th>${d.isProject ? '' : '<th>Proyek</th>'}<th>Deskripsi</th><th>Qty</th><th>Hs</th><th>Kredit</th><th>Debit</th><th>Saldo</th>
+              </tr>
+              ${rowsXml}
+              <tr style="font-weight:bold;">
+                <td colspan="${d.isProject ? 5 : 6}" align="right">TOTAL</td>
+                <td>${d.totalKredit}</td><td>${d.totalDebit}</td><td>${d.totalSaldo}</td>
+              </tr>
+            </table>
+          </body>
+          </html>
+        `;
+
+        safeDownloadFile(excelContent, `Laporan_${d.slug}.xls`, 'application/vnd.ms-excel');
+        showToast('Berkas Excel (.xls) berhasil diunduh!');
       });
 
-      document.getElementById('btn-open-project-sheet').addEventListener('click', () => {
-        openInPageReportSheet('project');
+      // 2. Ekspor Format CSV Universal
+      document.getElementById('btn-export-csv-file').addEventListener('click', () => {
+        const d = buildReportData(state.reportSheetScope || 'global');
+        if (d.rows.length === 0) return showToast('Belum ada transaksi!');
+
+        const headers = d.isProject
+          ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs', 'Kredit', 'Debit', 'Saldo']
+          : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Hs', 'Kredit', 'Debit', 'Saldo'];
+
+        const lines = [headers.join(',')];
+        d.rows.forEach(r => {
+          const desc = `"${String(r.description).replace(/"/g, '""')}"`;
+          if (d.isProject) {
+            lines.push([r.no, `"${r.date}"`, desc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join(','));
+          } else {
+            const pName = `"${String(r.projectName).replace(/"/g, '""')}"`;
+            lines.push([r.no, `"${r.date}"`, pName, desc, r.qty, r.hs, r.kredit, r.debit, r.saldo].join(','));
+          }
+        });
+
+        const csvString = '\uFEFF' + lines.join('\n');
+        safeDownloadFile(csvString, `Laporan_${d.slug}.csv`, 'text/csv;charset=utf-8;');
+        showToast('Berkas CSV berhasil diunduh!');
       });
 
-      document.getElementById('btn-close-report-sheet').addEventListener('click', closeInPageReportSheet);
+      // 3. Cetak / Simpan PDF (Mendukung Plugin Printer Cordova APK & Browser Biasa)
+      document.getElementById('btn-trigger-print-sheet').addEventListener('click', () => {
+        const d = buildReportData(state.reportSheetScope || 'global');
+        const printContent = document.getElementById('printable-paper-container').innerHTML;
 
-      // Aksi 1: Salin Tabel ke Clipboard (Bekerja di semua Android WebView & Browser)
-      document.getElementById('btn-copy-table-clipboard').addEventListener('click', async () => {
-        const tsv = buildTsvReportString(state.reportSheetScope || 'global');
-        const ok = await copyTextToClipboard(tsv);
-        if (ok) {
-          showToast('Tabel berhasil disalin! Buka Excel / Google Sheets Android lalu Tempel (Paste)');
-        } else {
-          showToast('Gagal menyalin otomatis');
+        // Jika dibuka di dalam APK Cordova dan plugin printer terpasang
+        if (window.cordova && window.cordova.plugins && window.cordova.plugins.printer) {
+          cordova.plugins.printer.print(printContent, {
+            name: d.title,
+            monochrome: false
+          });
+          return;
         }
+
+        // Jika dibuka di Browser Biasa
+        showToast('Membuka dialog cetak PDF...');
+        setTimeout(() => window.print(), 150);
       });
 
-      // Aksi 2: Buat Gambar Laporan Resolusi Tinggi (Bisa Tekan Lama -> Simpan Gambar di Android atau Share WA)
+      // 4. Salin Tabel ke Clipboard
+      document.getElementById('btn-copy-table-clipboard').addEventListener('click', async () => {
+        const d = buildReportData(state.reportSheetScope || 'global');
+        const lines = [d.title, `Penanggung Jawab:\t${d.issuer}\tTanggal:\t${d.datePrinted}`, ''];
+        const ths = d.isProject ? ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs', 'Kredit', 'Debit', 'Saldo'] : ['No', 'Tanggal', 'Proyek', 'Deskripsi', 'Qty', 'Hs', 'Kredit', 'Debit', 'Saldo'];
+        lines.push(ths.join('\t'));
+
+        d.rows.forEach(r => {
+          if (d.isProject) lines.push([r.no, r.date, r.description, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
+          else lines.push([r.no, r.date, r.projectName, r.description, r.qty, r.hs, r.kredit, r.debit, r.saldo].join('\t'));
+        });
+
+        const ok = await copyTextToClipboard(lines.join('\n'));
+        if (ok) showToast('Tabel disalin! Tempel langsung di Excel atau Google Sheets HP Anda.');
+      });
+
+      // 5. Buat Gambar Laporan (PNG)
       document.getElementById('btn-render-report-image').addEventListener('click', () => {
-        const data = buildReportData(state.reportSheetScope || 'global');
-        const imgDataUrl = generateReportSheetImageDataUrl(data);
-        document.getElementById('receipt-modal-title').textContent = 'Gambar Lembar Laporan (Siap Simpan / Share)';
-        document.getElementById('receipt-full-image').src = imgDataUrl;
-        document.getElementById('receipt-modal-caption').textContent =
-          'Di HP Android: Ketuk tombol "Bagikan Gambar" di bawah, atau tekan lama pada gambar laporan ini untuk menyimpan ke Galeri / kirim ke WhatsApp.';
+        const d = buildReportData(state.reportSheetScope || 'global');
+        const imgUrl = generateReportSheetImageDataUrl(d);
+        document.getElementById('receipt-modal-title').textContent = 'Gambar Laporan Resmi';
+        document.getElementById('receipt-full-image').src = imgUrl;
+        document.getElementById('receipt-modal-caption').textContent = 'Tekan lama gambar atau gunakan tombol Bagikan di bawah.';
         openModal('modal-receipt-preview');
       });
 
-      // Aksi 3: Bagikan via Android Native Share Sheet (navigator.share)
+      // 6. Bagikan Laporan (Share Sheet)
       document.getElementById('btn-share-android-native').addEventListener('click', async () => {
-        const data = buildReportData(state.reportSheetScope || 'global');
-        const imgDataUrl = generateReportSheetImageDataUrl(data);
-        const fileObj = dataUrlToFile(imgDataUrl, `laporan-${data.slug}.png`);
-        const tsvText = buildTsvReportString(state.reportSheetScope || 'global');
+        const d = buildReportData(state.reportSheetScope || 'global');
+        const imgUrl = generateReportSheetImageDataUrl(d);
+        const f = dataUrlToFile(imgUrl, `Laporan_${d.slug}.png`);
 
-        if (navigator.share) {
+        if (navigator.share && f && navigator.canShare && navigator.canShare({ files: [f] })) {
           try {
-            if (fileObj && navigator.canShare && navigator.canShare({ files: [fileObj] })) {
-              await navigator.share({
-                title: data.title,
-                text: `${data.title} — Penanggung Jawab: ${data.issuer}`,
-                files: [fileObj]
-              });
-              return;
-            }
-            await navigator.share({
-              title: data.title,
-              text: tsvText
-            });
-            return;
-          } catch (err) {
-            // Pengguna membatalkan share atau WebView tidak mengizinkan navigator.share
-          }
-        }
-        // Fallback otomatis: salin ke clipboard & tampilkan gambar laporan
-        await copyTextToClipboard(tsvText);
-        document.getElementById('btn-render-report-image').click();
-        showToast('Teks laporan disalin & Gambar laporan siap disimpan!');
-      });
-
-      // Tombol Bagikan Gambar di dalam Modal Pratinjau
-      document.getElementById('btn-share-preview-img').addEventListener('click', async () => {
-        const src = document.getElementById('receipt-full-image').src;
-        if (!src) return;
-        const fileObj = dataUrlToFile(src, `dokumen-suudi-pro-${Date.now()}.png`);
-        if (navigator.share && fileObj && navigator.canShare && navigator.canShare({ files: [fileObj] })) {
-          try {
-            await navigator.share({
-              title: 'Dokumen Suudi.Pro',
-              files: [fileObj]
-            });
+            await navigator.share({ title: d.title, files: [f] });
             return;
           } catch (e) {}
         }
-        // Fallback unduh/buka gambar
-        const link = document.createElement('a');
-        link.href = src;
-        link.download = `suudi-pro-dokumen-${Date.now()}.png`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        showToast('Tekan lama pada gambar di layar untuk menyimpan ke Galeri Android');
+        document.getElementById('btn-render-report-image').click();
       });
 
-      // Aksi 4: Cetak / Simpan PDF (Mendukung Android Print Manager Bridge atau window.print)
-      document.getElementById('btn-trigger-print-sheet').addEventListener('click', () => {
-        if (window.Android && typeof window.Android.printPage === 'function') {
-          window.Android.printPage();
-          return;
-        }
-        showToast('Membuka layanan cetak / PDF...');
-        setTimeout(() => {
-          window.print();
-        }, 120);
+      document.getElementById('btn-open-global-sheet').addEventListener('click', () => openInPageReportSheet('global'));
+      document.getElementById('btn-open-project-sheet').addEventListener('click', () => openInPageReportSheet('project'));
+      document.getElementById('btn-close-report-sheet').addEventListener('click', () => {
+        document.getElementById('report-sheet-view').style.display = 'none';
+        if (state.activeProjectId) document.getElementById('project-detail-view').style.display = 'block';
+        else document.getElementById('dashboard-view').style.display = 'block';
       });
 
-      // Tombol Ekspor CSV Proyek (Menyalin ke Clipboard sekaligus mengunduh CSV agar tidak gagal di Android WebView)
-      document.getElementById('btn-export-csv').addEventListener('click', async () => {
-        if (!state.activeProjectId) return;
-        const data = buildReportData('project');
-        const headers = ['No', 'Tanggal', 'Deskripsi', 'Qty', 'Hs (Harga Satuan)', 'Kredit', 'Debit', 'Saldo', 'Status Bukti'];
-        const rows = [headers.join(',')];
-
-        data.rows.forEach(r => {
-          const safeDesc = `"${String(r.description).replace(/"/g, '""')}"`;
-          const dateCol = `"${r.date}"`;
-          rows.push([r.no, dateCol, safeDesc, r.qty, r.hs, r.kredit, r.debit, r.saldo, `"${r.hasReceipt}"`].join(','));
-        });
-
-        const csvContent = '\uFEFF' + rows.join('\n');
-        // Salin juga format TSV ke clipboard supaya di Android WebView tetap langsung bisa dipaste ke Excel
-        const tsvContent = buildTsvReportString('project');
-        await copyTextToClipboard(tsvContent);
-
-        try {
-          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = `suudi-pro-${data.slug}.csv`;
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          URL.revokeObjectURL(url);
-        } catch (e) {}
-
-        showToast('Data CSV diunduh & Tabel otomatis disalin ke Clipboard HP Anda!');
-      });
-
-      /* ==========================================
-         8. TAB STATISTIK INTERAKTIF (NATIVE SVG DONUT & BAR)
-         ========================================== */
+      /* 8. STATISTIK (DONUT & BAR CHART SVG) */
       function renderStatistics() {
-        let totalKredit = 0;
-        let totalDebit = 0;
-
+        let cr = 0, dbVal = 0;
         state.transactions.forEach(t => {
-          const total = (Number(t.qty) || 0) * (Number(t.unitPrice) || 0);
-          if (t.type === 'kredit') totalKredit += total;
-          else totalDebit += total;
+          const tot = (Number(t.qty) || 0) * (Number(t.unitPrice) || 0);
+          if (t.type === 'kredit') cr += tot; else dbVal += tot;
         });
 
-        const grandVolume = totalKredit + totalDebit;
-        const kreditPct = grandVolume > 0 ? Math.round((totalKredit / grandVolume) * 100) : 0;
-        const debitPct = grandVolume > 0 ? 100 - kreditPct : 0;
+        const grand = cr + dbVal;
+        const kPct = grand > 0 ? Math.round((cr / grand) * 100) : 0;
+        const dPct = grand > 0 ? 100 - kPct : 0;
+        const ratio = cr > 0 ? Math.round((dbVal / cr) * 100) : (dbVal > 0 ? 100 : 0);
 
-        const expenseRatio = totalKredit > 0
-          ? Math.round((totalDebit / totalKredit) * 100)
-          : (totalDebit > 0 ? 100 : 0);
+        document.getElementById('metric-expense-ratio').textContent = `${ratio}%`;
+        document.getElementById('metric-expense-sub').textContent = `Debit ${formatRp(dbVal)} dari Kredit ${formatRp(cr)}`;
+        document.getElementById('stat-net-percentage').textContent = `${kPct}% Kredit vs ${dPct}% Debit`;
+        document.getElementById('stat-bar-kredit').style.width = `${grand > 0 ? kPct : 50}%`;
+        document.getElementById('stat-bar-debit').style.width = `${grand > 0 ? dPct : 50}%`;
+        document.getElementById('stat-legend-kredit').textContent = `${formatRp(cr)} (${kPct}%)`;
+        document.getElementById('stat-legend-debit').textContent = `${formatRp(dbVal)} (${dPct}%)`;
 
-        document.getElementById('metric-expense-ratio').textContent = `${expenseRatio}%`;
-        document.getElementById('metric-expense-sub').textContent =
-          `Debit ${formatRp(totalDebit)} dari Kredit ${formatRp(totalKredit)}`;
+        // Donut
+        const svgD = document.getElementById('svg-donut-chart');
+        const radius = 74, cx = 105, cy = 105, circ = 2 * Math.PI * radius;
+        const kDash = (grand > 0 ? kPct / 100 : 0.5) * circ;
+        const dDash = (grand > 0 ? dPct / 100 : 0.5) * circ;
 
-        const summaries = state.projects.map(p => ({
-          project: p,
-          ...computeProjectSummary(p.id)
-        }));
+        svgD.innerHTML = `
+          <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="var(--bg-input)" stroke-width="24"></circle>
+          <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="#ef4444" stroke-width="24" stroke-dasharray="${dDash} ${circ}" stroke-dashoffset="${-kDash}" transform="rotate(-90 ${cx} ${cy})"></circle>
+          <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="#10b981" stroke-width="24" stroke-dasharray="${kDash} ${circ}" stroke-dashoffset="0" transform="rotate(-90 ${cx} ${cy})"></circle>
+          <text x="${cx}" y="${cy - 4}" text-anchor="middle" fill="var(--text-main)" font-size="20" font-weight="800">${kPct}%</text>
+          <text x="${cx}" y="${cy + 16}" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-weight="600">KREDIT</text>
+        `;
 
-        let topExpenseProj = null;
-        summaries.forEach(s => {
-          if (!topExpenseProj || s.debit > topExpenseProj.debit) {
-            topExpenseProj = s;
-          }
+        // Bar Projects
+        const summs = state.projects.map(p => ({ project: p, ...computeProjectSummary(p.id) }));
+        let maxD = 1, topP = null;
+        summs.forEach(s => {
+          if (s.debit > maxD) maxD = s.debit;
+          if (!topP || s.debit > topP.debit) topP = s;
         });
 
-        if (topExpenseProj && topExpenseProj.debit > 0) {
-          document.getElementById('metric-top-project').textContent = topExpenseProj.project.name;
-          document.getElementById('metric-top-project-amount').textContent = `Total Debit: ${formatRp(topExpenseProj.debit)}`;
+        if (topP && topP.debit > 0) {
+          document.getElementById('metric-top-project').textContent = topP.project.name;
+          document.getElementById('metric-top-project-amount').textContent = `Total: ${formatRp(topP.debit)}`;
         } else {
-          document.getElementById('metric-top-project').textContent = 'Belum Ada';
+          document.getElementById('metric-top-project').textContent = '-';
           document.getElementById('metric-top-project-amount').textContent = 'Rp 0';
         }
 
-        document.getElementById('stat-net-percentage').textContent = `${kreditPct}% Kredit vs ${debitPct}% Debit`;
-        document.getElementById('stat-bar-kredit').style.width = `${grandVolume > 0 ? kreditPct : 50}%`;
-        document.getElementById('stat-bar-debit').style.width = `${grandVolume > 0 ? debitPct : 50}%`;
-        document.getElementById('stat-legend-kredit').textContent = `${formatRp(totalKredit)} (${kreditPct}%)`;
-        document.getElementById('stat-legend-debit').textContent = `${formatRp(totalDebit)} (${debitPct}%)`;
-
-        renderSvgDonutChart(kreditPct, debitPct, grandVolume);
-        renderSvgBarChart(summaries);
-
-        const barsContainer = document.getElementById('stat-project-bars');
-        barsContainer.innerHTML = '';
-
-        if (summaries.length === 0) {
-          barsContainer.innerHTML = `<p style="font-size: 0.82rem; color: var(--text-muted);">Belum ada data proyek untuk ditampilkan.</p>`;
-          return;
+        const barC = document.getElementById('svg-bar-chart-container');
+        if (summs.length === 0) {
+          barC.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:0.8rem;">Belum ada data.</p>`;
+        } else {
+          let bSvg = '';
+          summs.forEach((s, idx) => {
+            const y = 15 + idx * 56;
+            const w = Math.max(6, Math.round((s.debit / maxD) * 230));
+            bSvg += `
+              <g transform="translate(0, ${y})">
+                <text x="4" y="20" fill="var(--text-main)" font-size="12" font-weight="700">${escapeHtml(s.project.name.slice(0, 18))}</text>
+                <rect x="155" y="4" width="230" height="22" rx="6" fill="var(--bg-input)"></rect>
+                <rect x="155" y="4" width="${w}" height="22" rx="6" fill="#ef4444"></rect>
+                <text x="395" y="20" fill="var(--text-main)" font-size="11" font-weight="700">${formatRp(s.debit)}</text>
+              </g>
+            `;
+          });
+          barC.innerHTML = `<svg width="100%" height="${30 + summs.length * 56}" viewBox="0 0 520 ${30 + summs.length * 56}">${bSvg}</svg>`;
         }
-
-        summaries.forEach(item => {
-          const row = document.createElement('div');
-          row.style.cssText = 'padding-bottom: 0.7rem; border-bottom: 1px dashed var(--border-color); font-size: 0.82rem;';
-          row.innerHTML = `
-            <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 0.25rem;">
-              <span>${escapeHtml(item.project.name)}</span>
-              <span class="text-primary">Saldo: ${formatRp(item.saldo)}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.75rem;">
-              <span>Kredit: <strong class="text-success">${formatRp(item.kredit)}</strong></span>
-              <span>Debit: <strong class="text-danger">${formatRp(item.debit)}</strong></span>
-            </div>
-          `;
-          barsContainer.appendChild(row);
-        });
-      }
-
-      function renderSvgDonutChart(kreditPct, debitPct, grandVolume) {
-        const svg = document.getElementById('svg-donut-chart');
-        const radius = 74;
-        const cx = 105;
-        const cy = 105;
-        const circumference = 2 * Math.PI * radius;
-
-        const kRatio = grandVolume > 0 ? kreditPct / 100 : 0.5;
-        const dRatio = grandVolume > 0 ? debitPct / 100 : 0.5;
-
-        const kDash = kRatio * circumference;
-        const dDash = dRatio * circumference;
-
-        svg.innerHTML = `
-          <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="var(--bg-input)" stroke-width="24"></circle>
-          <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="#ef4444" stroke-width="24"
-            stroke-dasharray="${dDash} ${circumference}"
-            stroke-dashoffset="${-kDash}"
-            transform="rotate(-90 ${cx} ${cy})"></circle>
-          <circle cx="${cx}" cy="${cy}" r="${radius}" fill="none" stroke="#10b981" stroke-width="24"
-            stroke-dasharray="${kDash} ${circumference}"
-            stroke-dashoffset="0"
-            transform="rotate(-90 ${cx} ${cy})"></circle>
-          <text x="${cx}" y="${cy - 6}" text-anchor="middle" fill="var(--text-main)" font-size="22" font-weight="800">${kreditPct}%</text>
-          <text x="${cx}" y="${cy + 16}" text-anchor="middle" fill="var(--text-muted)" font-size="11" font-weight="600">PORSI KREDIT</text>
-        `;
-      }
-
-      function renderSvgBarChart(summaries) {
-        const container = document.getElementById('svg-bar-chart-container');
-        if (summaries.length === 0) {
-          container.innerHTML = `<p style="text-align:center; color: var(--text-muted); font-size:0.82rem;">Belum ada proyek untuk dibandingkan.</p>`;
-          return;
-        }
-
-        let maxDebit = 1;
-        summaries.forEach(s => {
-          if (s.debit > maxDebit) maxDebit = s.debit;
-        });
-
-        const barHeight = 36;
-        const gap = 22;
-        const topPad = 15;
-        const svgHeight = topPad + summaries.length * (barHeight + gap) + 10;
-        const svgWidth = 520;
-
-        let barsSvg = '';
-        summaries.forEach((s, idx) => {
-          const y = topPad + idx * (barHeight + gap);
-          const maxBarW = 230;
-          const barW = Math.max(6, Math.round((s.debit / maxDebit) * maxBarW));
-          const shortName = s.project.name.length > 20 ? s.project.name.slice(0, 19) + '…' : s.project.name;
-
-          barsSvg += `
-            <g transform="translate(0, ${y})">
-              <text x="4" y="22" fill="var(--text-main)" font-size="12" font-weight="700">${escapeHtml(shortName)}</text>
-              <rect x="155" y="4" width="${maxBarW}" height="24" rx="6" fill="var(--bg-input)"></rect>
-              <rect x="155" y="4" width="${barW}" height="24" rx="6" fill="#ef4444"></rect>
-              <text x="${165 + maxBarW}" y="21" fill="var(--text-main)" font-size="12" font-weight="700">${formatRp(s.debit)}</text>
-            </g>
-          `;
-        });
-
-        container.innerHTML = `
-          <svg width="100%" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" role="img" aria-label="Grafik Batang Pengeluaran Antar Proyek">
-            ${barsSvg}
-          </svg>
-        `;
       }
 
       document.querySelectorAll('#chart-type-switcher .option-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          const mode = btn.getAttribute('data-chart-mode');
-          state.chartMode = mode;
+          const m = btn.getAttribute('data-chart-mode');
+          state.chartMode = m;
           document.querySelectorAll('#chart-type-switcher .option-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-
-          const donutEl = document.getElementById('chart-view-donut');
-          const barEl = document.getElementById('chart-view-bar');
-          const titleEl = document.getElementById('active-chart-title');
-
-          if (mode === 'donut') {
-            donutEl.style.display = 'flex';
-            barEl.style.display = 'none';
-            titleEl.textContent = 'Proporsi Kredit vs Debit (Donut Chart)';
-          } else {
-            donutEl.style.display = 'none';
-            barEl.style.display = 'flex';
-            titleEl.textContent = 'Perbandingan Pengeluaran Debit Antar-Proyek (Bar Chart)';
-          }
+          document.getElementById('chart-view-donut').style.display = m === 'donut' ? 'flex' : 'none';
+          document.getElementById('chart-view-bar').style.display = m === 'bar' ? 'flex' : 'none';
         });
       });
 
-      /* ==========================================
-         9. TAB RIWAYAT (SEMUA MUTASI & FILTER PENCARIAN)
-         ========================================== */
+      /* 9. RIWAYAT (SEMUA MUTASI) */
       function renderHistory() {
-        const listEl = document.getElementById('history-list-container');
-        const badgeEl = document.getElementById('history-total-badge');
+        const cont = document.getElementById('history-list-container');
         const q = state.historyQuery.trim().toLowerCase();
+        const pMap = {};
+        state.projects.forEach(p => pMap[p.id] = p.name);
 
-        const projectMap = {};
-        state.projects.forEach(p => { projectMap[p.id] = p.name; });
-
-        const sortedTxs = [...state.transactions].sort((a, b) => {
-          const diff = getTxSortableTime(b) - getTxSortableTime(a);
-          return diff !== 0 ? diff : (b.createdAt - a.createdAt);
+        const sorted = [...state.transactions].sort((a, b) => {
+          const tA = a.txDate ? new Date(a.txDate).getTime() : a.createdAt;
+          const tB = b.txDate ? new Date(b.txDate).getTime() : b.createdAt;
+          return tB - tA;
         });
 
-        const filtered = sortedTxs.filter(tx => {
+        const filtered = sorted.filter(t => {
           if (!q) return true;
-          const pName = (projectMap[tx.projectId] || '').toLowerCase();
-          const desc = (tx.description || '').toLowerCase();
-          return desc.includes(q) || pName.includes(q);
+          return (t.description || '').toLowerCase().includes(q) || (pMap[t.projectId] || '').toLowerCase().includes(q);
         });
 
-        badgeEl.textContent = `${filtered.length} Mutasi`;
-        listEl.innerHTML = '';
+        document.getElementById('history-total-badge').textContent = `${filtered.length} Mutasi`;
+        cont.innerHTML = '';
 
         if (filtered.length === 0) {
-          listEl.innerHTML = `
-            <div class="empty-state">
-              <h4>Tidak Ada Mutasi Ditemukan</h4>
-              <p>${q ? 'Tidak ada transaksi yang cocok dengan kata kunci pencarian Anda.' : 'Belum ada transaksi tercatat di seluruh proyek.'}</p>
-            </div>
-          `;
+          cont.innerHTML = `<div class="empty-state"><h4>Tidak Ada Mutasi</h4><p>Belum ada riwayat mutasi kas.</p></div>`;
           return;
         }
 
-        filtered.forEach(tx => {
-          const pName = projectMap[tx.projectId] || 'Proyek Terhapus';
-          const nominal = (Number(tx.qty) || 0) * (Number(tx.unitPrice) || 0);
-          const isKredit = tx.type === 'kredit';
-
-          const item = document.createElement('div');
-          item.className = 'history-item' + (tx.receiptData ? ' clickable' : '');
-          item.innerHTML = `
+        filtered.forEach(t => {
+          const tot = (Number(t.qty) || 0) * (Number(t.unitPrice) || 0);
+          const isK = t.type === 'kredit';
+          const el = document.createElement('div');
+          el.className = 'history-item' + (t.receiptData ? ' clickable' : '');
+          el.innerHTML = `
             <div class="history-left">
-              <div class="history-badge-icon ${isKredit ? 'kredit' : 'debit'}">
-                ${isKredit ? '↓' : '↑'}
-              </div>
+              <div class="history-badge-icon ${isK ? 'kredit' : 'debit'}">${isK ? '↓' : '↑'}</div>
               <div class="history-info">
-                <div class="history-title">${escapeHtml(tx.description)}</div>
+                <div class="history-title">${escapeHtml(t.description)}</div>
                 <div class="history-sub">
-                  <span class="proj-pill">${escapeHtml(pName)}</span>
-                  <span>• ${formatDateShort(tx.txDate || tx.createdAt)}</span>
-                  <span>• ${tx.qty} × ${formatRp(tx.unitPrice)}</span>
+                  <span class="proj-pill">${escapeHtml(pMap[t.projectId] || 'Proyek')}</span>
+                  <span>• ${formatDateShort(t.txDate)}</span>
                 </div>
               </div>
             </div>
             <div class="history-right">
-              ${tx.receiptData ? `<img src="${tx.receiptData}" alt="Bukti" class="receipt-thumb" title="Klik untuk lihat nota">` : ''}
+              ${t.receiptData ? `<img src="${t.receiptData}" class="receipt-thumb">` : ''}
               <div>
-                <div class="history-amount ${isKredit ? 'text-success' : 'text-danger'}">
-                  ${isKredit ? '+' : '-'}${formatRp(nominal)}
-                </div>
-                <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">
-                  ${tx.type}
-                </div>
+                <div class="history-amount ${isK ? 'text-success' : 'text-danger'}">${isK ? '+' : '-'}${formatRp(tot)}</div>
               </div>
             </div>
           `;
-
-          if (tx.receiptData) {
-            item.addEventListener('click', () => openReceiptPreviewModal(tx));
-          }
-
-          listEl.appendChild(item);
+          if (t.receiptData) el.addEventListener('click', () => openReceiptPreviewModal(t));
+          cont.appendChild(el);
         });
       }
 
@@ -3716,29 +2779,12 @@
         renderHistory();
       });
 
-      /* ==========================================
-         10. MODAL HELPERS & MANAJEMEN PROYEK
-         ========================================== */
-      function openModal(id) {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('open');
-      }
+      /* 10. MODAL & EVENT BINDINGS */
+      function openModal(id) { const el = document.getElementById(id); if (el) el.classList.add('open'); }
+      function closeModal(id) { const el = document.getElementById(id); if (el) el.classList.remove('open'); }
 
-      function closeModal(id) {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove('open');
-      }
-
-      document.querySelectorAll('[data-close-modal]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          closeModal(btn.getAttribute('data-close-modal'));
-        });
-      });
-
-      document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
-        backdrop.addEventListener('click', (e) => {
-          if (e.target === backdrop) backdrop.classList.remove('open');
-        });
+      document.querySelectorAll('[data-close-modal]').forEach(b => {
+        b.addEventListener('click', () => closeModal(b.getAttribute('data-close-modal')));
       });
 
       document.getElementById('btn-open-add-project').addEventListener('click', () => {
@@ -3749,54 +2795,45 @@
         openModal('modal-project');
       });
 
-      function openEditProjectModal(projectId) {
-        const proj = state.projects.find(p => p.id === projectId);
-        if (!proj) return;
+      function openEditProjectModal(pid) {
+        const p = state.projects.find(item => item.id === pid);
+        if (!p) return;
         document.getElementById('modal-project-title').textContent = 'Ubah Nama Proyek';
-        document.getElementById('project-id-input').value = proj.id;
-        document.getElementById('project-name-input').value = proj.name;
-        document.getElementById('project-desc-input').value = proj.description || '';
+        document.getElementById('project-id-input').value = p.id;
+        document.getElementById('project-name-input').value = p.name;
+        document.getElementById('project-desc-input').value = p.description || '';
         openModal('modal-project');
       }
 
       document.getElementById('form-project').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const idInput = document.getElementById('project-id-input').value.trim();
+        const id = document.getElementById('project-id-input').value.trim();
         const name = document.getElementById('project-name-input').value.trim();
-        const description = document.getElementById('project-desc-input').value.trim();
+        const desc = document.getElementById('project-desc-input').value.trim();
         if (!name) return;
 
-        if (idInput) {
-          const existing = state.projects.find(p => p.id === idInput);
-          if (existing) {
-            existing.name = name;
-            existing.description = description;
-            await db.saveProject(existing);
-            showToast('Proyek berhasil diperbarui');
-          }
+        if (id) {
+          const p = state.projects.find(x => x.id === id);
+          if (p) { p.name = name; p.description = desc; await db.saveProject(p); }
         } else {
-          const newProj = {
+          await db.saveProject({
             id: 'proj_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
             name,
-            description,
+            description: desc,
             createdAt: Date.now()
-          };
-          await db.saveProject(newProj);
-          showToast('Proyek baru berhasil ditambahkan');
+          });
         }
-
         closeModal('modal-project');
         await refreshStateAndRender();
+        showToast('Proyek berhasil disimpan!');
       });
 
       function openDeleteConfirm(type, id, label) {
         state.pendingDelete = { type, id };
-        const msgEl = document.getElementById('confirm-delete-message');
-        if (type === 'project') {
-          msgEl.textContent = `Hapus proyek "${label}" beserta seluruh riwayat transaksi dan foto buktinya? Tindakan ini tidak dapat dibatalkan.`;
-        } else {
-          msgEl.textContent = `Hapus transaksi "${label}"? Saldo berjalan proyek akan diperbarui secara instan.`;
-        }
+        document.getElementById('confirm-delete-message').textContent =
+          type === 'project'
+            ? `Hapus proyek "${label}" beserta seluruh riwayat transaksinya?`
+            : `Hapus transaksi "${label}"? Saldo akan dihitung ulang.`;
         openModal('modal-confirm-delete');
       }
 
@@ -3806,179 +2843,132 @@
         if (type === 'project') {
           await db.deleteProjectAndTransactions(id);
           if (state.activeProjectId === id) closeProjectDetail();
-          showToast('Proyek telah dihapus');
-        } else if (type === 'tx') {
+        } else {
           await db.deleteTransaction(id);
-          showToast('Transaksi dihapus & saldo diperbarui');
         }
         state.pendingDelete = null;
         closeModal('modal-confirm-delete');
         await refreshStateAndRender();
+        showToast('Berhasil dihapus.');
       });
 
       document.getElementById('btn-back-dashboard').addEventListener('click', closeProjectDetail);
 
-      /* ==========================================
-         11. FORMULIR TRANSAKSI & NOTA OTOMATIS BERIDENTITAS LOGIN
-         ========================================== */
-      const qtyInput = document.getElementById('tx-qty-input');
-      const hsInput = document.getElementById('tx-hs-input');
-      const totalPreview = document.getElementById('tx-total-preview');
-      const projectSelect = document.getElementById('tx-project-select');
-      const dateInput = document.getElementById('tx-date-input');
-
-      function updateTxTotalPreview() {
-        const q = Number(qtyInput.value) || 0;
-        const h = Number(hsInput.value) || 0;
-        totalPreview.value = formatRp(q * h);
-      }
-
-      qtyInput.addEventListener('input', updateTxTotalPreview);
-      hsInput.addEventListener('input', updateTxTotalPreview);
-
-      document.querySelectorAll('[data-tx-type]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('[data-tx-type]').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          document.getElementById('tx-type-input').value = btn.getAttribute('data-tx-type');
-        });
-      });
-
+      /* FORM TRANSAKSI */
       function openTransactionModal({ lockProjectId = null } = {}) {
         if (state.projects.length === 0) {
-          showToast('Buat minimal 1 proyek terlebih dahulu');
-          document.getElementById('btn-open-add-project').click();
-          return;
+          showToast('Buat proyek terlebih dahulu!');
+          return document.getElementById('btn-open-add-project').click();
         }
 
         document.getElementById('form-transaction').reset();
-        dateInput.value = getTodayIsoDate();
+        document.getElementById('tx-date-input').value = getTodayIsoDate();
         document.getElementById('tx-type-input').value = 'kredit';
         document.getElementById('btn-type-kredit').classList.add('active');
         document.getElementById('btn-type-debit').classList.remove('active');
         document.getElementById('tx-qty-input').value = '1';
-        document.getElementById('tx-total-preview').value = 'Rp 0';
+        document.getElementById('tx-total-preview').textContent = 'Rp 0';
         state.currentReceiptDataUrl = null;
         document.getElementById('tx-receipt-preview-wrap').style.display = 'none';
 
-        projectSelect.innerHTML = '';
+        const sel = document.getElementById('tx-project-select');
+        sel.innerHTML = '';
         state.projects.forEach(p => {
           const opt = document.createElement('option');
           opt.value = p.id;
           opt.textContent = p.name;
-          projectSelect.appendChild(opt);
+          sel.appendChild(opt);
         });
 
         if (lockProjectId) {
-          projectSelect.value = lockProjectId;
-          projectSelect.disabled = true;
+          sel.value = lockProjectId;
+          sel.disabled = true;
           document.getElementById('modal-tx-title').textContent = 'Tambah Transaksi Proyek';
         } else {
-          projectSelect.disabled = false;
-          if (state.activeProjectId) projectSelect.value = state.activeProjectId;
-          document.getElementById('modal-tx-title').textContent = 'Tambah Catatan Cepat (Global)';
+          sel.disabled = false;
+          if (state.activeProjectId) sel.value = state.activeProjectId;
+          document.getElementById('modal-tx-title').textContent = 'Catat Transaksi Cepat';
         }
 
         openModal('modal-transaction');
       }
 
-      document.getElementById('btn-open-add-tx').addEventListener('click', () => {
-        openTransactionModal({ lockProjectId: state.activeProjectId });
+      document.getElementById('btn-open-add-tx').addEventListener('click', () => openTransactionModal({ lockProjectId: state.activeProjectId }));
+      document.getElementById('btn-fab-quick-tx').addEventListener('click', () => openTransactionModal({ lockProjectId: null }));
+
+      function updateTxTotal() {
+        const q = Number(document.getElementById('tx-qty-input').value) || 0;
+        const h = Number(document.getElementById('tx-hs-input').value) || 0;
+        document.getElementById('tx-total-preview').textContent = formatRp(q * h);
+      }
+      document.getElementById('tx-qty-input').addEventListener('input', updateTxTotal);
+      document.getElementById('tx-hs-input').addEventListener('input', updateTxTotal);
+
+      document.querySelectorAll('[data-tx-type]').forEach(b => {
+        b.addEventListener('click', () => {
+          document.querySelectorAll('[data-tx-type]').forEach(x => x.classList.remove('active'));
+          b.classList.add('active');
+          document.getElementById('tx-type-input').value = b.getAttribute('data-tx-type');
+        });
       });
 
-      document.getElementById('btn-fab-quick-tx').addEventListener('click', () => {
-        openTransactionModal({ lockProjectId: null });
-      });
-
-      const cameraInput = document.getElementById('tx-receipt-input');
-      const galleryInput = document.getElementById('tx-gallery-input');
-
+      // Lampiran Kamera & Galeri (Dengan Fallback Plugin Camera Cordova jika di APK)
       document.getElementById('btn-attach-camera').addEventListener('click', () => {
-        cameraInput.value = '';
-        cameraInput.click();
+        if (navigator.camera) {
+          navigator.camera.getPicture(
+            (data) => setReceipt('data:image/jpeg;base64,' + data, 'Foto Kamera'),
+            () => {},
+            { destinationType: Camera.DestinationType.DATA_URL, sourceType: Camera.PictureSourceType.CAMERA }
+          );
+          return;
+        }
+        document.getElementById('tx-receipt-input').click();
       });
 
       document.getElementById('btn-attach-gallery').addEventListener('click', () => {
-        galleryInput.value = '';
-        galleryInput.click();
+        document.getElementById('tx-gallery-input').click();
       });
 
-      function handleImageFileSelected(file, sourceLabel) {
+      function handleImg(file, label) {
         if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const maxDim = 960;
-            let w = img.width;
-            let h = img.height;
-            if (w > maxDim || h > maxDim) {
-              if (w > h) {
-                h = Math.round((h * maxDim) / w);
-                w = maxDim;
-              } else {
-                w = Math.round((w * maxDim) / h);
-                h = maxDim;
-              }
-            }
-            canvas.width = w;
-            canvas.height = h;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, w, h);
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
-            setReceiptAttachment(dataUrl, sourceLabel);
-          };
-          img.src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
+        const r = new FileReader();
+        r.onload = (e) => setReceipt(e.target.result, label);
+        r.readAsDataURL(file);
       }
-
-      cameraInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-          handleImageFileSelected(e.target.files[0], 'Foto Kamera Terlampir');
-        }
-      });
-
-      galleryInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-          handleImageFileSelected(e.target.files[0], 'Gambar Galeri Terlampir');
-        }
-      });
+      document.getElementById('tx-receipt-input').addEventListener('change', (e) => handleImg(e.target.files[0], 'Foto Kamera'));
+      document.getElementById('tx-gallery-input').addEventListener('change', (e) => handleImg(e.target.files[0], 'Galeri'));
 
       document.getElementById('btn-attach-auto-receipt').addEventListener('click', () => {
-        const selectedProjId = projectSelect.value;
-        const proj = state.projects.find(p => p.id === selectedProjId);
-        const desc = document.getElementById('tx-desc-input').value.trim() || 'Transaksi Kas Proyek';
-        const qty = Number(document.getElementById('tx-qty-input').value) || 1;
-        const unitPrice = Number(document.getElementById('tx-hs-input').value) || 0;
+        const pId = document.getElementById('tx-project-select').value;
+        const p = state.projects.find(x => x.id === pId);
+        const desc = document.getElementById('tx-desc-input').value.trim() || 'Transaksi Kas';
+        const q = Number(document.getElementById('tx-qty-input').value) || 1;
+        const hs = Number(document.getElementById('tx-hs-input').value) || 0;
         const type = document.getElementById('tx-type-input').value;
-        const pickedDate = dateInput.value || getTodayIsoDate();
-        const txNum = 'AUTO-' + Date.now().toString().slice(-6);
+        const dt = document.getElementById('tx-date-input').value || getTodayIsoDate();
         const issuer = getActiveAccountDisplayName();
 
-        const syntheticUrl = generateCanvasReceiptDataUrl({
-          txNumber: txNum,
+        const dataUrl = generateCanvasReceiptDataUrl({
+          txNumber: 'AUTO-' + Date.now().toString().slice(-6),
           accountName: issuer,
-          projectName: proj ? proj.name : 'Suudi.Pro Project',
+          projectName: p ? p.name : 'Proyek',
           description: desc,
-          qty,
-          unitPrice,
+          qty: q,
+          unitPrice: hs,
           type,
-          dateStr: formatDateShort(pickedDate)
+          dateStr: formatDateShort(dt)
         });
 
-        setReceiptAttachment(syntheticUrl, `Nota Otomatis (${issuer})`);
-        showToast('Nota otomatis dibuat atas nama: ' + issuer);
+        setReceipt(dataUrl, `Nota Otomatis (${issuer})`);
+        showToast('Nota otomatis berhasil dibuat!');
       });
 
-      function setReceiptAttachment(dataUrl, statusText) {
-        state.currentReceiptDataUrl = dataUrl;
-        document.getElementById('tx-receipt-thumb-preview').src = dataUrl;
-        document.getElementById('tx-receipt-status-text').textContent = statusText;
+      function setReceipt(url, txt) {
+        state.currentReceiptDataUrl = url;
+        document.getElementById('tx-receipt-thumb-preview').src = url;
+        document.getElementById('tx-receipt-status-text').textContent = txt;
         document.getElementById('tx-receipt-preview-wrap').style.display = 'flex';
       }
-
       document.getElementById('btn-clear-receipt').addEventListener('click', () => {
         state.currentReceiptDataUrl = null;
         document.getElementById('tx-receipt-preview-wrap').style.display = 'none';
@@ -3986,147 +2976,112 @@
 
       document.getElementById('form-transaction').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const targetProjectId = projectSelect.value;
-        if (!targetProjectId) return;
-
-        const txDate = dateInput.value || getTodayIsoDate();
-        const description = document.getElementById('tx-desc-input').value.trim();
+        const pid = document.getElementById('tx-project-select').value;
+        const dt = document.getElementById('tx-date-input').value || getTodayIsoDate();
+        const desc = document.getElementById('tx-desc-input').value.trim();
         const qty = Number(document.getElementById('tx-qty-input').value) || 1;
-        const unitPrice = Number(document.getElementById('tx-hs-input').value) || 0;
+        const hs = Number(document.getElementById('tx-hs-input').value) || 0;
         const type = document.getElementById('tx-type-input').value;
 
-        if (!description) return;
+        if (!desc) return;
 
-        const newTx = {
+        await db.saveTransaction({
           id: 'tx_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-          projectId: targetProjectId,
-          txDate,
-          description,
+          projectId: pid,
+          txDate: dt,
+          description: desc,
           qty,
-          unitPrice,
+          unitPrice: hs,
           type,
           receiptData: state.currentReceiptDataUrl || null,
           createdAt: Date.now()
-        };
+        });
 
-        await db.saveTransaction(newTx);
         closeModal('modal-transaction');
-        showToast('Transaksi berhasil disimpan ke proyek');
         await refreshStateAndRender();
+        showToast('Transaksi berhasil dicatat!');
       });
 
       function openReceiptPreviewModal(tx) {
-        if (!tx.receiptData) return;
         document.getElementById('receipt-modal-title').textContent = tx.description;
         document.getElementById('receipt-full-image').src = tx.receiptData;
-        const total = (Number(tx.qty) || 0) * (Number(tx.unitPrice) || 0);
-        document.getElementById('receipt-modal-caption').textContent =
-          `${tx.type.toUpperCase()} • ${formatDateShort(tx.txDate || tx.createdAt)} • Qty: ${tx.qty} × ${formatRp(tx.unitPrice)} = ${formatRp(total)}`;
+        const tot = (Number(tx.qty) || 0) * (Number(tx.unitPrice) || 0);
+        document.getElementById('receipt-modal-caption').textContent = `${formatDateShort(tx.txDate)} • Total: ${formatRp(tot)}`;
         openModal('modal-receipt-preview');
       }
 
-      /* ==========================================
-         12. NAVIGASI BOTTOM TAB (5 MENU SIMETRIS)
-         ========================================== */
-      function switchActiveTab(targetTab) {
-        document.querySelectorAll('.bottom-nav .nav-item').forEach(b => {
-          b.classList.toggle('active', b.getAttribute('data-tab') === targetTab);
-        });
-        document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-        const targetEl = document.getElementById(targetTab);
-        if (targetEl) targetEl.classList.add('active');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-
-      document.querySelectorAll('.bottom-nav .nav-item').forEach(navBtn => {
-        navBtn.addEventListener('click', () => {
-          switchActiveTab(navBtn.getAttribute('data-tab'));
+      /* 11. NAVIGASI TAB */
+      document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tab = btn.getAttribute('data-tab');
+          document.querySelectorAll('.bottom-nav .nav-item').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+          document.getElementById(tab).classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       });
 
       document.getElementById('header-user-pill').addEventListener('click', () => {
-        switchActiveTab('tab-profil');
+        document.querySelector('[data-tab="tab-profil"]').click();
       });
 
-      /* ==========================================
-         13. PROFIL: LOGIN NAMA OFFLINE, FONT, TEMA, JSON BACKUP
-         ========================================== */
-      function renderSessionState() {
-        const session = StoragePrefs.get('user_session', null);
-        const loggedOutEl = document.getElementById('auth-logged-out');
-        const loggedInEl = document.getElementById('auth-logged-in');
-        const headerLabel = document.getElementById('header-user-label');
-
-        if (session && (session.name || session.email)) {
-          loggedOutEl.style.display = 'none';
-          loggedInEl.style.display = 'block';
-          const displayName = (session.name && session.name.trim()) || session.email;
-          document.getElementById('session-name-display').textContent = displayName;
-          document.getElementById('session-email-display').textContent = session.email || 'Penanggung Jawab Aktif';
-          document.getElementById('session-avatar').textContent = displayName.charAt(0).toUpperCase();
-          headerLabel.textContent = displayName;
+      /* 12. PROFIL & PENGATURAN */
+      function renderSession() {
+        const s = StoragePrefs.get('user_session', null);
+        if (s && (s.name || s.email)) {
+          document.getElementById('auth-logged-out').style.display = 'none';
+          document.getElementById('auth-logged-in').style.display = 'block';
+          const n = (s.name && s.name.trim()) || s.email;
+          document.getElementById('session-name-display').textContent = n;
+          document.getElementById('session-email-display').textContent = s.email || 'Penanggung Jawab Aktif';
+          document.getElementById('session-avatar').textContent = n.charAt(0).toUpperCase();
+          document.getElementById('header-user-label').textContent = n;
         } else {
-          loggedOutEl.style.display = 'block';
-          loggedInEl.style.display = 'none';
-          headerLabel.textContent = 'Pengguna / Kasir';
+          document.getElementById('auth-logged-out').style.display = 'block';
+          document.getElementById('auth-logged-in').style.display = 'none';
+          document.getElementById('header-user-label').textContent = 'Pengguna / Kasir';
         }
       }
 
       document.getElementById('form-login').addEventListener('submit', (e) => {
         e.preventDefault();
-        const name = document.getElementById('login-name').value.trim();
-        const email = document.getElementById('login-email').value.trim();
-        if (!name && !email) return;
-        StoragePrefs.set('user_session', { name: name || email, email, loggedInAt: Date.now() });
-        renderSessionState();
-        if (state.reportSheetScope) renderInPageReportSheet(state.reportSheetScope);
-        showToast('Identitas aktif: ' + (name || email));
+        const n = document.getElementById('login-name').value.trim();
+        const em = document.getElementById('login-email').value.trim();
+        if (!n && !em) return;
+        StoragePrefs.set('user_session', { name: n || em, email: em });
+        renderSession();
+        showToast('Identitas tersimpan!');
       });
 
       document.getElementById('btn-logout').addEventListener('click', () => {
         StoragePrefs.remove('user_session');
-        document.getElementById('form-login').reset();
-        renderSessionState();
-        if (state.reportSheetScope) renderInPageReportSheet(state.reportSheetScope);
-        showToast('Identitas dikembalikan ke default (Pengguna / Kasir)');
+        renderSession();
+        showToast('Identitas direset ke default.');
       });
 
-      function applyFontSize(sizeStr) {
-        document.documentElement.style.setProperty('--base-font-size', sizeStr);
-        document.querySelectorAll('#font-size-selector .option-btn').forEach(btn => {
-          btn.classList.toggle('active', btn.getAttribute('data-size') === sizeStr);
-        });
-        StoragePrefs.set('font_size', sizeStr);
+      function applyFont(sz) {
+        document.documentElement.style.setProperty('--base-font-size', sz);
+        document.querySelectorAll('#font-size-selector .option-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-size') === sz));
+        StoragePrefs.set('font_size', sz);
       }
-
-      document.querySelectorAll('#font-size-selector .option-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          applyFontSize(btn.getAttribute('data-size'));
-          showToast('Ukuran teks diubah ke ' + btn.getAttribute('data-size'));
-        });
+      document.querySelectorAll('#font-size-selector .option-btn').forEach(b => {
+        b.addEventListener('click', () => applyFont(b.getAttribute('data-size')));
       });
 
-      function applyTheme(themeName) {
-        if (themeName === 'purple') {
-          document.documentElement.removeAttribute('data-theme');
-        } else {
-          document.documentElement.setAttribute('data-theme', themeName);
-        }
-        document.querySelectorAll('#theme-selector .theme-swatch-btn').forEach(btn => {
-          btn.classList.toggle('active', btn.getAttribute('data-theme') === themeName);
-        });
-        StoragePrefs.set('theme', themeName);
+      function applyTheme(th) {
+        if (th === 'purple') document.documentElement.removeAttribute('data-theme');
+        else document.documentElement.setAttribute('data-theme', th);
+        document.querySelectorAll('#theme-selector .theme-swatch-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-theme') === th));
+        StoragePrefs.set('theme', th);
       }
-
-      document.querySelectorAll('#theme-selector .theme-swatch-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          applyTheme(btn.getAttribute('data-theme'));
-          showToast('Tema tampilan diperbarui');
-        });
+      document.querySelectorAll('#theme-selector .theme-swatch-btn').forEach(b => {
+        b.addEventListener('click', () => applyTheme(b.getAttribute('data-theme')));
       });
 
-      async function buildBackupJsonString() {
-        const backupPayload = {
+      // Cadangan & Pulihkan
+      async function buildBackupJson() {
+        return JSON.stringify({
           app: 'Suudi.Pro',
           version: 3,
           exportedAt: new Date().toISOString(),
@@ -4137,18 +3092,48 @@
           },
           projects: await db.getAllProjects(),
           transactions: await db.getAllTransactions()
-        };
-        return JSON.stringify(backupPayload, null, 2);
+        }, null, 2);
       }
 
+      document.getElementById('btn-backup-json').addEventListener('click', async () => {
+        const json = await buildBackupJson();
+        safeDownloadFile(json, `SuudiPro_Backup_${getTodayIsoDate()}.json`, 'application/json');
+        showToast('Berkas cadangan JSON berhasil diunduh!');
+      });
+
       document.getElementById('btn-copy-json-clipboard').addEventListener('click', async () => {
-        const jsonStr = await buildBackupJsonString();
-        const ok = await copyTextToClipboard(jsonStr);
-        if (ok) {
-          showToast('Teks Backup JSON berhasil disalin ke Clipboard HP!');
-        } else {
-          showToast('Gagal menyalin JSON');
-        }
+        const json = await buildBackupJson();
+        await copyTextToClipboard(json);
+        showToast('Teks cadangan JSON berhasil disalin!');
+      });
+
+      document.getElementById('btn-restore-trigger').addEventListener('click', () => {
+        document.getElementById('input-restore-json').value = '';
+        document.getElementById('input-restore-json').click();
+      });
+
+      document.getElementById('input-restore-json').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async (ev) => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (!Array.isArray(data.projects) || !Array.isArray(data.transactions)) return showToast('Format JSON salah!');
+            await db.replaceAllData(data.projects, data.transactions);
+            if (data.preferences) {
+              if (data.preferences.theme) applyTheme(data.preferences.theme);
+              if (data.preferences.fontSize) applyFont(data.preferences.fontSize);
+              if (data.preferences.userSession) StoragePrefs.set('user_session', data.preferences.userSession);
+            }
+            renderSession();
+            await refreshStateAndRender();
+            showToast('Data berhasil dipulihkan!');
+          } catch (err) {
+            showToast('Gagal memulihkan file cadangan!');
+          }
+        };
+        reader.readAsText(file);
       });
 
       document.getElementById('btn-open-paste-json').addEventListener('click', () => {
@@ -4157,101 +3142,31 @@
       });
 
       document.getElementById('btn-confirm-paste-json').addEventListener('click', async () => {
-        const raw = document.getElementById('paste-json-textarea').value.trim();
-        if (!raw) return;
+        const val = document.getElementById('paste-json-textarea').value.trim();
+        if (!val) return;
         try {
-          const parsed = JSON.parse(raw);
-          if (!Array.isArray(parsed.projects) || !Array.isArray(parsed.transactions)) {
-            showToast('Format kode JSON tidak valid');
-            return;
-          }
-          await db.replaceAllData(parsed.projects, parsed.transactions);
-          if (parsed.preferences) {
-            if (parsed.preferences.theme) applyTheme(parsed.preferences.theme);
-            if (parsed.preferences.fontSize) applyFontSize(parsed.preferences.fontSize);
-            if (parsed.preferences.userSession) {
-              StoragePrefs.set('user_session', parsed.preferences.userSession);
-              renderSessionState();
-            }
-          }
+          const data = JSON.parse(val);
+          await db.replaceAllData(data.projects, data.transactions);
           closeModal('modal-paste-json');
-          closeProjectDetail();
           await refreshStateAndRender();
-          showToast('Data berhasil dipulihkan dari teks JSON!');
+          showToast('Data berhasil dipulihkan dari teks!');
         } catch (e) {
-          showToast('Kode JSON tidak lengkap atau rusak');
+          showToast('Format JSON rusak!');
         }
       });
 
-      document.getElementById('btn-backup-json').addEventListener('click', async () => {
-        const jsonStr = await buildBackupJsonString();
-        await copyTextToClipboard(jsonStr);
-        try {
-          const blob = new Blob([jsonStr], { type: 'application/json' });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          const dateStamp = new Date().toISOString().slice(0, 10);
-          link.href = url;
-          link.download = `suudi-pro-backup-${dateStamp}.json`;
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          URL.revokeObjectURL(url);
-        } catch (e) {}
-        showToast('JSON disalin ke Clipboard & diunduh!');
-      });
-
-      const restoreInput = document.getElementById('input-restore-json');
-      document.getElementById('btn-restore-trigger').addEventListener('click', () => {
-        restoreInput.value = '';
-        restoreInput.click();
-      });
-
-      restoreInput.addEventListener('change', (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = async (ev) => {
-          try {
-            const parsed = JSON.parse(ev.target.result);
-            if (!Array.isArray(parsed.projects) || !Array.isArray(parsed.transactions)) {
-              showToast('Format berkas JSON tidak valid');
-              return;
-            }
-            await db.replaceAllData(parsed.projects, parsed.transactions);
-            if (parsed.preferences) {
-              if (parsed.preferences.theme) applyTheme(parsed.preferences.theme);
-              if (parsed.preferences.fontSize) applyFontSize(parsed.preferences.fontSize);
-              if (parsed.preferences.userSession) {
-                StoragePrefs.set('user_session', parsed.preferences.userSession);
-                renderSessionState();
-              }
-            }
-            closeProjectDetail();
-            await refreshStateAndRender();
-            showToast('Seluruh data berhasil dipulihkan dari JSON');
-          } catch (err) {
-            showToast('Gagal membaca berkas JSON');
-          }
-        };
-        reader.readAsText(file);
-      });
-
-      /* ==========================================
-         14. INISIALISASI APLIKASI
-         ========================================== */
-      async function bootstrap() {
+      /* 13. INISIALISASI */
+      async function initApp() {
         applyTheme(StoragePrefs.get('theme', 'purple'));
-        applyFontSize(StoragePrefs.get('font_size', '16px'));
-        renderSessionState();
-
+        applyFont(StoragePrefs.get('font_size', '16px'));
+        renderSession();
         await db.init();
-        await seedInitialDataIfEmpty();
         await refreshStateAndRender();
       }
 
-      bootstrap();
+      // Siap untuk browser biasa maupun Cordova Android
+      document.addEventListener('deviceready', initApp, false);
+      window.addEventListener('DOMContentLoaded', initApp);
     })();
   </script>
 </body>
