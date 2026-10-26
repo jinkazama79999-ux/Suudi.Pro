@@ -3,53 +3,225 @@ name: Build Android APK
 on:
   push:
     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    - name: Install Cordova Global
-      run: npm install -g cordova
+      - name: Install Cordova Global
+        run: npm install -g cordova
 
-    - name: Create Cordova Project & Use Config
-      run: |
-        # Membuat project Cordova dengan konfigurasi config.xml bawaan repository
-        cordova create myApp com.suudi.pro SuudiPro
-        cd myApp
-        # Menyalin config.xml dan icon.png buatan Anda ke dalam project Cordova
-        cp ../config.xml config.xml
-        if [ -f ../icon.png ]; then
-          cp ../icon.png icon.png
-        fi
-        cordova platform add android
+      - name: Create Cordova Project & Configure Android
+        run: |
+          cordova create myApp com.suudi.pro SuudiPro
+          cd myApp
 
-    - name: Copy Web Files
-      run: |
-        rm -rf myApp/www/*
-        cp -r index.html css js assets myApp/www/ 2>/dev/null || cp index.html myApp/www/
+          # Bersihkan karakter non-breaking space pada config.xml jika ada, dan hapus plugin printer lawas yang bikin gagal Gradle
+          if [ -f ../config.xml ]; then
+            sed 's/\xc2\xa0/ /g' ../config.xml | grep -v "cordova-plugin-printer" > config.xml
+          fi
 
-    - name: Build APK Debug
-      run: |
-        cd myApp
-        cordova build android --debug
+          if [ -f ../icon.png ]; then
+            cp ../icon.png icon.png
+          fi
 
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-debug-apk
-        path: myApp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+          # Tambahkan plugin resmi Cordova untuk Kamera & Sistem Berkas
+          cordova plugin add cordova-plugin-file
+          cordova plugin add cordova-plugin-camera
+          cordova platform add android
+
+      - name: Inject Native Android PDF Printer & Download Saver Bridge
+        run: |
+          MAIN_ACTIVITY_PATH=$(find myApp/platforms/android/app/src/main/java -name "MainActivity.java" | head -n 1)
+          echo "Patching MainActivity at: $MAIN_ACTIVITY_PATH"
+          cat << 'EOF' > "$MAIN_ACTIVITY_PATH"
+          package com.suudi.pro;
+
+          import android.content.ContentValues;
+          import android.content.Context;
+          import android.net.Uri;
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.os.Environment;
+          import android.print.PrintAttributes;
+          import android.print.PrintDocumentAdapter;
+          import android.print.PrintManager;
+          import android.provider.MediaStore;
+          import android.util.Base64;
+          import android.webkit.JavascriptInterface;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import android.widget.Toast;
+          import java.io.File;
+          import java.io.FileOutputStream;
+          import java.io.OutputStream;
+          import org.apache.cordova.*;
+
+          public class MainActivity extends CordovaActivity {
+              private WebView printWebView;
+
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  Bundle extras = getIntent().getExtras();
+                  if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
+                      moveTaskToBack(true);
+                  }
+                  loadUrl(launchUrl);
+
+                  try {
+                      if (this.appView != null && this.appView.getView() instanceof WebView) {
+                          WebView webView = (WebView) this.appView.getView();
+                          webView.getSettings().setJavaScriptEnabled(true);
+                          webView.addJavascriptInterface(new SuudiAndroidBridge(this), "Android");
+                      }
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
+
+              public class SuudiAndroidBridge {
+                  private final Context ctx;
+
+                  public SuudiAndroidBridge(Context context) {
+                      this.ctx = context;
+                  }
+
+                  @JavascriptInterface
+                  public void printHtml(final String htmlContent, final String jobName) {
+                      runOnUiThread(new Runnable() {
+                          @Override
+                          public void run() {
+                              try {
+                                  WebView webView = new WebView(MainActivity.this);
+                                  webView.setWebViewClient(new WebViewClient() {
+                                      @Override
+                                      public void onPageFinished(WebView view, String url) {
+                                          PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+                                          String docName = (jobName != null && !jobName.isEmpty()) ? jobName : "Laporan_SuudiPro";
+                                          PrintDocumentAdapter adapter = view.createPrintDocumentAdapter(docName);
+                                          if (printManager != null) {
+                                              printManager.print(docName, adapter, new PrintAttributes.Builder().build());
+                                          }
+                                          printWebView = null;
+                                      }
+                                  });
+                                  printWebView = webView;
+                                  webView.loadDataWithBaseURL(null, htmlContent, "text/HTML", "UTF-8", null);
+                              } catch (Exception e) {
+                                  Toast.makeText(ctx, "Gagal membuka cetak PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                              }
+                          }
+                      });
+                  }
+
+                  @JavascriptInterface
+                  public void printPage() {
+                      runOnUiThread(new Runnable() {
+                          @Override
+                          public void run() {
+                              try {
+                                  if (appView != null && appView.getView() instanceof WebView) {
+                                      WebView wv = (WebView) appView.getView();
+                                      PrintManager pm = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+                                      if (pm != null) {
+                                          pm.print("Laporan_SuudiPro", wv.createPrintDocumentAdapter("Laporan_SuudiPro"), new PrintAttributes.Builder().build());
+                                      }
+                                  }
+                              } catch (Exception e) {}
+                          }
+                      });
+                  }
+
+                  @JavascriptInterface
+                  public boolean saveFileToDownloads(String base64Data, final String fileName, String mimeType) {
+                      try {
+                          String cleanBase64 = base64Data;
+                          int commaIndex = base64Data.indexOf(',');
+                          if (commaIndex != -1) {
+                              cleanBase64 = base64Data.substring(commaIndex + 1);
+                          }
+                          byte[] bytes = Base64.decode(cleanBase64, Base64.DEFAULT);
+                          String safeMime = (mimeType != null && !mimeType.isEmpty()) ? mimeType : "application/octet-stream";
+
+                          if (Build.VERSION.SDK_INT >= 29) {
+                              ContentValues values = new ContentValues();
+                              values.put(MediaStore.Downloads.DISPLAY_NAME, fileName);
+                              values.put(MediaStore.Downloads.MIME_TYPE, safeMime);
+                              values.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+                              Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+                              if (uri != null) {
+                                  OutputStream os = getContentResolver().openOutputStream(uri);
+                                  if (os != null) {
+                                      os.write(bytes);
+                                      os.flush();
+                                      os.close();
+                                  }
+                              }
+                          } else {
+                              File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                              if (!dir.exists()) dir.mkdirs();
+                              File outFile = new File(dir, fileName);
+                              FileOutputStream fos = new FileOutputStream(outFile);
+                              fos.write(bytes);
+                              fos.flush();
+                              fos.close();
+                          }
+
+                          runOnUiThread(new Runnable() {
+                              @Override
+                              public void run() {
+                                  Toast.makeText(ctx, "Tersimpan di folder Download: " + fileName, Toast.LENGTH_LONG).show();
+                              }
+                          });
+                          return true;
+                      } catch (final Exception e) {
+                          runOnUiThread(new Runnable() {
+                              @Override
+                              public void run() {
+                                  Toast.makeText(ctx, "Gagal menyimpan file: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                              }
+                          });
+                          return false;
+                      }
+                  }
+              }
+          }
+          EOF
+
+      - name: Copy Web Files
+        run: |
+          rm -rf myApp/www/*
+          cp index.html myApp/www/index.html
+          for dir in css js assets; do
+            if [ -d "$dir" ]; then
+              cp -r "$dir" myApp/www/
+            fi
+          done
+
+      - name: Build APK Debug
+        run: |
+          cd myApp
+          cordova build android --debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: myApp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
