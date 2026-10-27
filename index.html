@@ -749,8 +749,20 @@
 
     .report-toolbar-actions {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0.55rem;
+    }
+
+    .report-toolbar-actions .btn {
+      white-space: normal;
+      text-align: center;
+      line-height: 1.25;
+      padding: 0.62rem 0.55rem;
+      font-size: 0.78rem;
+      min-height: 2.65rem;
+      width: 100%;
+      overflow: hidden;
+      word-break: break-word;
     }
 
     .android-guide-banner {
@@ -775,26 +787,50 @@
 
     .report-paper-header {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.65rem;
       border-bottom: 2px solid #0f172a;
       padding-bottom: 0.9rem;
       margin-bottom: 1.15rem;
-      gap: 1rem;
-      flex-wrap: wrap;
+    }
+
+    @media (min-width: 560px) {
+      .report-paper-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .report-paper-title-wrap {
+      flex: 1;
+      min-width: 0;
     }
 
     .report-paper-title {
-      font-size: 1.15rem;
+      font-size: 0.96rem;
       font-weight: 800;
       color: #0f172a;
+      line-height: 1.3;
       margin-bottom: 0.2rem;
+      word-break: break-word;
     }
 
     .report-paper-meta {
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       color: #475569;
       line-height: 1.45;
+    }
+
+    .report-paper-meta-right {
+      font-size: 0.74rem;
+      color: #334155;
+      line-height: 1.45;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.45rem 0.7rem;
+      flex-shrink: 0;
     }
 
     .report-paper-summary {
@@ -1731,22 +1767,19 @@
 
             <div class="report-toolbar-actions">
               <button type="button" class="btn btn-success" id="btn-export-excel-sheet">
-                📊 Unduh File Excel (.xls)
+                📊 Unduh Excel (.xls)
               </button>
               <button type="button" class="btn btn-outline" id="btn-copy-table-clipboard">
-                📋 Salin Tabel (Tempel di Excel / Sheets)
+                📋 Tempel di Excel / Sheets
               </button>
               <button type="button" class="btn btn-primary" id="btn-render-report-image">
-                🖼️ Buat Gambar Laporan (Simpan HP / WA)
+                🖼️ Simpan HP / WA
               </button>
-              <button type="button" class="btn btn-secondary" id="btn-share-android-native">
-                📤 Bagikan (Android Share Sheet)
+              <button type="button" class="btn btn-secondary" id="btn-trigger-print-sheet">
+                📄 Simpan PDF (.pdf)
               </button>
-              <button type="button" class="btn btn-outline" id="btn-trigger-print-sheet">
-                🖨️ Cetak / PDF
-              </button>
-              <button type="button" class="btn btn-outline" id="btn-clean-capture-mode">
-                📱 Layar Penuh Bersih (Screenshot HP)
+              <button type="button" class="btn btn-outline" id="btn-clean-capture-mode" style="grid-column: 1 / -1;">
+                📱 Screenshot HP
               </button>
             </div>
           </div>
@@ -1755,13 +1788,13 @@
           <!-- Lembar Kertas Laporan Resmi di Dalam Layar Aplikasi -->
           <div class="report-paper" id="printable-paper-container">
             <div class="report-paper-header">
-              <div>
+              <div class="report-paper-title-wrap">
                 <div class="report-paper-title" id="sheet-doc-title">LAPORAN KEUANGAN PROYEK</div>
                 <div class="report-paper-meta" id="sheet-doc-subtitle">Rekapitulasi Mutasi Kas & Saldo Berjalan</div>
               </div>
-              <div class="report-paper-meta" style="text-align: right;">
+              <div class="report-paper-meta-right">
                 <div>Penanggung Jawab: <strong id="sheet-doc-issuer">Pengguna / Kasir</strong></div>
-                <div>Tanggal Laporan: <span id="sheet-doc-date">-</span></div>
+                <div>Tanggal Cetak: <span id="sheet-doc-date">-</span></div>
               </div>
             </div>
 
@@ -2410,7 +2443,21 @@
         });
       }
 
-      // Fungsi Universal Simpan / Ekspor File (Mendukung APK Cordova, Web Share API, dan Browser)
+      // Konversi Blob ke Base64 DataURL untuk dikirim ke Native Android Bridge (MediaStore Downloads)
+      function blobToBase64DataUrl(blobObj) {
+        return new Promise((resolve) => {
+          try {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result || null);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blobObj);
+          } catch (e) {
+            resolve(null);
+          }
+        });
+      }
+
+      // Fungsi Universal Simpan / Ekspor File (Mendukung Native Android Bridge, APK Cordova, Web Share API, dan Browser)
       async function universalSaveOrExportFile({ filename, blob, dataUrl, mimeType, label }) {
         const finalBlob = blob || (dataUrl ? dataUrlToBlob(dataUrl) : null);
         if (!finalBlob) {
@@ -2418,7 +2465,21 @@
           return false;
         }
 
-        // 1. Jika berjalan di APK dengan cordova-plugin-file, tulis langsung ke memori HP (Folder Download)
+        // 1. Prioritas Utama di APK Android: Jembatan Native window.Android.saveFileToDownloads (MediaStore Downloads Android 10-15)
+        if (window.Android && typeof window.Android.saveFileToDownloads === 'function') {
+          try {
+            const b64Url = dataUrl || (await blobToBase64DataUrl(finalBlob));
+            if (b64Url) {
+              const ok = window.Android.saveFileToDownloads(b64Url, filename, mimeType || finalBlob.type || 'application/octet-stream');
+              if (ok !== false) {
+                showToast(`Tersimpan di Folder Download HP: ${filename}`);
+                return true;
+              }
+            }
+          } catch (e) {}
+        }
+
+        // 2. Jika berjalan di APK dengan cordova-plugin-file, tulis langsung ke memori HP (Folder Download)
         const savedCordova = await saveBlobViaCordovaFile(filename, finalBlob);
         if (savedCordova) {
           const lokasi = savedCordova.isPublicDownload
@@ -2769,13 +2830,13 @@
         return canvas.toDataURL('image/png');
       }
 
-      // Generator Gambar Lembar Laporan Penuh (PNG Resolusi Tinggi) untuk Disimpan/Dibagikan di HP Android
-      function generateReportSheetImageDataUrl(data) {
-        const rowH = 34;
-        const headerH = 230;
-        const footerH = 120;
+      // Generator Canvas Lembar Laporan Profesional (Bebas Tabrakan Teks, Mendukung Ekspor PNG & PDF Langsung)
+      function renderReportSheetCanvas(data) {
+        const rowH = 36;
+        const headerH = 250;
+        const footerH = 130;
         const totalRows = Math.max(1, data.rows.length);
-        const canvasW = 900;
+        const canvasW = 1000;
         const canvasH = headerH + (totalRows + 2) * rowH + footerH;
 
         const canvas = document.createElement('canvas');
@@ -2783,37 +2844,57 @@
         canvas.height = canvasH;
         const ctx = canvas.getContext('2d');
 
-        // Kertas putih
+        // Latar Kertas Putih Bersih
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvasW, canvasH);
 
-        // Garis tepi atas
+        // Pita Aksen Atas
         ctx.fillStyle = '#4f46e5';
         ctx.fillRect(0, 0, canvasW, 10);
 
-        // Judul & Kop
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 22px sans-serif';
+        // Badge Brand Kecil di Atas Judul
+        ctx.fillStyle = '#4f46e5';
+        ctx.font = 'bold 11px sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText(data.title.slice(0, 52), 36, 52);
+        ctx.fillText('SUUDI.PRO • DOKUMEN LAPORAN KEUANGAN RESMI', 36, 36);
 
+        // Judul Utama (Ukuran proporsional 17px & dipotong aman agar tidak pernah menabrak kotak kanan)
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 17px sans-serif';
+        let titleText = data.title;
+        while (ctx.measureText(titleText).width > 600 && titleText.length > 10) {
+          titleText = titleText.slice(0, -2) + '…';
+        }
+        ctx.fillText(titleText, 36, 62);
+
+        // Subjudul di bawah judul utama
         ctx.fillStyle = '#475569';
-        ctx.font = '14px sans-serif';
-        ctx.fillText(data.subtitle.slice(0, 70), 36, 76);
+        ctx.font = '13px sans-serif';
+        ctx.fillText(data.subtitle.slice(0, 72), 36, 84);
+
+        // Kotak Info Penanggung Jawab & Tanggal di Kanan Atas (Terpisah Rapi)
+        const metaBoxW = 290;
+        const metaBoxX = canvasW - 36 - metaBoxW;
+        ctx.fillStyle = '#f8fafc';
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 1;
+        ctx.fillRect(metaBoxX, 24, metaBoxW, 68);
+        ctx.strokeRect(metaBoxX, 24, metaBoxW, 68);
 
         ctx.textAlign = 'right';
-        ctx.font = 'bold 14px sans-serif';
+        ctx.font = 'bold 12px sans-serif';
         ctx.fillStyle = '#0f172a';
-        ctx.fillText(`Penanggung Jawab: ${data.issuer}`, canvasW - 36, 52);
-        ctx.font = '13px sans-serif';
+        ctx.fillText(`Penanggung Jawab: ${data.issuer.slice(0, 22)}`, canvasW - 48, 50);
+        ctx.font = '12px sans-serif';
         ctx.fillStyle = '#64748b';
-        ctx.fillText(`Tanggal Cetak: ${data.datePrinted}`, canvasW - 36, 76);
+        ctx.fillText(`Tanggal Cetak: ${data.datePrinted}`, canvasW - 48, 74);
 
+        // Garis Pembatas Kop
         ctx.strokeStyle = '#0f172a';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(36, 94);
-        ctx.lineTo(canvasW - 36, 94);
+        ctx.moveTo(36, 108);
+        ctx.lineTo(canvasW - 36, 108);
         ctx.stroke();
 
         // 3 Kotak Ringkasan
@@ -2826,7 +2907,7 @@
 
         summaryItems.forEach((item, idx) => {
           const bx = 36 + idx * (boxW + 12);
-          const by = 112;
+          const by = 124;
           ctx.fillStyle = '#f8fafc';
           ctx.strokeStyle = '#cbd5e1';
           ctx.lineWidth = 1;
@@ -2844,7 +2925,7 @@
         });
 
         // Header Tabel
-        let curY = 204;
+        let curY = 212;
         ctx.fillStyle = '#f1f5f9';
         ctx.fillRect(36, curY, canvasW - 72, rowH);
         ctx.strokeStyle = '#94a3b8';
@@ -2853,15 +2934,15 @@
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 12px sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText('NO', 46, curY + 22);
-        ctx.fillText('TANGGAL', 90, curY + 22);
-        ctx.fillText('DESKRIPSI / PROYEK', 195, curY + 22);
+        ctx.fillText('NO', 46, curY + 23);
+        ctx.fillText('TANGGAL', 88, curY + 23);
+        ctx.fillText('DESKRIPSI / PROYEK', 190, curY + 23);
         ctx.textAlign = 'center';
-        ctx.fillText('QTY', 490, curY + 22);
+        ctx.fillText('QTY', 545, curY + 23);
         ctx.textAlign = 'right';
-        ctx.fillText('KREDIT', 620, curY + 22);
-        ctx.fillText('DEBIT', 740, curY + 22);
-        ctx.fillText('SALDO', canvasW - 46, curY + 22);
+        ctx.fillText('KREDIT', 685, curY + 23);
+        ctx.fillText('DEBIT', 815, curY + 23);
+        ctx.fillText('SALDO', canvasW - 46, curY + 23);
 
         curY += rowH;
 
@@ -2873,27 +2954,30 @@
 
           ctx.fillStyle = '#0f172a';
           ctx.textAlign = 'left';
-          ctx.fillText(String(r.no), 46, curY + 22);
-          ctx.fillText(r.date, 90, curY + 22);
+          ctx.fillText(String(r.no), 46, curY + 23);
+          ctx.fillText(r.date, 88, curY + 23);
 
-          const descLabel = data.isProject
+          let descLabel = data.isProject
             ? r.description
             : `[${r.projectName}] ${r.description}`;
-          ctx.fillText(descLabel.slice(0, 38), 195, curY + 22);
+          while (ctx.measureText(descLabel).width > 330 && descLabel.length > 10) {
+            descLabel = descLabel.slice(0, -2) + '…';
+          }
+          ctx.fillText(descLabel, 190, curY + 23);
 
           ctx.textAlign = 'center';
-          ctx.fillText(String(r.qty), 490, curY + 22);
+          ctx.fillText(String(r.qty), 545, curY + 23);
 
           ctx.textAlign = 'right';
           ctx.fillStyle = '#059669';
-          ctx.fillText(r.kredit > 0 ? formatRp(r.kredit) : '-', 620, curY + 22);
+          ctx.fillText(r.kredit > 0 ? formatRp(r.kredit) : '-', 685, curY + 23);
 
           ctx.fillStyle = '#dc2626';
-          ctx.fillText(r.debit > 0 ? formatRp(r.debit) : '-', 740, curY + 22);
+          ctx.fillText(r.debit > 0 ? formatRp(r.debit) : '-', 815, curY + 23);
 
           ctx.fillStyle = '#0f172a';
           ctx.font = 'bold 12px sans-serif';
-          ctx.fillText(formatRp(r.saldo), canvasW - 46, curY + 22);
+          ctx.fillText(formatRp(r.saldo), canvasW - 46, curY + 23);
           ctx.font = '12px sans-serif';
 
           curY += rowH;
@@ -2908,22 +2992,22 @@
         ctx.fillStyle = '#0f172a';
         ctx.font = 'bold 12px sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText('TOTAL AKUMULASI', 195, curY + 22);
+        ctx.fillText('TOTAL AKUMULASI', 190, curY + 23);
 
         ctx.textAlign = 'right';
         ctx.fillStyle = '#059669';
-        ctx.fillText(formatRp(data.totalKredit), 620, curY + 22);
+        ctx.fillText(formatRp(data.totalKredit), 685, curY + 23);
         ctx.fillStyle = '#dc2626';
-        ctx.fillText(formatRp(data.totalDebit), 740, curY + 22);
+        ctx.fillText(formatRp(data.totalDebit), 815, curY + 23);
         ctx.fillStyle = '#4f46e5';
-        ctx.fillText(formatRp(data.totalSaldo), canvasW - 46, curY + 22);
+        ctx.fillText(formatRp(data.totalSaldo), canvasW - 46, curY + 23);
 
         // Footer Tanda Tangan
-        curY += rowH + 36;
+        curY += rowH + 38;
         ctx.textAlign = 'left';
         ctx.fillStyle = '#64748b';
         ctx.font = 'italic 12px sans-serif';
-        ctx.fillText('Suudi.Pro — Dokumen Laporan Keuangan Resmi', 36, curY + 30);
+        ctx.fillText('Suudi.Pro — Dokumen Laporan Keuangan Resmi', 36, curY + 32);
 
         ctx.textAlign = 'right';
         ctx.font = '12px sans-serif';
@@ -2931,9 +3015,90 @@
         ctx.fillText('Penanggung Jawab,', canvasW - 46, curY);
         ctx.font = 'bold 14px sans-serif';
         ctx.fillStyle = '#0f172a';
-        ctx.fillText(data.issuer, canvasW - 46, curY + 46);
+        ctx.fillText(data.issuer, canvasW - 46, curY + 48);
 
-        return canvas.toDataURL('image/png');
+        return canvas;
+      }
+
+      function generateReportSheetImageDataUrl(data) {
+        return renderReportSheetCanvas(data).toDataURL('image/png');
+      }
+
+      // Pembuat Berkas PDF 1.4 Murni (Vanilla JS) — Langsung Menghasilkan File .pdf Tanpa Perlu Mesin Printer!
+      function generateDirectPdfBlob(data) {
+        const canvas = renderReportSheetCanvas(data);
+        const imgW = canvas.width;
+        const imgH = canvas.height;
+        const jpegDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+        const base64Jpeg = jpegDataUrl.split(',')[1];
+        const rawJpegStr = atob(base64Jpeg);
+        const jpegBytes = new Uint8Array(rawJpegStr.length);
+        for (let i = 0; i < rawJpegStr.length; i++) {
+          jpegBytes[i] = rawJpegStr.charCodeAt(i);
+        }
+
+        // Ukuran Halaman PDF proporsional lebar A4 (595.28 pt) dengan margin 20 pt
+        const pageW = 595.28;
+        const margin = 20;
+        const drawW = pageW - margin * 2;
+        const drawH = Math.round((drawW * imgH) / imgW * 100) / 100;
+        const pageH = Math.max(841.89, Math.ceil(drawH + margin * 2));
+        const drawY = Math.round((pageH - margin - drawH) * 100) / 100;
+
+        const encoder = new TextEncoder();
+        const chunks = [];
+        let byteOffset = 0;
+        const offsets = [0];
+
+        function pushAscii(str) {
+          const bytes = encoder.encode(str);
+          chunks.push(bytes);
+          byteOffset += bytes.length;
+        }
+
+        function pushBytes(u8) {
+          chunks.push(u8);
+          byteOffset += u8.length;
+        }
+
+        // Header PDF 1.4
+        pushAscii('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');
+
+        // Object 1: Catalog
+        offsets[1] = byteOffset;
+        pushAscii('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+
+        // Object 2: Pages
+        offsets[2] = byteOffset;
+        pushAscii('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n');
+
+        // Object 3: Page
+        offsets[3] = byteOffset;
+        pushAscii(`3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW.toFixed(2)} ${pageH.toFixed(2)}] /Resources << /XObject << /Im1 4 0 R >> >> /Contents 5 0 R >>\nendobj\n`);
+
+        // Object 4: Image XObject (DCTDecode / JPEG)
+        offsets[4] = byteOffset;
+        pushAscii(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${imgW} /Height ${imgH} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpegBytes.length} >>\nstream\n`);
+        pushBytes(jpegBytes);
+        pushAscii('\nendstream\nendobj\n');
+
+        // Object 5: Page Content Stream
+        const contentStream = `q ${drawW.toFixed(2)} 0 0 ${drawH.toFixed(2)} ${margin.toFixed(2)} ${drawY.toFixed(2)} cm /Im1 Do Q\n`;
+        offsets[5] = byteOffset;
+        pushAscii(`5 0 obj\n<< /Length ${contentStream.length} >>\nstream\n${contentStream}endstream\nendobj\n`);
+
+        // XREF Table
+        const xrefStart = byteOffset;
+        pushAscii('xref\n0 6\n0000000000 65535 f \n');
+        for (let i = 1; i <= 5; i++) {
+          const padOff = String(offsets[i]).padStart(10, '0');
+          pushAscii(`${padOff} 00000 n \n`);
+        }
+
+        // Trailer
+        pushAscii(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`);
+
+        return new Blob(chunks, { type: 'application/pdf' });
       }
 
       async function seedInitialDataIfEmpty() {
@@ -3655,48 +3820,6 @@
         document.body.classList.remove('clean-capture-mode');
       });
 
-      // Aksi 3: Bagikan via Cordova SocialSharing Plugin atau Android Native Share Sheet (navigator.share)
-      document.getElementById('btn-share-android-native').addEventListener('click', async () => {
-        const data = buildReportData(state.reportSheetScope || 'global');
-        const imgDataUrl = generateReportSheetImageDataUrl(data);
-        const fileObj = dataUrlToFile(imgDataUrl, `laporan-${data.slug}.png`);
-        const tsvText = buildTsvReportString(state.reportSheetScope || 'global');
-
-        // 1. Cek Cordova Plugin SocialSharing (jika di-build dengan plugin cordova-plugin-x-socialsharing)
-        if (window.plugins && window.plugins.socialsharing) {
-          window.plugins.socialsharing.shareWithOptions({
-            message: `${data.title}\nPenanggung Jawab: ${data.issuer}`,
-            subject: data.title,
-            files: [imgDataUrl]
-          });
-          return;
-        }
-
-        if (navigator.share) {
-          try {
-            if (fileObj && navigator.canShare && navigator.canShare({ files: [fileObj] })) {
-              await navigator.share({
-                title: data.title,
-                text: `${data.title} — Penanggung Jawab: ${data.issuer}`,
-                files: [fileObj]
-              });
-              return;
-            }
-            await navigator.share({
-              title: data.title,
-              text: tsvText
-            });
-            return;
-          } catch (err) {
-            // Pengguna membatalkan share atau WebView tidak mengizinkan navigator.share
-          }
-        }
-        // Fallback otomatis: salin ke clipboard & tampilkan gambar laporan
-        await copyTextToClipboard(tsvText);
-        document.getElementById('btn-render-report-image').click();
-        showToast('Teks laporan disalin & Gambar laporan siap disimpan!');
-      });
-
       // Tombol Simpan / Bagikan Gambar di dalam Modal Pratinjau
       document.getElementById('btn-share-preview-img').addEventListener('click', async () => {
         const src = document.getElementById('receipt-full-image').src;
@@ -3710,21 +3833,17 @@
         });
       });
 
-      // Aksi 4: Cetak / Simpan PDF (Mendukung cordova-plugin-printer dengan dokumen HTML+CSS utuh)
-      document.getElementById('btn-trigger-print-sheet').addEventListener('click', () => {
-        const fullPrintHtml = buildStandalonePrintHtml(state.reportSheetScope || 'global');
-        if (window.cordova && window.cordova.plugins && window.cordova.plugins.printer) {
-          window.cordova.plugins.printer.print(fullPrintHtml, { name: 'Laporan-Keuangan-SuudiPro' });
-          return;
-        }
-        if (window.Android && typeof window.Android.printPage === 'function') {
-          window.Android.printPage();
-          return;
-        }
-        showToast('Membuka dialog Cetak / Simpan PDF...');
-        setTimeout(() => {
-          window.print();
-        }, 120);
+      // Aksi 4: Simpan PDF Langsung (.pdf) ke Folder Download HP tanpa perlu Mesin Printer!
+      document.getElementById('btn-trigger-print-sheet').addEventListener('click', async () => {
+        const data = buildReportData(state.reportSheetScope || 'global');
+        const pdfBlob = generateDirectPdfBlob(data);
+        const filename = `suudi-pro-${data.slug}.pdf`;
+        await universalSaveOrExportFile({
+          filename,
+          blob: pdfBlob,
+          mimeType: 'application/pdf',
+          label: 'PDF (.pdf)'
+        });
       });
 
       // Tombol Ekspor CSV Proyek (Menulis ke Folder Download HP via cordova-plugin-file + Clipboard TSV)
@@ -4569,9 +4688,124 @@
       });
 
       /* ==========================================
-         14. INISIALISASI APLIKASI
+         14. DUKUNGAN TOMBOL BACK FISIK / GESTURE HP ANDROID
+         ========================================== */
+      let lastRootBackPressTime = 0;
+      let lastBackActionTime = 0;
+      let ignoreNextPopState = false;
+
+      function pushAppBackHistoryGuard() {
+        try {
+          window.history.pushState({ suudiBackGuard: true, ts: Date.now() }, '');
+        } catch (e) {}
+      }
+
+      // Dorong guard history setiap kali membuka modal, detail proyek, lembar laporan, atau pindah tab
+      const origOpenModal = openModal;
+      openModal = function (id) {
+        origOpenModal(id);
+        pushAppBackHistoryGuard();
+      };
+
+      const origOpenProjectDetail = openProjectDetail;
+      openProjectDetail = function (projectId) {
+        origOpenProjectDetail(projectId);
+        pushAppBackHistoryGuard();
+      };
+
+      const origOpenInPageReportSheet = openInPageReportSheet;
+      openInPageReportSheet = function (scope) {
+        origOpenInPageReportSheet(scope);
+        pushAppBackHistoryGuard();
+      };
+
+      const origSwitchActiveTab = switchActiveTab;
+      switchActiveTab = function (targetTab) {
+        origSwitchActiveTab(targetTab);
+        if (targetTab !== 'tab-beranda') {
+          pushAppBackHistoryGuard();
+        }
+      };
+
+      function handleHardwareBackAction() {
+        const nowTs = Date.now();
+        if (nowTs - lastBackActionTime < 180) {
+          return true;
+        }
+        lastBackActionTime = nowTs;
+
+        // 1. Jika ada Modal Pop-up yang sedang terbuka, tutup modal paling atas
+        const openModals = Array.from(document.querySelectorAll('.modal-backdrop.open'));
+        if (openModals.length > 0) {
+          const topModal = openModals[openModals.length - 1];
+          topModal.classList.remove('open');
+          return true;
+        }
+
+        // 2. Jika sedang dalam Mode Layar Penuh (Screenshot HP), keluar dari mode layar penuh
+        if (document.body.classList.contains('clean-capture-mode')) {
+          document.body.classList.remove('clean-capture-mode');
+          return true;
+        }
+
+        // 3. Jika sedang berada di Tab selain Beranda (Statistik, Riwayat, Profil), kembali ke Tab Beranda
+        const activeTabPane = document.querySelector('.tab-pane.active');
+        if (activeTabPane && activeTabPane.id !== 'tab-beranda') {
+          origSwitchActiveTab('tab-beranda');
+          return true;
+        }
+
+        // 4. Jika di Beranda sedang membuka Lembar Laporan Siap Cetak, kembali ke tampilan sebelumnya
+        if (state.reportSheetScope) {
+          closeInPageReportSheet();
+          return true;
+        }
+
+        // 5. Jika di Beranda sedang membuka Rincian Transaksi Proyek, kembali ke Dasbor Utama
+        if (state.activeProjectId) {
+          closeProjectDetail();
+          return true;
+        }
+
+        // 6. Jika sudah berada di halaman utama Beranda (Root): konfirmasi tekan 2x untuk keluar
+        const now = Date.now();
+        if (now - lastRootBackPressTime < 2200) {
+          if (navigator.app && typeof navigator.app.exitApp === 'function') {
+            navigator.app.exitApp();
+          }
+          return false;
+        }
+        lastRootBackPressTime = now;
+        showToast('Tekan tombol kembali sekali lagi untuk keluar aplikasi');
+        pushAppBackHistoryGuard();
+        return true;
+      }
+
+      // Listener 1: Cordova Native Backbutton Event (Saat berjalan di APK Cordova)
+      document.addEventListener('deviceready', () => {
+        document.addEventListener('backbutton', (e) => {
+          if (e && typeof e.preventDefault === 'function') e.preventDefault();
+          handleHardwareBackAction();
+        }, false);
+      }, false);
+
+      // Listener 2: HTML5 History Popstate Event (Bekerja di semua Android WebView & Browser)
+      window.addEventListener('popstate', () => {
+        if (ignoreNextPopState) {
+          ignoreNextPopState = false;
+          return;
+        }
+        const handled = handleHardwareBackAction();
+        if (handled) {
+          pushAppBackHistoryGuard();
+        }
+      });
+
+      /* ==========================================
+         15. INISIALISASI APLIKASI
          ========================================== */
       async function bootstrap() {
+        pushAppBackHistoryGuard();
         applyTheme(StoragePrefs.get('theme', 'purple'));
         applyFontSize(StoragePrefs.get('font_size', '16px'));
         renderSessionState();
