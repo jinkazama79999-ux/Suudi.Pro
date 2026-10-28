@@ -1,3 +1,229 @@
+
+Gemini
+
+Percakapan baru
+Koleksi
+Gambar
+Dijadwalkan
+Sesuaikan
+Video
+Notebook baru
+Architectures of the Human Soul and Intellect
+Differences Between the Ash'aris and the Maturidis
+Bertindaklah sebagai pengembang web frontend senior. Buatkan satu file aplikasi web mandiri utuh (index.html) yang menggabungkan HTML5, CSS3 murni bergaya modern, dan Vanilla JavaScript (ES6+) untuk aplikasi manajemen keuangan multi-proyek bernama "Suudi.Pro". Persyaratan Aplikasi: 1. Desain Antarmuka (UI/UX) & Navigasi: - Desain mobile-first menyerupai dompet digital modern (clean card, rounded corners, soft shadow, fluid transition). - Header: Sediakan container logo dengan tag <img id="app-logo" alt="Suudi.Pro Logo" src=""> di bagian atas. - Navigasi Bawah (Bottom Navigation): 3 tab fungsional (Beranda, Statistik, Profil). 2. Halaman Beranda (Dasbor): - Ringkasan Utama: Kartu Main Wallet yang menampilkan akumulasi Total Saldo, Total Pendapatan (Kredit), dan Total Pengeluaran (Debit) dari seluruh proyek aktif. - Manajemen Proyek: Daftar kartu proyek dengan aksi Tambah Proyek, Ubah Nama, dan Hapus Proyek (lengkap dengan modal konfirmasi). 3. Halaman Detail Transaksi Proyek: - Tabel Responsif: Kolom No, Deskripsi, Qty, Hs (Harga Satuan), Kredit, Debit, Saldo, dan Bukti. - Kalkulasi Otomatis: Nilai Saldo baris dihitung berurutan (Saldo sebelumnya + Kredit - Debit). - Input Transaksi: Modal pop-up formulir transaksi dengan pilihan jenis arus kas (Debit/Kredit), input angka otomatis, serta input file kamera/galeri untuk bukti nota (disimpan langsung sebagai Blob/Base64 ke IndexedDB). - Pratinjau Bukti: Klik pada baris atau ikon bukti akan membuka modal foto ukuran penuh. - Fitur Ekspor: Tombol "Ekspor CSV" yang langsung mengunduh data proyek aktif menjadi berkas .csv. 4. Tab Statistik: - Tampilkan ringkasan persentase rasio Kredit vs Debit secara visual menggunakan kartu progres/CSS-only bar chart yang informatif. 5. Tab Profil, Akun & Personalisasi: - Simulasi Login: Form login email sederhana. Jika login, simpan status sesi ke penyimpanan lokal dan tampilkan info email aktif beserta tombol Logout. - Ukuran Huruf Dinamis: Pengatur ukuran teks (Kecil: 14px, Normal: 16px, Besar: 18px) via manipulasi CSS variable root (--base-font-size). - Kustomisasi Tema: Pengganti tema instan via CSS variable: Ungu Elegan (default), Biru Profesional, Hijau Kas, dan Dark Mode. 6. Penyimpanan Data (Offline-First & Portabilitas): - Wajib menggunakan IndexedDB native browser untuk menyimpan seluruh entitas proyek, transaksi, dan lampiran gambar bukti secara persisten. - Pengaturan tema, ukuran teks, dan sesi user wajib tersimpan otomatis. - Fitur Pencadangan (Cloud Ready): Sediakan tombol "Cadangkan Data (JSON)" dan "Pulihkan Data (JSON)" agar pengguna dapat menyimpan dan memindahkan berkas cadangan ke Google Drive secara mandiri tanpa memerlukan backend server. Ketentuan Penulisan Kode: - Tuliskan seluruh kode secara lengkap dalam satu blok kode utuh dari <!DOCTYPE html> hingga </html>. - Jangan gunakan library eksternal (tanpa CDN JS/CSS, gunakan pure vanilla). - Tulis kode yang efisien, terstruktur, bebas bug, dan langsung dapat dijalankan di peramban.
+Solusi Error Config.xml Cordova Android
+Semangat versus Sistem dalam Pembelajaran
+Pembuatan Aplikasi Kamus Filsafat
+Koreksi Prompt Pembuatan Aplikasi Suudi.Pro
+Terjemahan "Catatan Tambahan" Bahasa Arab
+Cara Menghubungkan Canva ke Gemini
+Cara Kerja Link Redeem
+Buka Rekening PT Perorangan CIMB Niaga
+Masalah NPWP OCBC Onboarding Rekening
+Pajak PT Perorangan: Besaran & Kewajiban
+Saldo Setoran Awal Bank OCBC
+Analisis Penawaran Pengadaan Tenda Impor
+Pengajuan Rekening Bisnis Online
+Konfirmasi Permohonan Pendirian Perseroan
+Penawaran Harga Tenda Konversi Rupiah
+Rekening PT Murah, Online, Beraplikasi
+Membuka Rekening Bisnis Mitra Global Procurement
+Penawaran Harga Tenda Impor PT Gunungmas
+Analisis Penawaran Harga: Perbaikan Kritis
+Desain Kop Surat Proporsional dan Profesional
+Cara Beli Voucher Pendirian PT Perorangan
+Optimalkan Profil WhatsApp Bisnis Impor
+Percakapan dengan Gemini
+Sy mengubah kode HTML to APK via Github. Tapi tetap tidak bisa berjalan dengan baik untuk ekspor ke PDF, EXcel, atau gambar. Apa masalahnya?
+
+Ada 3 penyebab utama mengapa setelah Anda mengubah index.html menjadi APK via GitHub (misalnya menggunakan GitHub Actions + Cordova/Capacitor/WebView template), fitur ekspor ke PDF, Excel, atau gambar tetap tidak berfungsi di HP Android Anda:
+
+1. Kode yang Masuk ke GitHub Anda Masih Versi Lama
+Jika Anda memperhatikan kode yang terlampir pada pesan Anda barusan, kode tersebut masih menggunakan versi lama (baris 1429–1461) yang hanya memiliki satu tombol btn-export-csv dengan perintah:
+
+JavaScript
+const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+const url = URL.createObjectURL(blob);
+link.href = url;
+link.download = `suudi-pro-${slug}.csv`;
+link.click();
+Kode versi lama tersebut belum memiliki fitur Lembar Laporan In-Page maupun Generator Gambar Laporan.
+
+2. Android WebView Memblokir blob: URL & <a download> Secara Bawaan
+Saat file HTML diubah menjadi APK (yang berjalan di atas komponen android.webkit.WebView), WebView Android bukanlah browser Chrome penuh. Secara teknis:
+
+Masalah Excel / CSV / Gambar (blob: & data: URL): Di dalam Android WebView, perintah JavaScript URL.createObjectURL(blob) dan <a download> ditolak oleh sistem Android karena DownloadManager bawaan Android hanya bisa mengunduh URL http:// atau https:// dari internet, bukan file buatan memori lokal (blob:file:///...). Jika dipaksakan, WebView akan diam saja atau gagal mengunduh.
+
+Masalah Cetak PDF (window.print()): Di Android WebView standar, fungsi JavaScript window.print() kosong (tidak terhubung ke PrintManager Android) kecuali di kode Java/Kotlin (MainActivity.java) dibuatkan jembatan khusus (PrintDocumentAdapter).
+
+Masalah navigator.share: WebView Android juga tidak mendukung pemanggilan menu Share gambar langsung dari JavaScript biasa tanpa plugin native.
+
+Solusi Agar 100% Jalan di APK Android (Tanpa Perlu Ubah Kode Java/Kotlin Rumit)
+Agar aplikasi APK Anda yang di-build via GitHub bisa mengekspor ke Excel, PDF, dan Gambar tanpa gagal di WebView Android, ada dua langkah yang perlu dilakukan:
+
+Langkah A — Gunakan Metode "Anti-Blokir WebView" di index.html:
+Karena WebView memblokir file download langsung, kita mengubah cara ekspor di dalam HTML menjadi cara yang pasti diizinkan oleh semua WebView Android:
+
+Untuk Excel / Google Sheets (100% Berhasil di APK): Menggunakan tombol Salin Tabel (Format Kolom Excel) ke Clipboard Android + menampilkan kotak teks CSV/TSV di layar. Anda cukup membuka aplikasi Excel / Google Sheets di HP lalu tekan Tempel (Paste)—seluruh kolom (No, Tanggal, Deskripsi, Qty, Hs, Kredit, Debit, Saldo) langsung tersusun rapi.
+
+Untuk Gambar & PDF di APK: Menampilkan Mode Layar Penuh Lembar Laporan / Gambar Kwitansi langsung di layar APK (dengan menyembunyikan seluruh tombol menu). Di HP Android, Anda cukup melakukan Screenshot 1 ketukan atau jika APK Anda di-build dari URL GitHub Pages ([https://username.github.io/](https://username.github.io/)...), kita tambahkan tombol "Buka di Browser Chrome Android untuk Cetak PDF & Unduh File" (intent://...#Intent;scheme=https;package=com.android.chrome;end) karena Chrome di Android memiliki fitur Print to PDF dan Download Blob bawaan.
+
+Langkah B — (Opsional) Jika Anda Mengatur File MainActivity.java di GitHub:
+Jika di repositori GitHub Anda terdapat file kode Android (MainActivity.java atau MainActivity.kt), Anda bisa memberi tahu saya template GitHub apa yang Anda pakai (apakah Android WebView biasa, Cordova, atau Capacitor). Saya bisa tuliskan potongan kode MainActivity.java untuk mengaktifkan izin cetak PDF (PrintManager) dan unduhan file di APK Anda.
+
+Apakah Anda ingin saya berikan kembali kode index.html yang sudah dilengkapi Mode Layar Penuh Siap Tangkap/Cetak + Salin Tabel Excel + Tombol Pintasan Buka di Chrome Android, atau Anda juga ingin memperbaiki script GitHub (MainActivity.java) pembungkus APK-nya?
+
+Ini
+
+Dari tangkapan layar repositori GitHub Anda (jinkazama79999-ux/Suudi.Pro), terlihat jelas 3 penyebab utama mengapa ekspor ke PDF, Excel, dan gambar belum berjalan di APK Anda, sekaligus pembaruan yang sudah saya terapkan pada kode index.html di samping:
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+28 Okt, 16.33
+1. Build GitHub Actions Terakhir Gagal (Tanda Silang Merah ✕)
+Pada tangkapan layar Anda, di sebelah commit b4f2651 (Update index.html — 11 menit lalu) terdapat ikon silang merah (✕) setelah Anda mengubah config.xml dan build.yml.
+
+Artinya: Proses pembuatan APK di GitHub Actions gagal (build failed), sehingga file APK yang Anda unduh atau pasang di HP kemungkinan masih versi lama, atau gagal dibuat karena ada kesalahan sintaks/plugin pada config.xml atau .github/workflows/build.yml.
+
+Kode index.html yang terlampir masih versi lama: File index.html yang ikut terkirim bersama pesan Anda masih menggunakan kode versi pertama (yang hanya memiliki tombol Ekspor CSV biasa dan belum memiliki fitur Lembar Laporan Siap Cetak, Gambar Laporan Resolusi Tinggi, maupun dukungan jembatan plugin Android/Cordova). Pastikan Anda menyalin seluruh kode index.html terbaru dari panel di samping ke GitHub.
+
+2. Mengapa WebView Android (Cordova) Menolak Unduhan Biasa & window.print()
+Berdasarkan adanya file config.xml, repositori Anda menggunakan Apache Cordova untuk membungkus HTML menjadi APK:
+
+Masalah Unduh File (Blob / data: URL): Komponen WebView bawaan Android di dalam Cordova secara default memblokir atribut <a download> dari memori lokal (blob: atau data:). Tanpa plugin sistem file/share, menekan tombol unduh Excel/CSV/Gambar di dalam APK tidak akan memunculkan reaksi apa pun.
+
+Masalah Cetak PDF (window.print()): Di browser Chrome Android, window.print() diproses oleh aplikasi Chrome. Namun di dalam APK mandiri (WebView), fungsi window.print() kosong kecuali APK tersebut dipasangi plugin cordova-plugin-printer dan memanggil cordova.plugins.printer.print().
+
+3. Solusi yang Sudah Diterapkan di index.html & Cara Memperbaiki GitHub Anda
+Saya telah memperbarui kode index.html di panel samping agar langsung mendukung lingkungan APK Cordova sekaligus menyediakan jalur alternatif tanpa plugin:
+
+Integrasi Otomatis Plugin Cordova (cordova.js):
+
+Tombol 🖨️ Cetak / PDF otomatis mendeteksi cordova.plugins.printer.print() (jika plugin printer terpasang di APK) untuk membuka dialog Simpan sebagai PDF bawaan Android.
+
+Tombol 📤 Bagikan dan 🖼️ Simpan / Bagikan Gambar otomatis mendeteksi window.plugins.socialsharing.shareWithOptions() (jika plugin social sharing terpasang) agar gambar laporan atau tabel langsung bisa dikirim ke WhatsApp, Google Drive, atau disimpan ke Galeri HP.
+
+Jalur Pasti Berhasil Tanpa Plugin Tambahan di APK:
+
+📋 Salin Tabel (Tempel di Excel / Sheets): Menyalin seluruh tabel laporan dengan format Tab-Separated Values (TSV). Anda cukup membuka aplikasi Google Sheets atau Excel di HP, tahan pada sel A1, lalu pilih Tempel (Paste) — seluruh kolom dan baris akan langsung tersusun rapi.
+
+📱 Layar Penuh Bersih (Screenshot HP): Di halaman Lembar Laporan Siap Cetak, tersedia tombol Layar Penuh Bersih yang menyembunyikan seluruh tombol aplikasi dan menampilkan lembar laporan berlatar putih bersih sehingga Anda bisa langsung mengambil screenshot layar HP (Power + Volume Bawah) dengan hasil setajam dokumen asli.
+
+Konfigurasi Tambahan untuk .github/workflows/build.yml (Agar Cetak PDF & Bagikan File Aktif di APK)
+Agar tombol Cetak PDF dan Bagikan Gambar/File bekerja secara native di dalam APK Cordova, pastikan di dalam file .github/workflows/build.yml Anda terdapat langkah penambahan dua plugin resmi berikut sebelum perintah cordova build android:
+
+YAML
+      - name: Add Cordova Plugins for PDF Print & File Sharing
+        run: |
+          cordova plugin add cordova-plugin-printer
+          cordova plugin add cordova-plugin-x-socialsharing
+Dan di bagian paling bawah index.html (tepat sebelum </body>), Anda dapat menambahkan satu baris <script src="cordova.js"></script> saat memasukkannya ke folder www/ di GitHub (file cordova.js akan dibuat otomatis oleh Cordova saat proses build APK).
+
+Jika Anda ingin saya memperbaiki tanda silang merah (✕) pada GitHub Actions Anda, silakan kirimkan isi file config.xml dan .github/workflows/build.yml (atau tangkapan layar pesan error di tab Actions GitHub) agar saya buatkan kode konfigurasi yang langsung lolos build (✓).
+
+<?xml version='1.0' encoding='utf-8'?>
+
+<widget id="com.suudi.pro" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
+    <name>SuudiPro</name>
+
+    <description>Aplikasi HTML to APK Buatan Sendiri</description>
+
+    <author email="dev@suudi.pro" href="https://suudi.pro">Suudi Developer</author>
+
+    <content src="index.html" />
+
+    <access origin="*" />
+
+    <allow-intent href="http://*/*" />
+
+    <allow-intent href="https://*/*" />
+
+    
+
+    <!-- Preferensi WebView Android -->
+
+    <preference name="MixedContentMode" value="compatibility" />
+
+    <preference name="AndroidInsecureFileModeEnabled" value="true" />
+
+    <preference name="AllowUntrustedCerts" value="true" />
+
+    <preference name="Fullscreen" value="false" />
+
+
+
+    <!-- Plugin Inti Pendukung Ekspor & Cetak di Android -->
+
+    <plugin name="cordova-plugin-file" spec="^8.0.0" />
+
+    <plugin name="cordova-plugin-printer" spec="^0.8.0" />
+
+    <plugin name="cordova-plugin-camera" spec="^7.0.0" />
+
+
+
+    <!-- Pengaturan Platform Android -->
+
+    <platform name="android">
+
+        <icon src="icon.png" />
+
+
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+
+            <uses-permission android:name="android.permission.INTERNET" />
+
+            <uses-permission android:name="android.permission.CAMERA" />
+
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+        </config-file>
+
+    </platform>
+
+</widget>
+
+Setelah memeriksa isi config.xml yang Anda kirimkan, ditemukan 4 penyebab teknis utama mengapa ekspor ke PDF, Excel, dan Gambar tidak berjalan di APK Anda (serta mengapa GitHub Actions sempat gagal build dengan tanda silang merah ✕):
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+28 Okt, 16.33
+1. Empat Masalah Utama pada config.xml & index.html Sebelumnya
+Jembatan <script src="cordova.js"> Belum Dimuat di index.html
+Meskipun Anda sudah menulis cordova-plugin-file, cordova-plugin-printer, dan cordova-plugin-camera di dalam config.xml, plugin tersebut tidak akan pernah aktif jika index.html tidak memanggil cordova.js.
+
+Solusi yang sudah saya pasang di index.html (Canvas): Saya telah menambahkan pemuat otomatis (auto-loader) cordova.js begitu aplikasi mendeteksi sedang berjalan di dalam APK Android.
+
+index.html Sebelumnya Belum Menggunakan API cordova-plugin-file untuk Menulis Berkas Excel (.xls) & Gambar (.png)
+Di WebView Android, perintah unduh browser biasa (<a download>) selalu diblokir. Karena Anda sudah memasang cordova-plugin-file di config.xml, penyimpanan berkas harus menggunakan window.resolveLocalFileSystemURL dan FileWriter.
+
+Solusi yang sudah saya pasang di index.html:
+
+Ditambahkan fungsi saveBlobViaCordovaFile() yang langsung menulis berkas Excel (.xls), CSV (.csv), dan Gambar Laporan (.png) ke Folder Download HP Android (file:///storage/emulated/0/Download/).
+
+Ditambahkan tombol khusus 📊 Unduh File Excel (.xls) dan 📊 Simpan Excel (.xls) yang menghasilkan berkas spreadsheet Excel lengkap dengan tabel bergaris dan rumus/akumulasi saldo.
+
+Tombol Kamera & Galeri kini otomatis memanggil navigator.camera.getPicture() dari cordova-plugin-camera Anda.
+
+HTML untuk cordova-plugin-printer Sebelumnya Tidak Memiliki <style> Mandiri
+Saat mencetak ke PDF melalui cordova.plugins.printer.print(), plugin tersebut membutuhkan dokumen HTML utuh (<!DOCTYPE html><html><head><style>...</style></head><body>...</body></html>).
+
+Solusi yang sudah saya pasang di index.html: Tombol 🖨️ Cetak / PDF kini mengirimkan dokumen HTML + CSS mandiri yang lengkap ke cordova.plugins.printer.print(), sehingga hasil simpan PDF di Android rapi seperti dokumen resmi.
+
+Penyebab Gagal Build (✕) & Izin Simpan File di config.xml Anda
+
+Terdapat karakter spasi tak terlihat (Non-Breaking Space / \u00A0) di sela-sela baris XML Anda (biasanya muncul saat menyalin kode dari HP) yang membuat parser XML Cordova/Gradle error saat proses build di GitHub Actions.
+
+Belum ada <preference name="AndroidXEnabled" value="true" /> (wajib untuk cordova-plugin-printer dan cordova-plugin-camera versi terbaru di Gradle Android).
+
+Belum ada atribut android:requestLegacyExternalStorage="true" pada <application> agar Android 10 s/d 14 mengizinkan cordova-plugin-file menulis langsung ke folder Download HP.
+
+2. Kode config.xml yang Sudah Diperbaiki (Siap Tempel ke GitHub)
+Silakan ganti seluruh isi file config.xml di repositori GitHub Anda dengan kode bersih di bawah ini, lalu salin juga kode index.html terbaru dari panel Canvas di samping:
+
+XML
 <?xml version="1.0" encoding="utf-8"?>
 <widget id="com.suudi.pro" version="1.0.0"
     xmlns="http://www.w3.org/ns/widgets"
@@ -26,6 +252,575 @@
     <plugin name="cordova-plugin-printer" spec="^0.8.0" />
     <plugin name="cordova-plugin-camera" spec="^7.0.0" />
 
+    <!-- Pengaturan Platform Android -->
+    <platform name="android">
+        <icon src="icon.png" />
+
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" />
+        </edit-config>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+        </config-file>
+    </platform>
+</widget>
+3. Catatan Penting untuk .github/workflows/build.yml
+Pada Cordova versi baru (Cordova 11/12), tag <plugin> di dalam config.xml kadang dilewati oleh CLI jika tidak dipanggil eksplisit di workflow. Pastikan di dalam file .github/workflows/build.yml Anda terdapat perintah instalasi plugin berikut sebelum baris cordova build android:
+
+YAML
+      - name: Install Cordova Plugins
+        run: |
+          cordova plugin add cordova-plugin-file
+          cordova plugin add cordova-plugin-printer
+          cordova plugin add cordova-plugin-camera
+Jika setelah Anda memperbarui config.xml dan index.html ini masih muncul tanda silang merah (✕) di GitHub Actions, silakan kirimkan isi file .github/workflows/build.yml Anda agar saya sesuaikan perintah build-nya.
+
+name: Build Android APK
+
+
+
+on:
+
+  push:
+
+    branches: [ main, master ]
+
+
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+
+
+    steps:
+
+    - name: Checkout Code
+
+      uses: actions/checkout@v4
+
+
+
+    - name: Set up JDK 17
+
+      uses: actions/setup-java@v4
+
+      with:
+
+        distribution: 'temurin'
+
+        java-version: '17'
+
+
+
+    - name: Setup Node.js
+
+      uses: actions/setup-node@v4
+
+      with:
+
+        node-version: 18
+
+
+
+    - name: Install Cordova Global
+
+      run: npm install -g cordova
+
+
+
+    - name: Create Cordova Project & Use Config
+
+      run: |
+
+        # Membuat project Cordova dengan konfigurasi config.xml bawaan repository
+
+        cordova create myApp com.suudi.pro SuudiPro
+
+        cd myApp
+
+        # Menyalin config.xml dan icon.png buatan Anda ke dalam project Cordova
+
+        cp ../config.xml config.xml
+
+        if [ -f ../icon.png ]; then
+
+          cp ../icon.png icon.png
+
+        fi
+
+        cordova platform add android
+
+
+
+    - name: Copy Web Files
+
+      run: |
+
+        rm -rf myApp/www/*
+
+        cp -r index.html css js assets myApp/www/ 2>/dev/null || cp index.html myApp/www/
+
+
+
+    - name: Build APK Debug
+
+      run: |
+
+        cd myApp
+
+        cordova build android --debug
+
+
+
+    - name: Upload APK Artifact
+
+      uses: actions/upload-artifact@v4
+
+      with:
+
+        name: app-debug-apk
+
+        path: myApp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+
+Dari isi file .github/workflows/build.yml yang Anda kirimkan, sekarang terlihat jelas mengapa GitHub Actions gagal (✕) dan mengapa fitur PDF, Excel, serta Gambar tidak aktif di APK:
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+28 Okt, 16.33
+1. Tiga Masalah Utama pada build.yml Anda Sebelumnya
+Karakter Spasi Tak Terlihat (Non-Breaking Space) di Awal Baris YAML
+Sama seperti pada config.xml tadi, banyak baris indentasi di build.yml Anda mengandung karakter spasi khusus (\u00A0) hasil salin-tempel dari perangkat mobile. Parser YAML di GitHub Actions langsung menolak indentasi tersebut dan membatalkan workflow (✕).
+
+Perintah cordova plugin add Belum Dipanggil di build.yml
+Pada Cordova versi terbaru (npm install -g cordova menginstal Cordova 12), perintah cordova platform add android hanya membaca daftar plugin dari package.json hasil cordova create, bukan dari <plugin> di config.xml. Akibatnya, tidak ada satu pun plugin yang ikut terpasang ke dalam APK.
+
+Konflik cordova-plugin-printer Lawas dengan JDK 17 & Android SDK Baru
+Plugin cordova-plugin-printer (^0.8.0) dibuat untuk Android versi lama (android.support.v4). Ketika dikompilasi menggunakan JDK 17 di GitHub Actions (Cordova Android 12/13), Gradle akan gagal kompilasi karena pustaka android.support.v4 sudah dihapus oleh Google dan digantikan oleh AndroidX + android.print.PrintManager bawaan sistem.
+
+2. Solusi Permanen di .github/workflows/build.yml (Tanpa Plugin Lawas yang Rawan Error)
+Agar proses build APK di GitHub Actions selalu berhasil centang hijau (✓) sekaligus membuat tombol Cetak PDF, Unduh Excel (.xls), Ekspor CSV, dan Simpan Gambar Laporan (.png) langsung menyimpan berkas ke Folder Download HP Android (Android 8 s/d Android 15), saya telah menyertakan penyuntik jembatan native (SuudiAndroidBridge) langsung ke MainActivity.java di dalam build.yml di bawah ini:
+
+window.Android.printHtml(): Memanggil android.print.PrintManager resmi bawaan Android untuk membuka layar Simpan sebagai PDF / Cetak.
+
+window.Android.saveFileToDownloads(): Memanggil MediaStore.Downloads resmi Android 10–15 untuk menulis berkas .xls (Excel), .csv, dan .png langsung ke Folder Download HP tanpa terblokir izin Scoped Storage.
+
+Silakan ganti seluruh isi .github/workflows/build.yml Anda di GitHub dengan kode bersih berikut:
+
+YAML
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Cordova Global
+        run: npm install -g cordova
+
+      - name: Create Cordova Project & Configure Android
+        run: |
+          cordova create myApp com.suudi.pro SuudiPro
+          cd myApp
+
+          # Bersihkan karakter non-breaking space pada config.xml jika ada, dan hapus plugin printer lawas yang bikin gagal Gradle
+          if [ -f ../config.xml ]; then
+            sed 's/\xc2\xa0/ /g' ../config.xml | grep -v "cordova-plugin-printer" > config.xml
+          fi
+
+          if [ -f ../icon.png ]; then
+            cp ../icon.png icon.png
+          fi
+
+          # Tambahkan plugin resmi Cordova untuk Kamera & Sistem Berkas
+          cordova plugin add cordova-plugin-file
+          cordova plugin add cordova-plugin-camera
+          cordova platform add android
+
+      - name: Inject Native Android PDF Printer & Download Saver Bridge
+        run: |
+          MAIN_ACTIVITY_PATH=$(find myApp/platforms/android/app/src/main/java -name "MainActivity.java" | head -n 1)
+          echo "Patching MainActivity at: $MAIN_ACTIVITY_PATH"
+          cat << 'EOF' > "$MAIN_ACTIVITY_PATH"
+          package com.suudi.pro;
+
+          import android.content.ContentValues;
+          import android.content.Context;
+          import android.net.Uri;
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.os.Environment;
+          import android.print.PrintAttributes;
+          import android.print.PrintDocumentAdapter;
+          import android.print.PrintManager;
+          import android.provider.MediaStore;
+          import android.util.Base64;
+          import android.webkit.JavascriptInterface;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import android.widget.Toast;
+          import java.io.File;
+          import java.io.FileOutputStream;
+          import java.io.OutputStream;
+          import org.apache.cordova.*;
+
+          public class MainActivity extends CordovaActivity {
+              private WebView printWebView;
+
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  Bundle extras = getIntent().getExtras();
+                  if (extras != null && extras.getBoolean("cdvStartInBackground", false)) {
+                      moveTaskToBack(true);
+                  }
+                  loadUrl(launchUrl);
+
+                  try {
+                      if (this.appView != null && this.appView.getView() instanceof WebView) {
+                          WebView webView = (WebView) this.appView.getView();
+                          webView.getSettings().setJavaScriptEnabled(true);
+                          webView.addJavascriptInterface(new SuudiAndroidBridge(this), "Android");
+                      }
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
+              }
+
+              public class SuudiAndroidBridge {
+                  private final Context ctx;
+
+                  public SuudiAndroidBridge(Context context) {
+                      this.ctx = context;
+                  }
+
+                  @JavascriptInterface
+                  public void printHtml(final String htmlContent, final String jobName) {
+                      runOnUiThread(new Runnable() {
+                          @Override
+                          public void run() {
+                              try {
+                                  WebView webView = new WebView(MainActivity.this);
+                                  webView.setWebViewClient(new WebViewClient() {
+                                      @Override
+                                      public void onPageFinished(WebView view, String url) {
+                                          PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+                                          String docName = (jobName != null && !jobName.isEmpty()) ? jobName : "Laporan_SuudiPro";
+                                          PrintDocumentAdapter adapter = view.createPrintDocumentAdapter(docName);
+                                          if (printManager != null) {
+                                              printManager.print(docName, adapter, new PrintAttributes.Builder().build());
+                                          }
+                                          printWebView = null;
+                                      }
+                                  });
+                                  printWebView = webView;
+                                  webView.loadDataWithBaseURL(null, htmlContent, "text/HTML", "UTF-8", null);
+                              } catch (Exception e) {
+                                  Toast.makeText(ctx, "Gagal membuka cetak PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                              }
+                          }
+                      });
+                  }
+
+                  @JavascriptInterface
+                  public void printPage() {
+                      runOnUiThread(new Runnable() {
+                          @Override
+                          public void run() {
+                              try {
+                                  if (appView != null && appView.getView() instanceof WebView) {
+                                      WebView wv = (WebView) appView.getView();
+                                      PrintManager pm = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+                                      if (pm != null) {
+                                          pm.print("Laporan_SuudiPro", wv.createPrintDocumentAdapter("Laporan_SuudiPro"), new PrintAttributes.Builder().build());
+                                      }
+                                  }
+                              } catch (Exception e) {}
+                          }
+                      });
+                  }
+
+                  @JavascriptInterface
+                  public boolean saveFileToDownloads(String base64Data, final String fileName, String mimeType) {
+                      try {
+                          String cleanBase64 = base64Data;
+                          int commaIndex = base64Data.indexOf(',');
+                          if (commaIndex != -1) {
+                              cleanBase64 = base64Data.substring(commaIndex + 1);
+                          }
+                          byte[] bytes = Base64.decode(cleanBase64, Base64.DEFAULT);
+                          String safeMime = (mimeType != null && !mimeType.isEmpty()) ? mimeType : "application/octet-stream";
+
+                          if (Build.VERSION.SDK_INT >= 29) {
+                              ContentValues values = new ContentValues();
+                              values.put(MediaStore.Downloads.DISPLAY_NAME, fileName);
+                              values.put(MediaStore.Downloads.MIME_TYPE, safeMime);
+                              values.put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS);
+                              Uri uri = getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+                              if (uri != null) {
+                                  OutputStream os = getContentResolver().openOutputStream(uri);
+                                  if (os != null) {
+                                      os.write(bytes);
+                                      os.flush();
+                                      os.close();
+                                  }
+                              }
+                          } else {
+                              File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                              if (!dir.exists()) dir.mkdirs();
+                              File outFile = new File(dir, fileName);
+                              FileOutputStream fos = new FileOutputStream(outFile);
+                              fos.write(bytes);
+                              fos.flush();
+                              fos.close();
+                          }
+
+                          runOnUiThread(new Runnable() {
+                              @Override
+                              public void run() {
+                                  Toast.makeText(ctx, "Tersimpan di folder Download: " + fileName, Toast.LENGTH_LONG).show();
+                              }
+                          });
+                          return true;
+                      } catch (final Exception e) {
+                          runOnUiThread(new Runnable() {
+                              @Override
+                              public void run() {
+                                  Toast.makeText(ctx, "Gagal menyimpan file: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                              }
+                          });
+                          return false;
+                      }
+                  }
+              }
+          }
+          EOF
+
+      - name: Copy Web Files
+        run: |
+          rm -rf myApp/www/*
+          cp index.html myApp/www/index.html
+          for dir in css js assets; do
+            if [ -d "$dir" ]; then
+              cp -r "$dir" myApp/www/
+            fi
+          done
+
+      - name: Build APK Debug
+        run: |
+          cd myApp
+          cordova build android --debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: myApp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+3. Langkah Terakhir yang Perlu Anda Lakukan di GitHub
+Salin kode .github/workflows/build.yml di atas ke repositori GitHub Anda.
+
+Salin kode config.xml bersih dari pesan sebelumnya ke repositori GitHub Anda.
+
+Salin kode index.html terbaru dari panel Canvas di samping (yang sudah terhubung otomatis dengan window.Android.printHtml dan window.Android.saveFileToDownloads) ke file index.html di GitHub Anda.
+
+Begitu ketiganya disimpan (commit), GitHub Actions akan menghasilkan APK yang saat tombol Cetak / PDF, Unduh File Excel (.xls), atau Buat Gambar Laporan ditekan di HP Android, langsung membuka dialog PDF Android atau menyimpan berkasnya ke Folder Download HP Anda.
+
+Sepertinya, beberapa tulisan keluar dari tombol, seperti "Buat Gambar Laporan (Simpan HP)", cukup ambil yg ada di dalam tanda kurung saja. Selain itu, opsi "Bagikan (Android Share)", dihapus saja. Cukup opsi yg ada. Untuk fungsi, sudah berfungsi semua, kecuali convert to PDF. Karena yg bisa hanya untuk di print dg mesin. Tdk ada opsi jadikan PDF.
+
+Selain itu, tulisan di gambar berikutnya, "Laporan Keuangan Keseluruhan (Multi Proyek)", tulisannya bisa diperkecil, agar tidak bertambarakan dg teks di sampingnya. Atau, kalau tidak diperkecil, buat layout yg tepat. Agar enak dilihat dan tampak profesional.
+
+Tambahan, coba buat tombol "back" di HP bisa berfungsi di aplikasi ini. Jangan hanya mengandalkan tanda silang atau tombol kembali yg harus di ditekan di aplikasi. Ya, tombol di aplikasi tidak perlu dihapus, tapi fungsi tombol back di HP juga harus bisa berfungsi di aplikasi.
+
+Seluruh perbaikan yang Anda minta telah diterapkan langsung ke dalam kode index.html di panel samping:
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+28 Okt, 16.33
+Perbaikan Teks Tombol & Penghapusan Tombol "Bagikan (Android Share Sheet)":
+
+Tombol 📤 Bagikan (Android Share Sheet) telah dihapus sepenuhnya.
+
+Teks tombol dipersingkat mengambil inti di dalam tanda kurung dan diatur dengan CSS responsif agar tidak pernah keluar dari kotak tombol di layar HP mana pun:
+
+📊 Unduh Excel (.xls)
+
+📋 Tempel di Excel / Sheets
+
+🖼️ Simpan HP / WA
+
+📄 Simpan PDF (.pdf)
+
+📱 Screenshot HP
+
+Konversi & Unduh File PDF (.pdf) Langsung Tanpa Mesin Printer:
+
+Tombol 📄 Simpan PDF (.pdf) tidak lagi memanggil antarmuka mesin printer (PrintManager), melainkan langsung membuat berkas dokumen asli .pdf (PDF 1.4 Standar A4) di dalam aplikasi dan menyimpannya langsung ke Folder Download HP Android Anda (suudi-pro-laporan-....pdf), sama seperti cara kerja tombol Excel (.xls) dan Gambar (.png).
+
+Tata Letak Kop Laporan Profesional (Bebas Tabrakan Teks):
+
+Ukuran huruf judul LAPORAN KEUANGAN KESELURUHAN (MULTI-PROYEK) telah disesuaikan secara proporsional (17px pada gambar/PDF dan 0.96rem pada layar), serta dipisahkan dari kotak informasi Penanggung Jawab & Tanggal Cetak yang kini berada di dalam kartu khusus di sisi kanan atas sehingga tidak akan pernah saling bertabrakan.
+
+Fungsi Tombol "Back" (Kembali) Fisik / Gesture di HP Android:
+
+Aplikasi kini mendukung penuh tombol Back bawaan HP Android (baik melalui event backbutton Cordova maupun riwayat popstate Android WebView) secara bertingkat:
+
+Menutup pop-up/modal yang sedang terbuka (Pratinjau Nota/Gambar, Tambah Transaksi, Tambah Proyek, Hapus).
+
+Keluar dari mode Layar Penuh (Screenshot HP) jika sedang aktif.
+
+Kembali dari Lembar Laporan ke halaman Rincian Proyek atau Beranda.
+
+Kembali dari tab Statistik / Riwayat / Profil atau Rincian Proyek menuju Beranda Utama.
+
+Saat sudah berada di halaman utama Beranda, menekan tombol Back HP akan menampilkan pesan "Tekan tombol kembali sekali lagi untuk keluar aplikasi" agar aplikasi tidak tertutup secara tidak sengaja.
+
+Anda cukup menyalin ulang kode index.html terbaru dari panel di samping ke repositori GitHub Anda (tidak perlu mengubah config.xml atau build.yml lagi).
+
+Ketika sudah login, beri pengaturan, agar saat membuka aplikasi ada kunci angka (1-9) seperti tampilan awal Iphone, dan setelah dibuka dg juga memuat animasi ala Iphone (IOS 27).
+
+Saya telah menambahkan fitur Kunci Layar Angka (1–9 & 0) ala iPhone beserta Animasi Pembuka ala iOS 27 ke dalam aplikasi index.html di panel samping:
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+28 Okt, 16.33
+Pengaturan Kunci PIN Saat Sudah Login (di Tab Profil):
+
+Begitu Anda masuk sesi (login nama penanggung jawab) di tab Profil, otomatis muncul panel 🔒 Kunci Angka Layar Awal (Ala iPhone iOS 27).
+
+Anda cukup memasukkan 4 digit angka PIN (contoh: 1234) lalu menekan Aktifkan PIN.
+
+Tersedia juga tombol 📱 Kunci & Lihat Animasi iOS 27 Sekarang di tab Profil serta tombol ikon 🔒 di bagian atas (Header) agar Anda bisa langsung menguji atau mengunci layar kapan saja tanpa harus menutup aplikasi.
+
+Tampilan Layar Kunci Ala iPhone (iOS 27 Spatial Glass):
+
+Jam & Tanggal Lock Screen: Menampilkan jam digital besar bergaya iOS dan tanggal aktif secara real-time, lengkap dengan kapsul identitas pengguna yang sedang login.
+
+Keypad Lingkaran Kaca Buram (1–9 & 0): Tombol bulat transparan (frosted glass) lengkap dengan sub-huruf (ABC, DEF, GHI, dst.) yang menyala halus saat disentuh.
+
+Indikator 4 Titik PIN & Efek Getar (Shake): Bulatan titik menyala saat angka ditekan, dan akan bergoyang ke kiri-kanan disertai getaran HP (navigator.vibrate) apabila kode PIN yang dimasukkan salah.
+
+Proteksi Tombol Back HP: Saat layar terkunci, menekan tombol Back di HP tidak akan bisa menembus kunci layar (hanya menghapus digit yang baru diketik).
+
+Animasi Pembuka Ala iOS 27 (Dynamic Island & Spatial Spring Fly-In):
+
+Begitu 4 digit PIN benar dimasukkan, kapsul Dynamic Island di bagian atas melebar secara elastis dengan cahaya hijau (🔓 Terbuka • [Nama Anda]).
+
+Layar kunci meluncur ke atas dengan efek blur dissolve, diikuti animasi seluruh kartu aplikasi, dompet utama, dan navigasi bawah yang terbang masuk (Spatial Spring Zoom-In) secara berurutan seperti saat membuka kunci iPhone terbaru.
+
+Sekarang, tambahkan lagi: Semua isi di aplikasi bernuansa Liquid Glass ala IOS 27, yang begitu smooth, elegan ala IOS. Bahkan, saat tombol apa pun yang ditekan di dalam aplikasi akan membuat pengguna merasakan sensasi IOS 27, kelembutan animasi dan tema khas IOS 27.
+
+Seluruh tampilan dan interaksi di dalam aplikasi Suudi.Pro (index.html di panel samping) kini telah diperbarui dengan desain Liquid Glass & Fisika Pegas (Spring Physics) khas iOS 27:
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+28 Okt, 16.33
+Permukaan Kaca Cair (Liquid Glass Surfaces) & Specular Rim Lighting:
+
+Seluruh kartu proyek, ringkasan metrik, tabel, modal pop-up, bilah navigasi bawah, hingga header kini menggunakan lapisan kaca translusen (backdrop-filter: blur(26px) saturate(190%)) lengkap dengan pantulan cahaya di tepi kaca (3D Specular Highlight Rim) yang beradaptasi otomatis pada ke-4 tema (Ungu Elegan, Biru Profesional, Hijau Kas, dan Dark Mode).
+
+Latar belakang aplikasi dilengkapi Spatial Aurora Mesh lembut yang membuat efek bias kaca di balik kartu tampak hidup seperti antarmuka iOS terbaru.
+
+Sensasi Sentuhan & Animasi Tombol Liquid Glass iOS 27 di Seluruh Aplikasi:
+
+Gelombang Cahaya Kaca (Specular Liquid Ripple): Setiap kali tombol atau kartu interaktif mana pun ditekan, muncul bias cahaya cair yang memancar halus tepat dari titik sentuhan jari Anda.
+
+Fisika Pegas Elastis (Squish & Spring Release Bounce): Saat ditekan, tombol akan memadat lembut (scale(0.92)) dengan kilau kaca, lalu memantul kembali secara elastis (cubic-bezier(0.22, 1.38, 0.36, 1)) saat dilepas, disertai getaran micro-haptic (8ms) yang halus di HP Android.
+
+Transisi Halaman & Pop-Up Spatial Fluid: Perpindahan antar-tab, pembukaan rincian proyek, lembar laporan, modal, hingga notifikasi kapsul di bagian atas kini bergerak dengan kurva pegas khas iOS 27.
+
+Sekarang, yang terakhir untuk tema tampilan aplikasinya:
+
+Buatkan visual tema aplikasi dengan sistem adaptif iOS Liquid Glass yang mendukung Light Mode dan Dark Mode, lalu terapkan ketentuan warna dan material berikut:
+
+Sistem Adaptif Warna (Contextual Tinting): Elemen UI harus bisa membiaskan dan merubah tone warna berdasarkan kecerahan konten di bawahnya (mimicking Apple's real colored glass tinting). [1]
+Spesifikasi Light Mode: Gunakan background gradasi lembut, kartu navigasi bertipe Regular Liquid Glass (transparansi 20% dengan blur tinggi), teks berwarna gelap (#1A1A1A), dan border tipis putih (rgba(255,255,255,0.4)). [1, 2]
+Spesifikasi Dark Mode: Optimalkan untuk layar OLED dengan latar belakang murni gelap gulita. Kartu kaca menggunakan opasitas lebih rendah (rgba(0,0,0,0.2) atau rgba(255,255,255,0.08)), rim highlights dengan warna desaturasi lembut seperti violet atau teal, dan teks putih kontras tinggi."
+Sistem visual Adaptive iOS 27 Liquid Glass untuk Light Mode dan OLED Dark Mode telah diterapkan sepenuhnya ke dalam index.html di panel samping sesuai seluruh spesifikasi material dan warna yang Anda tentukan:
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+28 Okt, 16.33
+Sistem Adaptif Warna (Contextual Tinting):
+
+Bias Warna Real-Time Saat Menggulir (updateContextualGlassTint): Lapisan kaca pada Header dan Bottom Navigation mendeteksi posisi elemen di bawahnya (seperti kartu Main Wallet yang berwarna pekat) saat layar digulir, lalu membiaskan rona warna elemen tersebut secara dinamis ke permukaan kaca (--contextual-tint-header & --contextual-tint-nav).
+
+Bias Warna Kontekstual Kartu (Data-Driven Glass Tinting): Setiap kartu proyek dan kartu riwayat mutasi membiaskan rona warna lembut sesuai status finansialnya (data-tint="positive" membiaskan emerald/teal lembut untuk saldo surplus/kredit, dan data-tint="negative" membiaskan violet/ruby lembut untuk pengeluaran/debit).
+
+Spesifikasi Light Mode (Regular Liquid Glass):
+
+Latar Belakang: Gradasi lembut multi-arah (linear-gradient(145deg, #e0e7ff, #f1f5f9, #e0f2fe, #f3e8ff)) dengan pendaran warna halus di belakang kaca.
+
+Material Kaca & Navigasi: Regular Liquid Glass dengan transparansi 20% (rgba(255, 255, 255, 0.20)) dan optical blur tinggi (backdrop-filter: blur(36px) saturate(210%) contrast(103%)).
+
+Tipografi & Tepi Kaca: Teks utama menggunakan warna gelap presisi #1A1A1A dengan border kaca tipis putih rgba(255, 255, 255, 0.40).
+
+Spesifikasi Dark Mode (Dioptimalkan untuk Layar OLED):
+
+Latar Belakang Murni Gelap Gulita (#000000): Menggunakan hitam pekat True Pitch Black #000000 agar piksel layar OLED mati sempurna dan hemat daya.
+
+Opasitas Kaca Rendah: Kartu dan navigasi menggunakan perpaduan rgba(255, 255, 255, 0.08) dan rgba(0, 0, 0, 0.20) dengan keburaman tinggi.
+
+Rim Highlights Desaturasi Lembut (Violet & Teal): Tepi pantulan cahaya kaca (specular rim) memadukan kilau soft violet (rgba(167, 139, 250, 0.46)) di sisi atas dan soft teal (rgba(94, 234, 212, 0.32)) di sisi bawah, dipadukan dengan teks putih kontras tinggi (#FFFFFF).
+
+Saya juga menambahkan tombol pintas 🌙 / ☀️ di pojok kanan atas Header agar Anda dapat berpindah instan antara Light Mode (Regular Liquid Glass) dan OLED Dark Mode kapan saja dengan satu ketukan.
+
+Saya sudah mencobanya. Namun, sebaiknya kunci aplikasi dihilangkan saja, karena tampak lebih menyusahkan pengguna. Selain itu, coba kurangi intensitas efek animasinya, agar cukup lancar untuk dijalankan di berbagai ponsel Android. Karena efek animasi saat ini tampa sedikit nge-lag.
+
+Saya telah memperbarui kode aplikasi index.html untuk menghapus kunci layar sepenuhnya dan mengoptimalkan performa animasinya agar ringan di berbagai ponsel Android:
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+28 Okt, 16.33
+Menghapus Kunci Aplikasi (PIN 1–9): Menghilangkan layar kunci angka, tombol kunci cepat di bagian atas, serta menu pengaturan PIN di modal Sinkronisasi Cloud sehingga aplikasi langsung masuk ke halaman utama saat dibuka.
+
+Memangkas Beban GPU (backdrop-filter & fixed background): Menghapus efek real-time blur (backdrop-filter: blur(36px)) pada setiap kartu yang digulir (scroll) serta background-attachment: fixed yang menjadi penyebab utama lag pada Android WebView, dan menggantinya dengan gradasi kaca semi-transparan berefisiensi tinggi (efek blur ringan kini hanya diterapkan pada header dan navigasi bawah yang statis).
+
+Menyederhanakan Animasi ke Hardware-Accelerated (60 FPS): Menghapus efek blur saat transisi halaman serta pembuatan elemen gelombang (ripple DOM) setiap kali layar disentuh, lalu menggantinya dengan transisi transform dan opacity berdurasi singkat (0.12s–0.18s) yang jauh lebih responsif saat tombol ditekan atau berpindah tab.
+
+Mempertahankan Tema Adaptif iOS Liquid Glass: Menjaga tampilan visual Light Mode (gradasi lembut, teks #1A1A1A, dan border tipis rgba(255,255,255,0.4)) serta OLED Dark Mode (latar #000000 murni, kartu kaca transparan, rim highlights violet/teal, dan teks #FFFFFF kontras tinggi) beserta fitur Contextual Tinting tanpa membebani kinerja ponsel.
+
+Silakan salin kode index.html terbaru dari panel di samping ke repositori GitHub Anda untuk membuat ulang file APK-nya.
+
+Coba sesuaikan logonya dengan gambar logo yg sy kirim. Selain itu, sesaat aplikasi dibuka, ada sekian detik yg menampilkan logo bawaan Github sebelumnya. Bagaimana solusinya? Agar semua logo seperti logo aplikasinya yg sudah sy buat. Perbaiki dg sempurna.
+
+Saya telah memperbarui logo di dalam kode aplikasi index.html (di panel samping) sesuai gambar logo biru 3D Anda dan menambahkan pemanggilan penutup splash screen otomatis.
+
+Suudi.Pro — Manajemen Keuangan Multi-Proyek (Android Ready)
+
+
+
+1. Perubahan yang Sudah Diterapkan di index.html
+Mengganti Logo Header & Favicon (#app-logo): Menyematkan gambar logo heksagon biru S Anda secara langsung dalam format Base64 resolusi tajam di pojok kiri atas aplikasi (menggantikan ikon SVG ungu lama) sehingga tampil 100% seragam dengan ikon di layar utama HP tanpa perlu memuat file eksternal tambahan.
+
+Menyesuaikan Bingkai Logo (.logo-container): Mengubah latar bingkai logo menjadi biru-gelap pekat (#050816) dengan border biru lembut agar menyatu dengan gradasi asli logo Anda.
+
+Menutup Splash Screen Instan (deviceready): Menambahkan perintah navigator.splashscreen.hide() begitu halaman siap agar layar pembuka tidak tertahan lama.
+
+2. Penyebab & Solusi Munculnya Logo Robot Abu-abu Saat Aplikasi Dibuka
+Gambar abu-abu yang muncul sekian detik saat aplikasi baru dibuka adalah ikon Splash Screen bawaan Apache Cordova (ic_cdv_splashscreen.xml) pada sistem Android 12 ke atas. Di Cordova versi terbaru, baris <icon src="icon.png" /> pada config.xml hanya mengubah ikon di layar menu HP (Home Screen), tetapi belum mengubah ikon layar pembuka (Splash Screen).
+
+Agar layar pembuka juga menampilkan logo icon.png Anda (bukan robot abu-abu Cordova), perbarui bagian <platform name="android"> di dalam file config.xml pada repositori GitHub Anda menjadi seperti ini:
+
+XML
     <!-- Pengaturan Platform Android (Ikon Utama + Splash Screen Android 12+) -->
     <platform name="android">
         <icon src="icon.png" />
@@ -43,3 +838,159 @@
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         </config-file>
     </platform>
+Setelah Anda memperbarui index.html dan config.xml tersebut di GitHub, baik ikon di menu HP, layar pembuka (Splash Screen) saat aplikasi diketuk, maupun logo di pojok kiri atas dalam aplikasi semuanya akan menggunakan logo SuudiPro Anda.
+
+Coba koreksi konfignya, karena setelah saya input, ternyata gagal.
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<widget id="com.suudi.pro" version="1.0.0"
+
+    xmlns="http://www.w3.org/ns/widgets"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
+
+
+    <name>SuudiPro</name>
+
+    <description>Aplikasi Manajemen Keuangan Multi-Proyek Suudi.Pro</description>
+
+    <author email="dev@suudi.pro" href="https://suudi.pro">Suudi Developer</author>
+
+
+
+    <content src="index.html" />
+
+    <access origin="*" />
+
+    <allow-intent href="http://*/*" />
+
+    <allow-intent href="https://*/*" />
+
+
+
+    <!-- Preferensi WebView & Kompatibilitas AndroidX -->
+
+    <preference name="AndroidXEnabled" value="true" />
+
+    <preference name="MixedContentMode" value="compatibility" />
+
+    <preference name="AndroidInsecureFileModeEnabled" value="true" />
+
+    <preference name="AllowUntrustedCerts" value="true" />
+
+    <preference name="Fullscreen" value="false" />
+
+    <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,assets,root" />
+
+
+
+    <!-- Plugin Inti Pendukung Ekspor Excel/Gambar, Cetak PDF & Kamera di Android -->
+
+    <plugin name="cordova-plugin-file" spec="^8.0.0" />
+
+    <plugin name="cordova-plugin-printer" spec="^0.8.0" />
+
+    <plugin name="cordova-plugin-camera" spec="^7.0.0" />
+
+
+
+    <!-- Pengaturan Platform Android (Ikon Utama + Splash Screen Android 12+) -->
+
+    <platform name="android">
+
+        <icon src="icon.png" />
+
+
+
+        <!-- Mengganti logo robot abu-abu saat aplikasi dibuka dengan icon.png Anda -->
+
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="icon.png" />
+
+        <preference name="AndroidWindowSplashScreenBackground" value="#050816" />
+
+        <preference name="SplashScreenDelay" value="0" />
+
+        <preference name="AutoHideSplashScreen" value="true" />
+
+
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+
+            <uses-permission android:name="android.permission.INTERNET" />
+
+            <uses-permission android:name="android.permission.CAMERA" />
+
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+        </config-file>
+
+    </platform> 
+
+Berikut adalah file config.xml yang sudah dikoreksi dan divalidasi beserta file icon.png yang sudah dikonversi menjadi format PNG murni (512x512 piksel) agar proses build APK di GitHub Actions berjalan mulus:
+
+Ikon XML
+config
+ XML 
+https://lh3.googleusercontent.com/gg-dl/AHiVA1lfQiZbHRZfNc-pfsJGx3PQTYb9FTz8yVij9aWTH7RHITAtax4TbmiiMrSUv9wVdsnBacIY3W3UIJgv_Ety2M5_roSrNtCvJeLNTyXUiVqPDYFEcPq57VOJ6cj8PSwmtL6LInkg_I6OU4-Wp40aph0hKMsXR61lAzL6Cq_tTHgfHN_E=s1600?authuser=3
+3 Penyebab Utama Gagalnya Build Sebelumnya & Perbaikannya
+Menambahkan Tag Penutup </widget> yang Terpotong: Pada konfigurasi yang Anda tempelkan sebelumnya, baris paling bawah berhenti di </platform> dan kehilangan tag penutup utama </widget>, sehingga Cordova langsung menghentikan proses build karena dokumen XML dianggap belum ditutup.
+
+Membersihkan Karakter Spasi Tak Terlihat (Non-Breaking Space): Saat menyalin kode XML lewat perangkat seluler, spasi di depan atribut xmlns="[http://www.w3.org/ns/widgets](http://www.w3.org/ns/widgets)" berubah menjadi karakter non-breaking space (\u00a0) yang memicu galat not well-formed (invalid token) pada baris ke-3. Di dalam file config.xml di atas, seluruh atribut <widget> sudah disatukan dalam satu baris bersih menggunakan spasi standar ASCII.
+
+Mengonversi icon.png dari JPEG ke PNG Murni (512x512): File logo yang Anda kirimkan sebelumnya sebenarnya berformat JPEG di bagian dalamnya meskipun bernama .png. Saat fitur Splash Screen Android 12 (AndroidWindowSplashScreenAnimatedIcon) diaktifkan, kompilator Android (aapt2) mewajibkan file PNG asli dan akan gagal jika mendeteksi header JPEG.
+
+Silakan unduh kedua file di atas lalu unggah dan timpa file config.xml serta icon.png lama di repositori GitHub Anda.
+
+
+
+
+
+Gemini adalah AI dan dapat membuat kesalahan.
+
+
+Selesai
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="com.suudi.pro" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>SuudiPro</name>
+    <description>Aplikasi Manajemen Keuangan Multi-Proyek Suudi.Pro</description>
+    <author email="dev@suudi.pro" href="https://suudi.pro">Suudi Developer</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
+    <preference name="AndroidXEnabled" value="true" />
+    <preference name="MixedContentMode" value="compatibility" />
+    <preference name="AndroidInsecureFileModeEnabled" value="true" />
+    <preference name="AllowUntrustedCerts" value="true" />
+    <preference name="Fullscreen" value="false" />
+    <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,assets,root" />
+
+    <plugin name="cordova-plugin-file" spec="^8.0.0" />
+    <plugin name="cordova-plugin-printer" spec="^0.8.0" />
+    <plugin name="cordova-plugin-camera" spec="^7.0.0" />
+
+    <platform name="android">
+        <icon src="icon.png" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="icon.png" />
+        <preference name="AndroidWindowSplashScreenBackground" value="#050816" />
+        <preference name="AutoHideSplashScreen" value="true" />
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+    </platform>
+</widget>
+config.xml
+Menampilkan config.xml.
