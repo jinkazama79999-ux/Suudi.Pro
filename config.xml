@@ -26,19 +26,20 @@
     <plugin name="cordova-plugin-printer" spec="^0.8.0" />
     <plugin name="cordova-plugin-camera" spec="^7.0.0" />
 
-    <!-- Pengaturan Platform Android -->
+    <!-- Pengaturan Platform Android (Ikon Utama + Splash Screen Android 12+) -->
     <platform name="android">
         <icon src="icon.png" />
 
-        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
-            <application android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" />
-        </edit-config>
+        <!-- Mengganti logo robot abu-abu saat aplikasi dibuka dengan icon.png Anda -->
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="icon.png" />
+        <preference name="AndroidWindowSplashScreenBackground" value="#050816" />
+        <preference name="SplashScreenDelay" value="0" />
+        <preference name="AutoHideSplashScreen" value="true" />
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.CAMERA" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         </config-file>
     </platform>
-</widget>
