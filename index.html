@@ -556,8 +556,10 @@
     /* Mode 1: Tampilan Umum (Ramping & Rinci) */
     .projects-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: 0.62rem;
+      width: 100%;
+      max-width: 100%;
     }
 
     .project-card {
@@ -569,6 +571,10 @@
       transition: var(--transition);
       cursor: pointer;
       position: relative;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .project-card:hover {
@@ -614,7 +620,7 @@
 
     .project-stats-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.4rem;
       padding-top: 0.48rem;
       border-top: 1px dashed var(--border-color);
@@ -622,6 +628,8 @@
 
     .proj-stat {
       font-size: 0.7rem;
+      min-width: 0;
+      overflow: hidden;
     }
 
     .proj-stat span {
@@ -632,23 +640,32 @@
     }
 
     .proj-stat strong {
+      display: block;
       font-size: 0.79rem;
       font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Mode 2: Tampilan Daftar Ramping (List Baris Ringkas) */
     .projects-grid.view-list {
-      grid-template-columns: 1fr !important;
+      grid-template-columns: minmax(0, 1fr) !important;
       gap: 0.45rem;
     }
 
     .projects-grid.view-list .project-card {
-      padding: 0.56rem 0.82rem;
+      padding: 0.54rem 0.72rem;
       border-radius: 13px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.6rem;
+      gap: 0.48rem;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
     }
 
     .proj-list-left {
@@ -698,24 +715,36 @@
     .proj-list-right {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.38rem;
       flex-shrink: 0;
+    }
+
+    .projects-grid.view-list .project-actions {
+      gap: 0.24rem;
+    }
+
+    .projects-grid.view-list .project-actions .btn-icon {
+      width: 1.72rem;
+      height: 1.72rem;
+      font-size: 0.74rem;
     }
 
     .proj-list-saldo {
       text-align: right;
+      white-space: nowrap;
     }
 
     .proj-list-saldo span {
       display: block;
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       color: var(--text-muted);
       line-height: 1.1;
     }
 
     .proj-list-saldo strong {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
+      white-space: nowrap;
     }
 
     /* Mode 3: Tampilan Kotak (Grid 2 Kolom di Ponsel) */
@@ -2578,7 +2607,7 @@
       background-size: 220px 11px;
     }
 
-    /* Semua Kartu (Proyek, Riwayat, Statistik, Pengaturan) Bergaya Sketsa Lukis Tangan + Bayangan Arsir */
+    /* Semua Kartu (Proyek, Riwayat, Statistik, Pengaturan) Bergaya Sketsa Lukis Tangan + Bayangan Presisi */
     html[data-theme="retro"] .project-card,
     html[data-theme="retro"] .mini-card,
     html[data-theme="retro"] .table-card,
@@ -2594,9 +2623,47 @@
       background-size: 12px 12px, 100% 100%;
       border: 2px solid #1D1815;
       border-radius: 6px 3px 7px 4px;
-      box-shadow:
-        4px 4px 0px #1D1815,
-        7px 7px 0px rgba(169, 63, 45, 0.22);
+      box-shadow: 3px 3px 0px #1D1815;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Penyesuaian Proporsi Huruf Kapital Retro-Vintage pada Kartu Proyek agar Tidak Terpotong di Layar Ponsel */
+    html[data-theme="retro"] .project-name {
+      font-size: 0.86rem;
+      letter-spacing: 0.015em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    html[data-theme="retro"] .proj-list-info .project-name {
+      font-size: 0.78rem;
+      letter-spacing: 0.01em;
+    }
+
+    html[data-theme="retro"] .proj-list-info .project-meta {
+      font-size: 0.64rem;
+    }
+
+    html[data-theme="retro"] .proj-list-saldo strong {
+      font-size: 0.74rem;
+      letter-spacing: 0;
+    }
+
+    html[data-theme="retro"] .proj-box-top .project-name {
+      font-size: 0.75rem;
+      letter-spacing: 0.01em;
+    }
+
+    html[data-theme="retro"] .proj-box-mid strong {
+      font-size: 0.78rem;
+      letter-spacing: 0;
+    }
+
+    html[data-theme="retro"] .proj-stat strong {
+      font-size: 0.74rem;
+      letter-spacing: 0;
     }
 
     html[data-theme="retro"] .project-stats-row,
@@ -3207,6 +3274,95 @@
       animation: fabDarkOrbit2 0.34s ease-out forwards;
     }
 
+    /* Panel Pintasan Bagikan Langsung (WhatsApp, Telegram, Email, Simpan HP) di Modal Pratinjau */
+    .share-targets-wrap {
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border-color);
+      text-align: left;
+    }
+
+    .share-targets-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.48rem;
+      display: block;
+    }
+
+    .share-targets-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.45rem;
+    }
+
+    .btn-share-channel {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.38rem;
+      padding: 0.52rem 0.6rem;
+      border-radius: 10px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+
+    .btn-share-channel:active {
+      transform: scale(0.96);
+    }
+
+    .btn-share-channel.wa {
+      background: rgba(16, 185, 129, 0.15);
+      color: #059669;
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-share-channel.tg {
+      background: rgba(14, 165, 233, 0.15);
+      color: #0284c7;
+      border-color: rgba(14, 165, 233, 0.4);
+    }
+
+    .btn-share-channel.mail {
+      background: rgba(245, 158, 11, 0.15);
+      color: #d97706;
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-share-channel.save {
+      background: var(--glass-input-bg);
+      color: var(--text-main);
+      border-color: var(--border-color);
+    }
+
+    html[data-theme="dark"] .btn-share-channel.wa {
+      background: rgba(16, 185, 129, 0.22);
+      color: #34d399;
+    }
+
+    html[data-theme="dark"] .btn-share-channel.tg {
+      background: rgba(14, 165, 233, 0.22);
+      color: #38bdf8;
+    }
+
+    html[data-theme="dark"] .btn-share-channel.mail {
+      background: rgba(245, 158, 11, 0.22);
+      color: #fbbf24;
+    }
+
+    html[data-theme="retro"] .btn-share-channel {
+      border: 1.8px solid #1D1815;
+      border-radius: 4px;
+      box-shadow: 2px 2px 0px #1D1815;
+      color: #1D1815;
+    }
+
     @media print {
       body {
         background: #ffffff !important;
@@ -3250,7 +3406,7 @@
 
     @media (min-width: 600px) {
       .projects-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .theme-grid {
         grid-template-columns: repeat(4, 1fr);
@@ -4041,8 +4197,25 @@
         <img id="receipt-full-image" class="preview-img-full" src="" alt="Dokumen Pratinjau">
         <p id="receipt-modal-caption" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.65rem;"></p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="btn-share-preview-img">📤 Bagikan Gambar</button>
+      <div class="share-targets-wrap">
+        <span class="share-targets-label">Kirim atau Simpan Dokumen:</span>
+        <div class="share-targets-grid">
+          <button type="button" class="btn-share-channel wa" id="btn-share-wa">
+            💬 WhatsApp
+          </button>
+          <button type="button" class="btn-share-channel tg" id="btn-share-tg">
+            ✈️ Telegram
+          </button>
+          <button type="button" class="btn-share-channel mail" id="btn-share-email">
+            ✉️ Email
+          </button>
+          <button type="button" class="btn-share-channel save" id="btn-save-preview-img">
+            💾 Simpan ke HP
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 0.85rem;">
+        <button type="button" class="btn btn-primary" id="btn-share-preview-img">📤 Bagikan Gambar</button>
         <button type="button" class="btn btn-outline" data-close-modal="modal-receipt-preview">Tutup</button>
       </div>
     </div>
@@ -5679,24 +5852,42 @@
         exportExcelReport('project');
       });
 
-      // Aksi 2: Buat & Simpan Gambar Laporan Resolusi Tinggi (.png) ke Folder Download HP + Tampilkan Pratinjau
+      let currentPreviewShareMeta = {
+        title: 'Dokumen Keuangan Suudi.Pro',
+        text: '',
+        filename: 'suudi-pro-dokumen.png'
+      };
+
+      // Aksi 2: Buat Gambar Laporan Resolusi Tinggi (.png) + Tampilkan Opsi Bagikan (WA, Telegram, Email, Menu Share HP)
       document.getElementById('btn-render-report-image').addEventListener('click', async () => {
         const data = buildReportData(state.reportSheetScope || 'global');
         const imgDataUrl = generateReportSheetImageDataUrl(data);
         const filename = `laporan-${data.slug}-${Date.now().toString().slice(-5)}.png`;
 
+        const shareSummaryLines = [
+          `*${data.title}*`,
+          `${data.subtitle}`,
+          `Penanggung Jawab: ${data.issuer}`,
+          `Tanggal: ${data.datePrinted}`,
+          `-------------------------`,
+          `Total Kredit (Masuk): ${formatRp(data.totalKredit)}`,
+          `Total Debit (Keluar): ${formatRp(data.totalDebit)}`,
+          `*Saldo Akhir: ${formatRp(data.totalSaldo)}*`,
+          `-------------------------`,
+          `(File gambar laporan ${filename} juga telah disimpan di folder Download HP)`
+        ];
+
+        currentPreviewShareMeta = {
+          title: data.title,
+          text: shareSummaryLines.join('\n'),
+          filename
+        };
+
         document.getElementById('receipt-modal-title').textContent = 'Gambar Lembar Laporan (.PNG)';
         document.getElementById('receipt-full-image').src = imgDataUrl;
         document.getElementById('receipt-modal-caption').textContent =
-          'Gambar laporan resolusi tinggi telah dibuat. Anda juga dapat menekan tombol "Simpan / Bagikan Gambar" di bawah.';
+          'Pilih "Bagikan Gambar" atau pintasan WhatsApp, Telegram, dan Email di bawah.';
         openModal('modal-receipt-preview');
-
-        await universalSaveOrExportFile({
-          filename,
-          dataUrl: imgDataUrl,
-          mimeType: 'image/png',
-          label: 'Gambar Laporan (.png)'
-        });
       });
 
       // Mode Layar Penuh Bersih (Untuk Screenshot / Cetak di HP Android tanpa plugin)
@@ -5710,11 +5901,104 @@
         document.body.classList.remove('clean-capture-mode');
       });
 
-      // Tombol Simpan / Bagikan Gambar di dalam Modal Pratinjau
-      document.getElementById('btn-share-preview-img').addEventListener('click', async () => {
+      // Fungsi Khusus Membuka Menu Bagikan Sistem (WA, Telegram, Email, Bluetooth, Drive) di Prioritas Pertama
+      async function triggerNativeOrChannelShare(channel) {
         const src = document.getElementById('receipt-full-image').src;
         if (!src) return;
-        const filename = `suudi-pro-dokumen-${Date.now()}.png`;
+        const filename = currentPreviewShareMeta.filename || `suudi-pro-dokumen-${Date.now().toString().slice(-5)}.png`;
+        const shareTitle = currentPreviewShareMeta.title || document.getElementById('receipt-modal-title').textContent || 'Dokumen Suudi.Pro';
+        const shareText = currentPreviewShareMeta.text || document.getElementById('receipt-modal-caption').textContent || shareTitle;
+        const blob = dataUrlToBlob(src);
+
+        // 1. Jika memanggil Menu Share Sistem ("system"): Prioritaskan Web Share API & SocialSharing Plugin SEBELUM simpan memori
+        if (channel === 'system') {
+          if (window.plugins && window.plugins.socialsharing && typeof window.plugins.socialsharing.shareWithOptions === 'function') {
+            window.plugins.socialsharing.shareWithOptions({
+              message: shareText,
+              subject: shareTitle,
+              files: [src],
+              chooserTitle: 'Bagikan Dokumen ke...'
+            });
+            return;
+          }
+
+          if (navigator.share) {
+            try {
+              if (blob && navigator.canShare) {
+                const fileObj = new File([blob], filename, { type: 'image/png' });
+                if (navigator.canShare({ files: [fileObj] })) {
+                  await navigator.share({
+                    title: shareTitle,
+                    text: shareText,
+                    files: [fileObj]
+                  });
+                  return;
+                }
+              }
+              await navigator.share({
+                title: shareTitle,
+                text: shareText
+              });
+              return;
+            } catch (err) {
+              if (err && err.name === 'AbortError') return;
+            }
+          }
+
+          // Jika WebView Android tidak mengizinkan navigator.share pada file://, simpan gambar & buka pilihan WA/Email
+          await universalSaveOrExportFile({
+            filename,
+            dataUrl: src,
+            mimeType: 'image/png',
+            label: 'Gambar (.png)'
+          });
+          const waUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+          window.open(waUrl, '_blank');
+          return;
+        }
+
+        // 2. Jika memilih tombol pintasan spesifik (WhatsApp / Telegram / Email):
+        //    Simpan dulu file gambarnya ke folder Download HP agar siap dilampirkan, lalu buka aplikasinya langsung
+        if (blob) {
+          await saveBlobViaCordovaFile(filename, blob);
+        }
+
+        if (channel === 'wa') {
+          if (window.plugins && window.plugins.socialsharing && typeof window.plugins.socialsharing.shareViaWhatsApp === 'function') {
+            window.plugins.socialsharing.shareViaWhatsApp(shareText, src, null);
+            return;
+          }
+          showToast(`Gambar disimpan (${filename}) & membuka WhatsApp...`);
+          window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank');
+        } else if (channel === 'tg') {
+          showToast(`Gambar disimpan (${filename}) & membuka Telegram...`);
+          window.open('https://t.me/share/url?url=' + encodeURIComponent('https://suudi.pro') + '&text=' + encodeURIComponent(shareText), '_blank');
+        } else if (channel === 'email') {
+          showToast(`Gambar disimpan (${filename}) & membuka Email...`);
+          window.location.href = 'mailto:?subject=' + encodeURIComponent(shareTitle) + '&body=' + encodeURIComponent(shareText);
+        }
+      }
+
+      document.getElementById('btn-share-preview-img').addEventListener('click', () => {
+        triggerNativeOrChannelShare('system');
+      });
+
+      document.getElementById('btn-share-wa').addEventListener('click', () => {
+        triggerNativeOrChannelShare('wa');
+      });
+
+      document.getElementById('btn-share-tg').addEventListener('click', () => {
+        triggerNativeOrChannelShare('tg');
+      });
+
+      document.getElementById('btn-share-email').addEventListener('click', () => {
+        triggerNativeOrChannelShare('email');
+      });
+
+      document.getElementById('btn-save-preview-img').addEventListener('click', async () => {
+        const src = document.getElementById('receipt-full-image').src;
+        if (!src) return;
+        const filename = currentPreviewShareMeta.filename || `suudi-pro-dokumen-${Date.now().toString().slice(-5)}.png`;
         await universalSaveOrExportFile({
           filename,
           dataUrl: src,
@@ -6427,11 +6711,32 @@
 
       function openReceiptPreviewModal(tx) {
         if (!tx.receiptData) return;
+        const proj = state.projects.find(p => p.id === tx.projectId);
+        const projName = proj ? proj.name : 'Proyek';
+        const total = (Number(tx.qty) || 0) * (Number(tx.unitPrice) || 0);
+        const dateFormatted = formatDateShort(tx.txDate || tx.createdAt);
+        const filename = `nota-${slugify(tx.description)}-${Date.now().toString().slice(-4)}.png`;
+
+        currentPreviewShareMeta = {
+          title: `Nota Transaksi: ${tx.description}`,
+          text: [
+            `*BUKTI TRANSAKSI & NOTA KAS (SUUDI.PRO)*`,
+            `Item: ${tx.description}`,
+            `Proyek: ${projName}`,
+            `Jenis: ${tx.type.toUpperCase()}`,
+            `Tanggal: ${dateFormatted}`,
+            `Rincian: ${tx.qty} × ${formatRp(tx.unitPrice)}`,
+            `*Total Nominal: ${formatRp(total)}*`,
+            `Penanggung Jawab: ${getActiveAccountDisplayName()}`,
+            `(File gambar nota ${filename} juga telah disimpan di folder Download HP)`
+          ].join('\n'),
+          filename
+        };
+
         document.getElementById('receipt-modal-title').textContent = tx.description;
         document.getElementById('receipt-full-image').src = tx.receiptData;
-        const total = (Number(tx.qty) || 0) * (Number(tx.unitPrice) || 0);
         document.getElementById('receipt-modal-caption').textContent =
-          `${tx.type.toUpperCase()} • ${formatDateShort(tx.txDate || tx.createdAt)} • Qty: ${tx.qty} × ${formatRp(tx.unitPrice)} = ${formatRp(total)}`;
+          `${tx.type.toUpperCase()} • ${dateFormatted} • Qty: ${tx.qty} × ${formatRp(tx.unitPrice)} = ${formatRp(total)}`;
         openModal('modal-receipt-preview');
       }
 
