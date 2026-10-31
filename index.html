@@ -3292,8 +3292,8 @@
 
     .share-targets-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.45rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.42rem;
     }
 
     .btn-share-channel {
@@ -4206,11 +4206,8 @@
           <button type="button" class="btn-share-channel tg" id="btn-share-tg">
             ✈️ Telegram
           </button>
-          <button type="button" class="btn-share-channel mail" id="btn-share-email">
-            ✉️ Email
-          </button>
           <button type="button" class="btn-share-channel save" id="btn-save-preview-img">
-            💾 Simpan ke HP
+            💾 Simpan HP
           </button>
         </div>
       </div>
@@ -5499,9 +5496,7 @@
                 openDeleteConfirm('tx', tx.id, tx.description);
                 return;
               }
-              if (tx.receiptData) {
-                openReceiptPreviewModal(tx);
-              }
+              openReceiptPreviewModal(tx);
             });
 
             tbody.appendChild(tr);
@@ -5991,10 +5986,6 @@
         triggerNativeOrChannelShare('tg');
       });
 
-      document.getElementById('btn-share-email').addEventListener('click', () => {
-        triggerNativeOrChannelShare('email');
-      });
-
       document.getElementById('btn-save-preview-img').addEventListener('click', async () => {
         const src = document.getElementById('receipt-full-image').src;
         if (!src) return;
@@ -6267,7 +6258,8 @@
           const isKredit = tx.type === 'kredit';
 
           const item = document.createElement('div');
-          item.className = 'history-item ' + (isKredit ? 'tint-kredit' : 'tint-debit') + (tx.receiptData ? ' clickable' : '');
+          item.className = 'history-item ' + (isKredit ? 'tint-kredit' : 'tint-debit') + ' clickable';
+          item.title = 'Ketuk untuk melihat & membagikan nota transaksi';
 
           if (histMode === 'list') {
             item.innerHTML = `
@@ -6281,7 +6273,7 @@
                 </div>
               </div>
               <div class="history-right">
-                ${tx.receiptData ? `<span class="history-mini-receipt" title="Klik untuk lihat bukti nota">🧾</span>` : ''}
+                <span class="history-mini-receipt" title="Lihat & bagikan nota">🧾</span>
                 <div class="history-amount ${isKredit ? 'text-success' : 'text-danger'}">
                   ${isKredit ? '+' : '-'}${formatRp(nominal)}
                 </div>
@@ -6303,7 +6295,9 @@
                 </div>
               </div>
               <div class="history-right">
-                ${tx.receiptData ? `<img src="${tx.receiptData}" alt="Bukti" class="receipt-thumb" title="Klik untuk lihat nota">` : ''}
+                ${tx.receiptData
+                  ? `<img src="${tx.receiptData}" alt="Bukti" class="receipt-thumb" title="Ketuk untuk lihat nota">`
+                  : `<span class="history-mini-receipt" title="Ketuk untuk buat & lihat nota">🧾 Nota</span>`}
                 <div>
                   <div class="history-amount ${isKredit ? 'text-success' : 'text-danger'}">
                     ${isKredit ? '+' : '-'}${formatRp(nominal)}
@@ -6316,9 +6310,7 @@
             `;
           }
 
-          if (tx.receiptData) {
-            item.addEventListener('click', () => openReceiptPreviewModal(tx));
-          }
+          item.addEventListener('click', () => openReceiptPreviewModal(tx));
 
           listEl.appendChild(item);
         });
@@ -6710,12 +6702,33 @@
       });
 
       function openReceiptPreviewModal(tx) {
-        if (!tx.receiptData) return;
+        if (!tx) return;
         const proj = state.projects.find(p => p.id === tx.projectId);
         const projName = proj ? proj.name : 'Proyek';
         const total = (Number(tx.qty) || 0) * (Number(tx.unitPrice) || 0);
         const dateFormatted = formatDateShort(tx.txDate || tx.createdAt);
-        const filename = `nota-${slugify(tx.description)}-${Date.now().toString().slice(-4)}.png`;
+        const safeSlug = String(tx.description || 'transaksi')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-|-$/g, '') || 'transaksi';
+        const filename = `nota-${safeSlug}-${Date.now().toString().slice(-4)}.png`;
+
+        // Jika transaksi belum memiliki foto/nota lampiran, buatkan Nota Otomatis secara instan agar tetap bisa dilihat & dikirim
+        let receiptImgSrc = tx.receiptData;
+        if (!receiptImgSrc) {
+          receiptImgSrc = generateCanvasReceiptDataUrl({
+            txNumber: 'INV-' + String(tx.id || Date.now()).slice(-6).toUpperCase(),
+            accountName: getActiveAccountDisplayName(),
+            projectName: projName,
+            description: tx.description || 'Transaksi Kas',
+            qty: Number(tx.qty) || 1,
+            unitPrice: Number(tx.unitPrice) || 0,
+            type: tx.type || 'debit',
+            dateStr: dateFormatted
+          });
+          tx.receiptData = receiptImgSrc;
+          db.saveTransaction(tx).catch(() => {});
+        }
 
         currentPreviewShareMeta = {
           title: `Nota Transaksi: ${tx.description}`,
@@ -6723,7 +6736,7 @@
             `*BUKTI TRANSAKSI & NOTA KAS (SUUDI.PRO)*`,
             `Item: ${tx.description}`,
             `Proyek: ${projName}`,
-            `Jenis: ${tx.type.toUpperCase()}`,
+            `Jenis: ${String(tx.type || '').toUpperCase()}`,
             `Tanggal: ${dateFormatted}`,
             `Rincian: ${tx.qty} × ${formatRp(tx.unitPrice)}`,
             `*Total Nominal: ${formatRp(total)}*`,
@@ -6734,9 +6747,9 @@
         };
 
         document.getElementById('receipt-modal-title').textContent = tx.description;
-        document.getElementById('receipt-full-image').src = tx.receiptData;
+        document.getElementById('receipt-full-image').src = receiptImgSrc;
         document.getElementById('receipt-modal-caption').textContent =
-          `${tx.type.toUpperCase()} • ${dateFormatted} • Qty: ${tx.qty} × ${formatRp(tx.unitPrice)} = ${formatRp(total)}`;
+          `${String(tx.type || '').toUpperCase()} • ${dateFormatted} • Qty: ${tx.qty} × ${formatRp(tx.unitPrice)} = ${formatRp(total)}`;
         openModal('modal-receipt-preview');
       }
 
@@ -6750,6 +6763,25 @@
         document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
         const targetEl = document.getElementById(targetTab);
         if (targetEl) targetEl.classList.add('active');
+
+        // Jika pengguna menekan tombol "Beranda", selalu kembalikan tampilan ke halaman utama daftar proyek (#dashboard-view)
+        if (targetTab === 'tab-beranda') {
+          const detailEl = document.getElementById('project-detail-view');
+          const sheetEl = document.getElementById('report-sheet-view');
+          const dashEl = document.getElementById('dashboard-view');
+          const isInsideSubView =
+            state.activeProjectId !== null ||
+            state.reportSheetScope !== null ||
+            (detailEl && detailEl.style.display !== 'none') ||
+            (sheetEl && sheetEl.style.display !== 'none');
+
+          if (isInsideSubView) {
+            closeProjectDetail();
+          } else if (dashEl) {
+            dashEl.style.display = 'block';
+          }
+        }
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
