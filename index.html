@@ -3935,8 +3935,11 @@
               <div style="min-width: 0; flex: 1;">
                 <div style="font-size: 0.88rem; font-weight: 700; word-break: break-all;" id="profile-email-display">Memuat...</div>
                 <div style="font-size: 0.7rem; color: var(--text-muted); word-break: break-all;" id="profile-uid-display">-</div>
+                <div style="font-size: 0.68rem; color: var(--success); font-weight: 600; margin-top: 0.18rem;" id="cloud-realtime-status-text">
+                  ✓ Pencadangan real-time otomatis aktif
+                </div>
               </div>
-              <span class="proj-pill" style="background: var(--success-bg); color: var(--success);">🟢 Cloud Aktif</span>
+              <span class="proj-pill" id="cloud-realtime-pill" style="background: var(--success-bg); color: var(--success);">🟢 Real-Time</span>
             </div>
             <div class="backup-actions-grid">
               <button type="button" class="btn btn-secondary" id="btn-sync-local-to-cloud">
@@ -4023,26 +4026,7 @@
           </div>
         </div>
 
-        <!-- Pencadangan & Pemulihan Data (Grid 2x2 Ringkas) -->
-        <div class="settings-group">
-          <h3>Cadangkan & Pulihkan Data</h3>
-          <p class="settings-desc" style="margin-bottom: 0.75rem;">Simpan atau pulihkan data melalui teks maupun file cadangan.</p>
-          <div class="backup-actions-grid">
-            <button type="button" class="btn btn-primary" id="btn-copy-json-clipboard">
-              📋 Salin Teks
-            </button>
-            <button type="button" class="btn btn-secondary" id="btn-open-paste-json">
-              📥 Tempel Teks
-            </button>
-            <button type="button" class="btn btn-outline" id="btn-backup-json">
-              ↓ Simpan File
-            </button>
-            <button type="button" class="btn btn-outline" id="btn-restore-trigger">
-              ↑ Pulihkan File
-            </button>
-            <input type="file" id="input-restore-json" accept=".json,application/json" style="display: none;">
-          </div>
-        </div>
+
       </section>
     </main>
 
@@ -4237,23 +4221,7 @@
     </div>
   </div>
 
-  <!-- MODAL: TEMPEL TEKS BACKUP JSON (SOLUSI ANDROID WEBVIEW) -->
-  <div class="modal-backdrop" id="modal-paste-json">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3 class="modal-title">Pulihkan dari Teks Cadangan</h3>
-        <button type="button" class="btn-icon" data-close-modal="modal-paste-json">✕</button>
-      </div>
-      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-        Tempelkan (Paste) kode cadangan JSON yang sebelumnya Anda salin:
-      </p>
-      <textarea id="paste-json-textarea" class="form-control" rows="6" placeholder='{"app":"Suudi.Pro","projects":[...]}'></textarea>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline" data-close-modal="modal-paste-json">Batal</button>
-        <button type="button" class="btn btn-primary" id="btn-confirm-paste-json">Pulihkan Sekarang</button>
-      </div>
-    </div>
-  </div>
+
 
   <!-- MODAL: KONFIRMASI HAPUS -->
   <div class="modal-backdrop" id="modal-confirm-delete">
@@ -4903,9 +4871,60 @@
         }
       } catch (e) {}
 
+      function updateCloudRealtimeIndicator(statusType, customMsg) {
+        const statusTextEl = document.getElementById('cloud-realtime-status-text');
+        const pillEl = document.getElementById('cloud-realtime-pill');
+        if (!statusTextEl || !pillEl) return;
+
+        const isOnline = navigator.onLine !== false;
+        if (!isOnline || statusType === 'offline') {
+          pillEl.textContent = '🟠 Menunggu Sinyal';
+          pillEl.style.background = 'rgba(245, 158, 11, 0.16)';
+          pillEl.style.color = '#d97706';
+          statusTextEl.style.color = '#d97706';
+          statusTextEl.textContent = customMsg || 'Tersimpan di HP — otomatis dicadangkan saat terkoneksi internet';
+        } else if (statusType === 'syncing') {
+          pillEl.textContent = '🔄 Menyinkronkan...';
+          pillEl.style.background = 'var(--primary-light)';
+          pillEl.style.color = 'var(--primary)';
+          statusTextEl.style.color = 'var(--primary)';
+          statusTextEl.textContent = customMsg || 'Sedang mencadangkan ke email secara real-time...';
+        } else {
+          const nowTime = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+          pillEl.textContent = '🟢 Real-Time';
+          pillEl.style.background = 'var(--success-bg)';
+          pillEl.style.color = 'var(--success)';
+          statusTextEl.style.color = 'var(--success)';
+          statusTextEl.textContent = customMsg || `✓ Tercadangkan real-time ke email (${nowTime})`;
+        }
+      }
+
+      function markPendingCloudItem(type, id) {
+        const pending = StoragePrefs.get('pending_cloud_sync', { projects: [], transactions: [], deletedProjects: [], deletedTxs: [] });
+        if (type === 'project' && !pending.projects.includes(id)) pending.projects.push(id);
+        if (type === 'tx' && !pending.transactions.includes(id)) pending.transactions.push(id);
+        if (type === 'del_project') {
+          pending.projects = pending.projects.filter(x => x !== id);
+          if (!pending.deletedProjects.includes(id)) pending.deletedProjects.push(id);
+        }
+        if (type === 'del_tx') {
+          pending.transactions = pending.transactions.filter(x => x !== id);
+          if (!pending.deletedTxs.includes(id)) pending.deletedTxs.push(id);
+        }
+        StoragePrefs.set('pending_cloud_sync', pending);
+      }
+
+      function clearPendingCloudItem(type, id) {
+        const pending = StoragePrefs.get('pending_cloud_sync', { projects: [], transactions: [], deletedProjects: [], deletedTxs: [] });
+        if (type === 'project') pending.projects = pending.projects.filter(x => x !== id);
+        if (type === 'tx') pending.transactions = pending.transactions.filter(x => x !== id);
+        if (type === 'del_project') pending.deletedProjects = pending.deletedProjects.filter(x => x !== id);
+        if (type === 'del_tx') pending.deletedTxs = pending.deletedTxs.filter(x => x !== id);
+        StoragePrefs.set('pending_cloud_sync', pending);
+      }
+
       function sanitizeTxForFirestore(tx) {
         const copy = { ...tx };
-        // Pastikan ukuran dokumen aman di bawah batas 1MB Firestore
         if (copy.receiptData && copy.receiptData.length > 780000) {
           copy.receiptData = null;
         }
@@ -4913,8 +4932,11 @@
       }
 
       async function cloudPushProject(project) {
-        if (!fbFirestore || !state.currentUser || !project || !project.id) return;
+        if (!project || !project.id) return;
+        markPendingCloudItem('project', String(project.id));
+        if (!fbFirestore || !state.currentUser) return;
         try {
+          updateCloudRealtimeIndicator('syncing');
           await fbFirestore
             .collection('users')
             .doc(state.currentUser.uid)
@@ -4924,49 +4946,80 @@
               id: String(project.id),
               name: project.name || '',
               description: project.description || '',
-              createdAt: Number(project.createdAt) || Date.now()
+              createdAt: Number(project.createdAt) || Date.now(),
+              updatedAt: Date.now()
             }, { merge: true });
-        } catch (e) {}
+          clearPendingCloudItem('project', String(project.id));
+          updateCloudRealtimeIndicator('online');
+        } catch (e) {
+          updateCloudRealtimeIndicator('offline');
+        }
       }
 
       async function cloudDeleteProjectAndTxs(projectId) {
-        if (!fbFirestore || !state.currentUser || !projectId) return;
+        if (!projectId) return;
+        markPendingCloudItem('del_project', String(projectId));
+        const relatedTxs = state.transactions.filter(t => t.projectId === projectId);
+        relatedTxs.forEach(t => markPendingCloudItem('del_tx', String(t.id)));
+
+        if (!fbFirestore || !state.currentUser) return;
         try {
+          updateCloudRealtimeIndicator('syncing');
           const userRef = fbFirestore.collection('users').doc(state.currentUser.uid);
           const batch = fbFirestore.batch();
           batch.delete(userRef.collection('projects').doc(String(projectId)));
-          state.transactions
-            .filter(t => t.projectId === projectId)
-            .forEach(t => {
-              batch.delete(userRef.collection('transactions').doc(String(t.id)));
-            });
+          relatedTxs.forEach(t => {
+            batch.delete(userRef.collection('transactions').doc(String(t.id)));
+          });
           await batch.commit();
-        } catch (e) {}
+          clearPendingCloudItem('del_project', String(projectId));
+          relatedTxs.forEach(t => clearPendingCloudItem('del_tx', String(t.id)));
+          updateCloudRealtimeIndicator('online');
+        } catch (e) {
+          updateCloudRealtimeIndicator('offline');
+        }
       }
 
       async function cloudPushTransaction(tx) {
-        if (!fbFirestore || !state.currentUser || !tx || !tx.id) return;
+        if (!tx || !tx.id) return;
+        markPendingCloudItem('tx', String(tx.id));
+        if (!fbFirestore || !state.currentUser) return;
         try {
+          updateCloudRealtimeIndicator('syncing');
           const cleanTx = sanitizeTxForFirestore(tx);
           await fbFirestore
             .collection('users')
             .doc(state.currentUser.uid)
             .collection('transactions')
             .doc(String(tx.id))
-            .set(cleanTx, { merge: true });
-        } catch (e) {}
+            .set({
+              ...cleanTx,
+              updatedAt: Date.now()
+            }, { merge: true });
+          clearPendingCloudItem('tx', String(tx.id));
+          updateCloudRealtimeIndicator('online');
+        } catch (e) {
+          updateCloudRealtimeIndicator('offline');
+        }
       }
 
       async function cloudDeleteTransaction(txId) {
-        if (!fbFirestore || !state.currentUser || !txId) return;
+        if (!txId) return;
+        markPendingCloudItem('del_tx', String(txId));
+        if (!fbFirestore || !state.currentUser) return;
         try {
+          updateCloudRealtimeIndicator('syncing');
           await fbFirestore
             .collection('users')
             .doc(state.currentUser.uid)
             .collection('transactions')
             .doc(String(txId))
             .delete();
-        } catch (e) {}
+          clearPendingCloudItem('del_tx', String(txId));
+          updateCloudRealtimeIndicator('online');
+        } catch (e) {
+          updateCloudRealtimeIndicator('offline');
+        }
       }
 
       async function syncAllLocalDataToCloud(showNotification = false) {
@@ -4975,6 +5028,20 @@
           return;
         }
         try {
+          updateCloudRealtimeIndicator('syncing');
+          const pending = StoragePrefs.get('pending_cloud_sync', { projects: [], transactions: [], deletedProjects: [], deletedTxs: [] });
+          const userRef = fbFirestore.collection('users').doc(state.currentUser.uid);
+
+          // Eksekusi penghapusan yang tertunda saat offline terlebih dahulu
+          for (const delPid of (pending.deletedProjects || [])) {
+            await userRef.collection('projects').doc(String(delPid)).delete().catch(() => {});
+            clearPendingCloudItem('del_project', String(delPid));
+          }
+          for (const delTid of (pending.deletedTxs || [])) {
+            await userRef.collection('transactions').doc(String(delTid)).delete().catch(() => {});
+            clearPendingCloudItem('del_tx', String(delTid));
+          }
+
           const localProjects = await db.getAllProjects();
           const localTxs = await db.getAllTransactions();
           for (const p of localProjects) {
@@ -4983,13 +5050,35 @@
           for (const t of localTxs) {
             await cloudPushTransaction(t);
           }
+          updateCloudRealtimeIndicator('online');
           if (showNotification) {
-            showToast(`Sinkronisasi selesai (${localProjects.length} proyek & ${localTxs.length} transaksi)`);
+            showToast(`Pencadangan Cloud selesai (${localProjects.length} proyek & ${localTxs.length} transaksi)`);
           }
         } catch (e) {
-          if (showNotification) showToast('Gagal menyinkronkan sebagian data ke Cloud');
+          updateCloudRealtimeIndicator('offline');
+          if (showNotification) showToast('Menunggu koneksi internet untuk mencadangkan ke Cloud');
         }
       }
+
+      // Otomatis mencadangkan secara real-time begitu HP terhubung kembali ke internet
+      window.addEventListener('online', () => {
+        if (state.currentUser) {
+          updateCloudRealtimeIndicator('syncing', 'Internet terhubung — menyinkronkan data...');
+          syncAllLocalDataToCloud(false);
+        }
+      });
+
+      window.addEventListener('offline', () => {
+        if (state.currentUser) {
+          updateCloudRealtimeIndicator('offline');
+        }
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && state.currentUser && navigator.onLine !== false) {
+          syncAllLocalDataToCloud(false);
+        }
+      });
 
       // Bungkus metode db agar otomatis menulis ke IndexedDB lokal + Cloud Firestore secara simultan
       const origSaveProject = db.saveProject.bind(db);
@@ -5428,123 +5517,20 @@
       }
 
       async function seedInitialDataIfEmpty() {
-        const projects = await db.getAllProjects();
-        if (projects.length > 0) return;
-
-        const now = Date.now();
-        const issuer = getActiveAccountDisplayName();
-
-        const sampleProjects = [
-          {
-            id: 'proj_1',
-            name: 'Renovasi Cafe Senopati',
-            description: 'Interior & MEP - Termin Aktif',
-            createdAt: now - 86400000 * 5
-          },
-          {
-            id: 'proj_2',
-            name: 'Pengadaan IT Gudang Cikarang',
-            description: 'Instalasi Server & Jaringan Lokal',
-            createdAt: now - 86400000 * 2
-          }
-        ];
-
-        const sampleTransactions = [
-          {
-            id: 'tx_101',
-            projectId: 'proj_1',
-            txDate: '2026-10-20',
-            description: 'DP Termin 1 Klien (50%)',
-            qty: 1,
-            unitPrice: 45000000,
-            type: 'kredit',
-            receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'INV-2026-101',
-              accountName: issuer,
-              projectName: 'Renovasi Cafe Senopati',
-              description: 'DP Termin 1 Klien (50%)',
-              qty: 1,
-              unitPrice: 45000000,
-              type: 'kredit',
-              dateStr: '20 Okt 2026'
-            }),
-            createdAt: now - 86400000 * 4
-          },
-          {
-            id: 'tx_102',
-            projectId: 'proj_1',
-            txDate: '2026-10-21',
-            description: 'Pembelian Granit Lantai 60x60',
-            qty: 85,
-            unitPrice: 165000,
-            type: 'debit',
-            receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'INV-2026-102',
-              accountName: issuer,
-              projectName: 'Renovasi Cafe Senopati',
-              description: 'Pembelian Granit Lantai 60x60',
-              qty: 85,
-              unitPrice: 165000,
-              type: 'debit',
-              dateStr: '21 Okt 2026'
-            }),
-            createdAt: now - 86400000 * 3
-          },
-          {
-            id: 'tx_103',
-            projectId: 'proj_1',
-            txDate: '2026-10-22',
-            description: 'Upah Tukang Minggu Ke-1',
-            qty: 6,
-            unitPrice: 1250000,
-            type: 'debit',
-            receiptData: null,
-            createdAt: now - 86400000 * 2
-          },
-          {
-            id: 'tx_201',
-            projectId: 'proj_2',
-            txDate: '2026-10-23',
-            description: 'Pencairan Dana Proyek Tahap Awal',
-            qty: 1,
-            unitPrice: 28000000,
-            type: 'kredit',
-            receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'INV-2026-201',
-              accountName: issuer,
-              projectName: 'Pengadaan IT Gudang Cikarang',
-              description: 'Pencairan Dana Proyek Tahap Awal',
-              qty: 1,
-              unitPrice: 28000000,
-              type: 'kredit',
-              dateStr: '23 Okt 2026'
-            }),
-            createdAt: now - 86400000 * 1
-          },
-          {
-            id: 'tx_202',
-            projectId: 'proj_2',
-            txDate: '2026-10-24',
-            description: 'Switch Gigabit Managed 24-Port',
-            qty: 3,
-            unitPrice: 3400000,
-            type: 'debit',
-            receiptData: generateCanvasReceiptDataUrl({
-              txNumber: 'INV-2026-202',
-              accountName: issuer,
-              projectName: 'Pengadaan IT Gudang Cikarang',
-              description: 'Switch Gigabit Managed 24-Port',
-              qty: 3,
-              unitPrice: 3400000,
-              type: 'debit',
-              dateStr: '24 Okt 2026'
-            }),
-            createdAt: now - 3600000 * 12
-          }
-        ];
-
-        for (const p of sampleProjects) await db.saveProject(p);
-        for (const t of sampleTransactions) await db.saveTransaction(t);
+        // Aplikasi mulai dalam keadaan bersih (0 proyek) agar langsung siap diisi sendiri oleh pengguna.
+        // Sekaligus bersihkan 2 proyek contoh bawaan lama ('proj_1' & 'proj_2') satu kali jika masih tersisa dari instalasi sebelumnya.
+        if (!StoragePrefs.get('cleaned_default_samples_v1', false)) {
+          try {
+            const existingProjects = await db.getAllProjects();
+            const sampleIds = ['proj_1', 'proj_2'];
+            for (const p of existingProjects) {
+              if (sampleIds.includes(p.id) && (p.name === 'Renovasi Cafe Senopati' || p.name === 'Pengadaan IT Gudang Cikarang')) {
+                await db.deleteProjectAndTransactions(p.id);
+              }
+            }
+          } catch (e) {}
+          StoragePrefs.set('cleaned_default_samples_v1', true);
+        }
       }
 
       /* ==========================================
@@ -7178,59 +7164,86 @@
         if (state.unsubscribeProjects) state.unsubscribeProjects();
         if (state.unsubscribeTransactions) state.unsubscribeTransactions();
 
+        // Sinkronkan antrean perubahan lokal yang dibuat saat offline terlebih dahulu
+        syncAllLocalDataToCloud(false);
+
         const userRef = fbFirestore.collection('users').doc(uid);
 
         state.unsubscribeProjects = userRef.collection('projects')
           .orderBy('createdAt', 'asc')
           .onSnapshot(async (snap) => {
-            if (snap.empty && state.projects.length > 0) {
-              // Jika akun Cloud masih kosong namun di HP sudah ada data proyek lokal, unggah otomatis ke Cloud
-              await syncAllLocalDataToCloud(false);
-              return;
+            const pending = StoragePrefs.get('pending_cloud_sync', { projects: [], transactions: [], deletedProjects: [], deletedTxs: [] });
+            const cloudProjects = snap.docs
+              .map(d => ({ id: d.id, ...d.data() }))
+              .filter(p => !(pending.deletedProjects || []).includes(String(p.id)));
+
+            const cloudIds = new Set(cloudProjects.map(p => String(p.id)));
+            const unsyncedLocal = state.projects.filter(
+              p => (pending.projects || []).includes(String(p.id)) && !cloudIds.has(String(p.id))
+            );
+            for (const up of unsyncedLocal) {
+              cloudProjects.push(up);
+              cloudPushProject(up);
             }
-            const cloudProjects = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-            state.projects = cloudProjects;
-            for (const p of cloudProjects) {
-              await origSaveProject(p);
-            }
+
+            state.projects = cloudProjects.sort((a, b) => (Number(a.createdAt) || 0) - (Number(b.createdAt) || 0));
+            await origReplaceAllData(state.projects, state.transactions);
+            updateCloudRealtimeIndicator('online');
+
             renderDashboard();
             if (state.activeProjectId) renderProjectDetail(state.activeProjectId);
             if (state.reportSheetScope) renderInPageReportSheet(state.reportSheetScope);
             renderStatistics();
             renderHistory();
-          }, () => {});
+          }, () => {
+            updateCloudRealtimeIndicator('offline');
+          });
 
         state.unsubscribeTransactions = userRef.collection('transactions')
           .orderBy('createdAt', 'asc')
           .onSnapshot(async (snap) => {
-            if (snap.empty && state.transactions.length > 0) {
-              await syncAllLocalDataToCloud(false);
-              return;
-            }
-            // Pertahankan receiptData lokal apabila versi di Cloud dikosongkan karena ukuran besar
+            const pending = StoragePrefs.get('pending_cloud_sync', { projects: [], transactions: [], deletedProjects: [], deletedTxs: [] });
             const localTxMap = {};
             state.transactions.forEach(t => {
               if (t.receiptData) localTxMap[t.id] = t.receiptData;
             });
-            const cloudTxs = snap.docs.map(d => {
-              const data = d.data();
-              const id = d.id;
-              return {
-                id,
-                ...data,
-                receiptData: data.receiptData || localTxMap[id] || null
-              };
-            });
-            state.transactions = cloudTxs;
-            for (const t of cloudTxs) {
-              await origSaveTransaction(t);
+
+            const cloudTxs = snap.docs
+              .map(d => {
+                const data = d.data();
+                const id = d.id;
+                return {
+                  id,
+                  ...data,
+                  receiptData: data.receiptData || localTxMap[id] || null
+                };
+              })
+              .filter(t => !(pending.deletedTxs || []).includes(String(t.id)));
+
+            const cloudTxIds = new Set(cloudTxs.map(t => String(t.id)));
+            const unsyncedLocalTxs = state.transactions.filter(
+              t => (pending.transactions || []).includes(String(t.id)) && !cloudTxIds.has(String(t.id))
+            );
+            for (const ut of unsyncedLocalTxs) {
+              cloudTxs.push(ut);
+              cloudPushTransaction(ut);
             }
+
+            state.transactions = cloudTxs.sort((a, b) => {
+              const diff = getTxSortableTime(a) - getTxSortableTime(b);
+              return diff !== 0 ? diff : ((Number(a.createdAt) || 0) - (Number(b.createdAt) || 0));
+            });
+            await origReplaceAllData(state.projects, state.transactions);
+            updateCloudRealtimeIndicator('online');
+
             renderDashboard();
             if (state.activeProjectId) renderProjectDetail(state.activeProjectId);
             if (state.reportSheetScope) renderInPageReportSheet(state.reportSheetScope);
             renderStatistics();
             renderHistory();
-          }, () => {});
+          }, () => {
+            updateCloudRealtimeIndicator('offline');
+          });
       }
 
       // Event Listeners untuk Login / Register Cloud Firebase (#modal-auth)
@@ -7524,118 +7537,7 @@
         });
       });
 
-      async function buildBackupJsonString() {
-        const backupPayload = {
-          app: 'Suudi.Pro',
-          version: 3,
-          exportedAt: new Date().toISOString(),
-          preferences: {
-            theme: StoragePrefs.get('theme', 'purple'),
-            fontSize: StoragePrefs.get('font_size', '16px'),
-            userSession: StoragePrefs.get('user_session', null)
-          },
-          projects: await db.getAllProjects(),
-          transactions: await db.getAllTransactions()
-        };
-        return JSON.stringify(backupPayload, null, 2);
-      }
 
-      document.getElementById('btn-copy-json-clipboard').addEventListener('click', async () => {
-        const jsonStr = await buildBackupJsonString();
-        const ok = await copyTextToClipboard(jsonStr);
-        if (ok) {
-          showToast('Teks Backup JSON berhasil disalin ke Clipboard HP!');
-        } else {
-          showToast('Gagal menyalin JSON');
-        }
-      });
-
-      document.getElementById('btn-open-paste-json').addEventListener('click', () => {
-        document.getElementById('paste-json-textarea').value = '';
-        openModal('modal-paste-json');
-      });
-
-      document.getElementById('btn-confirm-paste-json').addEventListener('click', async () => {
-        const raw = document.getElementById('paste-json-textarea').value.trim();
-        if (!raw) return;
-        try {
-          const parsed = JSON.parse(raw);
-          if (!Array.isArray(parsed.projects) || !Array.isArray(parsed.transactions)) {
-            showToast('Format kode JSON tidak valid');
-            return;
-          }
-          await db.replaceAllData(parsed.projects, parsed.transactions);
-          if (parsed.preferences) {
-            if (parsed.preferences.theme) applyTheme(parsed.preferences.theme);
-            if (parsed.preferences.fontSize) applyFontSize(parsed.preferences.fontSize);
-            if (parsed.preferences.userSession) {
-              StoragePrefs.set('user_session', parsed.preferences.userSession);
-              renderSessionState();
-            }
-          }
-          closeModal('modal-paste-json');
-          closeProjectDetail();
-          await refreshStateAndRender();
-          showToast('Data berhasil dipulihkan dari teks JSON!');
-        } catch (e) {
-          showToast('Kode JSON tidak lengkap atau rusak');
-        }
-      });
-
-      document.getElementById('btn-backup-json').addEventListener('click', async () => {
-        const jsonStr = await buildBackupJsonString();
-        await copyTextToClipboard(jsonStr);
-        try {
-          const blob = new Blob([jsonStr], { type: 'application/json' });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          const dateStamp = new Date().toISOString().slice(0, 10);
-          link.href = url;
-          link.download = `suudi-pro-backup-${dateStamp}.json`;
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-          URL.revokeObjectURL(url);
-        } catch (e) {}
-        showToast('JSON disalin ke Clipboard & diunduh!');
-      });
-
-      const restoreInput = document.getElementById('input-restore-json');
-      document.getElementById('btn-restore-trigger').addEventListener('click', () => {
-        restoreInput.value = '';
-        restoreInput.click();
-      });
-
-      restoreInput.addEventListener('change', (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = async (ev) => {
-          try {
-            const parsed = JSON.parse(ev.target.result);
-            if (!Array.isArray(parsed.projects) || !Array.isArray(parsed.transactions)) {
-              showToast('Format berkas JSON tidak valid');
-              return;
-            }
-            await db.replaceAllData(parsed.projects, parsed.transactions);
-            if (parsed.preferences) {
-              if (parsed.preferences.theme) applyTheme(parsed.preferences.theme);
-              if (parsed.preferences.fontSize) applyFontSize(parsed.preferences.fontSize);
-              if (parsed.preferences.userSession) {
-                StoragePrefs.set('user_session', parsed.preferences.userSession);
-                renderSessionState();
-              }
-            }
-            closeProjectDetail();
-            await refreshStateAndRender();
-            showToast('Seluruh data berhasil dipulihkan dari JSON');
-          } catch (err) {
-            showToast('Gagal membaca berkas JSON');
-          }
-        };
-        reader.readAsText(file);
-      });
 
       /* ==========================================
          14. DUKUNGAN TOMBOL BACK FISIK / GESTURE HP ANDROID
