@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -3368,6 +3369,661 @@
       color: #1D1815;
     }
 
+    /* ======================================================================
+       LAYAR PEMBUKA AWAL (WELCOME AUTH GATE) & ANIMASI KARAKTER KOPER AJAIB
+       Sesuai Video Referensi: Karakter Berjalan Masuk Membawa Koper ->
+       Meletakkan Koper -> Menjentikkan Jari -> Form Meluncur Bertahap ->
+       Pose Berpikir Saat Mengetik & Menunjuk Saat Siap Login
+       ====================================================================== */
+    .welcome-screen-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.45) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.28) 0%, transparent 55%),
+        linear-gradient(145deg, #2536eb 0%, #3b49df 48%, #1e1b4b 100%);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow-y: auto;
+      color: #ffffff;
+    }
+
+    .welcome-screen-overlay.open {
+      display: flex;
+      animation: smoothFadeIn 0.25s ease-out;
+    }
+
+    .welcome-stage-card {
+      width: 100%;
+      max-width: 680px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 26px;
+      padding: 1.25rem 1.2rem 1.35rem;
+      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-top-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .welcome-brand-left {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .welcome-brand-left img {
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+    }
+
+    .welcome-brand-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+
+    .welcome-brand-sub {
+      font-size: 0.68rem;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .btn-replay-anim {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* Panggung Interaktif: Karakter Eksekutif + Koper + Area Formulir */
+    .welcome-interactive-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.85rem;
+      align-items: center;
+    }
+
+    @media (min-width: 560px) {
+      .welcome-interactive-layout {
+        grid-template-columns: 195px minmax(0, 1fr);
+        gap: 1.1rem;
+      }
+    }
+
+    .character-stage-box {
+      position: relative;
+      height: 185px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      user-select: none;
+      overflow: visible;
+    }
+
+    @media (min-width: 560px) {
+      .character-stage-box {
+        height: 280px;
+      }
+    }
+
+    /* Gelembung Sapaan / Status Karakter */
+    .character-speech-bubble {
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      color: #1e1b4b;
+      font-size: 0.69rem;
+      font-weight: 700;
+      padding: 0.28rem 0.68rem;
+      border-radius: 999px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+      white-space: nowrap;
+      z-index: 5;
+      transition: all 0.25s ease;
+    }
+
+    .character-speech-bubble::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px 5px 0;
+      border-style: solid;
+      border-color: #ffffff transparent transparent;
+    }
+
+    /* Karakter SVG & Animasi Berjalan -> Taruh Koper -> Jentik Jari -> Berpikir -> Menunjuk */
+    .exec-character-svg {
+      width: 148px;
+      height: 162px;
+      overflow: visible;
+      transform-origin: bottom center;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @media (min-width: 560px) {
+      .exec-character-svg {
+        width: 175px;
+        height: 215px;
+      }
+    }
+
+    /* Fase 1: Karakter Berjalan Masuk dari Kiri */
+    @keyframes charWalkIn {
+      0%   { transform: translateX(-130px) scale(0.92); opacity: 0; }
+      15%  { opacity: 1; }
+      35%  { transform: translateX(-75px) translateY(-5px); }
+      55%  { transform: translateX(-35px) translateY(0px); }
+      75%  { transform: translateX(-10px) translateY(-4px); }
+      100% { transform: translateX(0) translateY(0); opacity: 1; }
+    }
+
+    @keyframes legStrideLeft {
+      0%, 100% { transform: rotate(0deg); }
+      25%      { transform: rotate(22deg); }
+      75%      { transform: rotate(-18deg); }
+    }
+
+    @keyframes legStrideRight {
+      0%, 100% { transform: rotate(0deg); }
+      25%      { transform: rotate(-20deg); }
+      75%      { transform: rotate(22deg); }
+    }
+
+    /* Fase 2: Membungkuk Meletakkan Koper */
+    @keyframes charPlaceBriefcase {
+      0%   { transform: translateY(0) rotate(0deg); }
+      50%  { transform: translateY(8px) rotate(10deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    /* Fase 3: Kilatan Cahaya Koper Ajaib Saat Jari Dijentikkan */
+    @keyframes briefcaseMagicPulse {
+      0%   { transform: scale(1); filter: drop-shadow(0 0 0 rgba(253, 224, 71, 0)); }
+      50%  { transform: scale(1.18) translateY(-3px); filter: drop-shadow(0 0 18px rgba(253, 224, 71, 0.95)); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6)); }
+    }
+
+    @keyframes snapSparkBurst {
+      0%   { transform: scale(0.2); opacity: 0; }
+      50%  { transform: scale(1.25); opacity: 1; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    .character-stage-box.phase-walk .exec-character-svg {
+      animation: charWalkIn 0.95s ease-out forwards;
+    }
+    .character-stage-box.phase-walk .char-leg-l {
+      transform-origin: 68px 112px;
+      animation: legStrideLeft 0.45s ease-in-out 2;
+    }
+    .character-stage-box.phase-walk .char-leg-r {
+      transform-origin: 82px 112px;
+      animation: legStrideRight 0.45s ease-in-out 2;
+    }
+
+    .character-stage-box.phase-place .char-upper-body {
+      transform-origin: 75px 105px;
+      animation: charPlaceBriefcase 0.45s ease-in-out forwards;
+    }
+
+    .character-stage-box.phase-snap .char-briefcase-ground {
+      transform-origin: 122px 152px;
+      animation: briefcaseMagicPulse 0.55s ease-out forwards;
+    }
+
+    .character-stage-box.phase-snap .char-snap-sparks {
+      transform-origin: 108px 58px;
+      animation: snapSparkBurst 0.55s ease-out forwards;
+    }
+
+    /* transisi lengan karakter sesuai pose (walk / snap / thinking / pointing / password) */
+    .char-arm-r,
+    .char-arm-l,
+    .char-head-group,
+    .char-pupils,
+    .char-briefcase-hand,
+    .char-briefcase-ground {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .character-stage-box.phase-walk .char-briefcase-ground {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.5);
+    }
+    .character-stage-box:not(.phase-walk) .char-briefcase-hand {
+      opacity: 0;
+    }
+    .character-stage-box:not(.phase-walk) .char-briefcase-ground {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Pose Snap (Menjentikkan Jari / Membentangkan Tangan) */
+    .character-stage-box.phase-snap .char-arm-r {
+      transform-origin: 88px 68px;
+      transform: rotate(-55deg);
+    }
+
+    /* Pose Thinking (Memegang Dagu Sambil Melirik ke Formulir - 00:09 di Video) */
+    .character-stage-box.pose-thinking .char-arm-r {
+      transform-origin: 88px 68px;
+      transform: rotate(-72deg) translate(-6px, -8px);
+    }
+    .character-stage-box.pose-thinking .char-head-group {
+      transform-origin: 75px 52px;
+      transform: rotate(5deg);
+    }
+    .character-stage-box.pose-thinking .char-pupils {
+      transform: translateX(3.2px);
+    }
+
+    /* Pose Pointing (Menunjuk ke Arah Kotak Input / Tombol Login - 00:12 di Video) */
+    .character-stage-box.pose-pointing .char-arm-r {
+      transform-origin: 88px 68px;
+      transform: rotate(-42deg) translate(2px, -2px);
+    }
+    .character-stage-box.pose-pointing .char-pupils {
+      transform: translateX(3.8px) translateY(1px);
+    }
+
+    /* Pose Password (Menutup Mata / Mengintip Saat Mengetik Password) */
+    .character-stage-box.pose-password .char-arm-r {
+      transform-origin: 88px 68px;
+      transform: rotate(-112deg) translate(-8px, -10px);
+    }
+    .character-stage-box.pose-password .char-arm-l {
+      transform-origin: 62px 68px;
+      transform: rotate(105deg) translate(8px, -10px);
+    }
+
+    /* Animasi Kemunculan Formulir Bertahap dari Koper (Staggered Cascade) */
+    .welcome-form-panel {
+      background: rgba(15, 23, 42, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 20px;
+      padding: 1.05rem;
+    }
+
+    @keyframes cascadeFromBriefcase {
+      0% {
+        opacity: 0;
+        transform: translateY(38px) scale(0.84);
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .welcome-cascade-item {
+      opacity: 0;
+      transform: translateY(32px) scale(0.88);
+    }
+
+    .welcome-screen-overlay.CascadeReady .welcome-cascade-item {
+      animation: cascadeFromBriefcase 0.44s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .welcome-screen-overlay.CascadeReady .welcome-cascade-item.c-1 { animation-delay: 0.02s; }
+    .welcome-screen-overlay.CascadeReady .welcome-cascade-item.c-2 { animation-delay: 0.10s; }
+    .welcome-screen-overlay.CascadeReady .welcome-cascade-item.c-3 { animation-delay: 0.18s; }
+    .welcome-screen-overlay.CascadeReady .welcome-cascade-item.c-4 { animation-delay: 0.26s; }
+    .welcome-screen-overlay.CascadeReady .welcome-cascade-item.c-5 { animation-delay: 0.34s; }
+
+    /* 3 Tab / Opsi Utama di Layar Pembuka: 1. Login | 2. Daftar | 3. Masuk tanpa Login */
+    .welcome-mode-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.42rem;
+      background: rgba(15, 23, 42, 0.45);
+      padding: 0.25rem;
+      border-radius: 12px;
+      margin-bottom: 0.85rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .welcome-tab-btn {
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.78);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.5rem 0.65rem;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .welcome-tab-btn.active {
+      background: #ffffff;
+      color: #1e1b4b;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+    }
+
+    .welcome-input-group {
+      margin-bottom: 0.68rem;
+    }
+
+    .welcome-input-group label {
+      display: block;
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.92);
+      margin-bottom: 0.25rem;
+    }
+
+    .welcome-input {
+      width: 100%;
+      padding: 0.62rem 0.85rem;
+      border-radius: 11px;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.95);
+      color: #0f172a;
+      font-size: 0.86rem;
+      font-weight: 600;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .welcome-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.35);
+      background: #ffffff;
+    }
+
+    .welcome-input::placeholder {
+      color: #64748b;
+      font-weight: 400;
+    }
+
+    /* Pembungkus Input Password dengan Tombol Mata (Show/Hide Password) */
+    .password-field-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .password-field-wrap input {
+      padding-right: 2.75rem !important;
+      width: 100%;
+    }
+
+    .btn-toggle-pw {
+      position: absolute;
+      right: 0.45rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: #475569;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.95rem;
+      z-index: 3;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-toggle-pw:hover {
+      background: rgba(148, 163, 184, 0.18);
+    }
+
+    html[data-theme="dark"] .modal-dialog .btn-toggle-pw,
+    html[data-theme="dark"] .settings-group .btn-toggle-pw {
+      color: #cbd5e1;
+    }
+
+    /* Baris Opsi Biometrik & Lupa Password di Layar Awal */
+    .welcome-SubOptions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin: 0.45rem 0 0.75rem;
+      flex-wrap: wrap;
+      font-size: 0.73rem;
+    }
+
+    .biometric-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .biometric-check-label input {
+      width: 1rem;
+      height: 1rem;
+      accent-color: #10b981;
+      cursor: pointer;
+    }
+
+    .btn-forgot-pw-link {
+      background: none;
+      border: none;
+      color: #fde047;
+      font-size: 0.73rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+      font-family: inherit;
+    }
+
+    /* Tombol Submit Hijau Cerah (Seperti Tombol "Next" di Video Referensi) */
+    .btn-welcome-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #22c55e 0%, #10b981 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 11px;
+      padding: 0.7rem 1rem;
+      font-size: 0.88rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.55);
+      transition: transform 0.14s ease, box-shadow 0.14s ease;
+      margin-bottom: 0.52rem;
+    }
+
+    .btn-welcome-submit:active {
+      transform: scale(0.97);
+    }
+
+    /* Tombol Login dengan Sidik Jari (Biometrik) */
+    .btn-welcome-biometric {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      border: 1.5px solid rgba(167, 243, 208, 0.65);
+      border-radius: 11px;
+      padding: 0.58rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.48rem;
+      margin-bottom: 0.55rem;
+      transition: background 0.15s ease, transform 0.12s ease;
+    }
+
+    .btn-welcome-biometric:hover {
+      background: rgba(16, 185, 129, 0.28);
+    }
+
+    /* Opsi 3: Tombol Masuk Tanpa Login (Mode Tamu / Offline Langsung) */
+    .btn-welcome-guest {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.55);
+      color: #f8fafc;
+      border: 1px dashed rgba(255, 255, 255, 0.45);
+      border-radius: 11px;
+      padding: 0.58rem 0.9rem;
+      font-size: 0.79rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.42rem;
+      transition: background 0.15s ease;
+    }
+
+    .btn-welcome-guest:hover {
+      background: rgba(15, 23, 42, 0.78);
+    }
+
+    /* Indikator Kekuatan Password */
+    .pw-strength-bar {
+      height: 5px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 0.3rem;
+    }
+
+    .pw-strength-fill {
+      height: 100%;
+      width: 0%;
+      background: #ef4444;
+      transition: width 0.25s ease, background-color 0.25s ease;
+    }
+
+    /* Modal Pemindai Sensor Sidik Jari Interaktif (#modal-biometric-scan) */
+    .fingerprint-scanner-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem 0.5rem;
+      text-align: center;
+    }
+
+    .fingerprint-pad-btn {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      border: 2.5px solid var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      margin: 0.65rem 0 0.9rem;
+      box-shadow: 0 0 25px var(--primary-glow);
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .fingerprint-pad-btn svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    @keyframes fpScanPulse {
+      0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70%  { transform: scale(1.06); box-shadow: 0 0 0 22px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .fingerprint-pad-btn.scanning {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: var(--success);
+      animation: fpScanPulse 0.9s infinite;
+    }
+
+    /* Baris Toggle Switch di Pengaturan Profil */
+    .security-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.72rem 0.85rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 0.65rem;
+    }
+
+    .toggle-switch-btn {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      border-radius: 999px;
+      background: #94a3b8;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background-color 0.2s ease;
+    }
+
+    .toggle-switch-btn::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .toggle-switch-btn.active {
+      background: var(--success);
+    }
+
+    .toggle-switch-btn.active::after {
+      transform: translateX(20px);
+    }
+
     @media print {
       body {
         background: #ffffff !important;
@@ -3420,6 +4076,229 @@
   </style>
 </head>
 <body>
+  <!-- LAYAR PEMBUKA AWAL APLIKASI: 1. LOGIN | 2. DAFTAR | 3. MASUK TANPA LOGIN + ANIMASI KARAKTER KOPER -->
+  <div class="welcome-screen-overlay" id="welcome-auth-screen" role="dialog" aria-labelledby="welcome-screen-heading">
+    <div class="welcome-stage-card">
+      <div class="welcome-top-brand">
+        <div class="welcome-brand-left">
+          <img id="welcome-logo-img" src="" alt="Suudi.Pro">
+          <div>
+            <div class="welcome-brand-title" id="welcome-screen-heading">Suudi.Pro</div>
+            <div class="welcome-brand-sub">Smart Cloud & Offline Finance Wallet</div>
+          </div>
+        </div>
+        <button type="button" class="btn-replay-anim" id="btn-replay-char-anim" title="Putar Ulang Animasi Karakter">
+          ✨ Putar Animasi
+        </button>
+      </div>
+
+      <div class="welcome-interactive-layout">
+        <!-- PANGGUNG KARAKTER EKSEKUTIF & KOPER AJAIB (SESUAI VIDEO REFERENSI) -->
+        <div class="character-stage-box phase-walk" id="welcome-char-stage">
+          <div class="character-speech-bubble" id="welcome-char-bubble">Selamat datang di Suudi.Pro! 💼</div>
+
+          <svg class="exec-character-svg" viewBox="0 0 160 175" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Bayangan Lantai -->
+            <ellipse cx="75" cy="166" rx="34" ry="6" fill="rgba(0,0,0,0.28)"/>
+            <ellipse cx="123" cy="166" rx="18" ry="4.5" fill="rgba(0,0,0,0.25)"/>
+
+            <!-- Kaki Kiri & Kanan (Celana Panjang Gelap & Sepatu Putih-Hitam seperti Video) -->
+            <g class="char-leg-l">
+              <path d="M68 110 L60 154" stroke="#1e293b" stroke-width="11" stroke-linecap="round"/>
+              <rect x="50" y="153" width="18" height="8" rx="4" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5"/>
+            </g>
+            <g class="char-leg-r">
+              <path d="M82 110 L90 154" stroke="#0f172a" stroke-width="11" stroke-linecap="round"/>
+              <rect x="83" y="153" width="18" height="8" rx="4" fill="#f8fafc" stroke="#0f172a" stroke-width="1.5"/>
+            </g>
+
+            <!-- Tubuh Bagian Atas (Jas Abu-Abu Eksekutif & Kemeja Putih) -->
+            <g class="char-upper-body">
+              <!-- Lengan Kiri + Koper Saat Berjalan -->
+              <g class="char-arm-l">
+                <path d="M60 66 L48 98" stroke="#64748b" stroke-width="9.5" stroke-linecap="round"/>
+                <circle cx="47" cy="101" r="4.5" fill="#fbd38d"/>
+                <!-- Koper di Tangan Saat Berjalan Masuk -->
+                <g class="char-briefcase-hand">
+                  <path d="M42 103 H52 V108 H42 Z" fill="none" stroke="#451a03" stroke-width="2"/>
+                  <rect x="33" y="107" width="28" height="20" rx="3" fill="#92400e" stroke="#451a03" stroke-width="1.8"/>
+                  <rect x="44" y="114" width="6" height="4" rx="1" fill="#fde047"/>
+                </g>
+              </g>
+
+              <!-- Torso / Jas Blazer Abu-Abu -->
+              <rect x="58" y="60" width="34" height="52" rx="10" fill="#64748b" stroke="#334155" stroke-width="1.6"/>
+              <!-- Kerah Kemeja & Dasi -->
+              <polygon points="69,60 81,60 75,84" fill="#f8fafc"/>
+              <polygon points="73,64 77,64 78,82 75,86 72,82" fill="#3b82f6"/>
+              <!-- Kancing Jas -->
+              <circle cx="75" cy="92" r="1.8" fill="#1e293b"/>
+              <circle cx="75" cy="100" r="1.8" fill="#1e293b"/>
+
+              <!-- Kepala & Rambut Pirang Bergaya Video Referensi -->
+              <g class="char-head-group">
+                <!-- Leher -->
+                <rect x="70" y="49" width="10" height="13" rx="4" fill="#f6ad55"/>
+                <!-- Wajah -->
+                <rect x="61" y="24" width="28" height="30" rx="12" fill="#fbd38d" stroke="#d97706" stroke-width="1.2"/>
+                <!-- Rambut Pirang (Blonde Stylized Hair) -->
+                <path d="M59 34 C58 20, 70 15, 84 18 C92 20, 93 29, 90 34 C86 27, 76 25, 61 30 Z" fill="#facc15" stroke="#ca8a04" stroke-width="1.2"/>
+                <!-- Alis & Mata Interaktif -->
+                <path d="M66 34 Q69 32, 72 34 M78 34 Q81 32, 84 34" stroke="#78350f" stroke-width="1.6" stroke-linecap="round"/>
+                <g class="char-pupils">
+                  <circle cx="69" cy="39" r="2.1" fill="#1e293b"/>
+                  <circle cx="81" cy="39" r="2.1" fill="#1e293b"/>
+                  <circle cx="69.7" cy="38.3" r="0.7" fill="#ffffff"/>
+                  <circle cx="81.7" cy="38.3" r="0.7" fill="#ffffff"/>
+                </g>
+                <!-- Senyum Ramah -->
+                <path d="M70 46 Q75 50, 80 46" stroke="#92400e" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- Lengan Kanan (Menjentikkan Jari / Memegang Dagu / Menunjuk ke Form) -->
+              <g class="char-arm-r">
+                <path d="M90 66 L104 94" stroke="#64748b" stroke-width="9.5" stroke-linecap="round"/>
+                <circle cx="106" cy="96" r="4.8" fill="#fbd38d"/>
+              </g>
+            </g>
+
+            <!-- Koper Kulit Cokelat di Lantai (Memancarkan Form Saat Jari Dijentikkan) -->
+            <g class="char-briefcase-ground">
+              <path d="M116 140 H128 V146 H116 Z" fill="none" stroke="#451a03" stroke-width="2.2"/>
+              <rect x="106" y="145" width="32" height="22" rx="3.5" fill="#92400e" stroke="#451a03" stroke-width="2"/>
+              <line x1="106" y1="154" x2="138" y2="154" stroke="#451a03" stroke-width="1.6"/>
+              <rect x="119" y="151" width="6" height="6" rx="1.2" fill="#fde047" stroke="#451a03" stroke-width="1"/>
+            </g>
+
+            <!-- Kilatan Partikel Jentikan Jari & Koper -->
+            <g class="char-snap-sparks" opacity="0">
+              <circle cx="115" cy="52" r="3" fill="#fde047"/>
+              <circle cx="128" cy="62" r="2.5" fill="#38bdf8"/>
+              <circle cx="105" cy="44" r="2" fill="#f472b6"/>
+              <path d="M116 38 L120 30 M126 48 L135 44 M124 68 L133 72" stroke="#fde047" stroke-width="2" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- PANEL FORMULIR INTERAKTIF (3 OPSI: 1. LOGIN | 2. DAFTAR | 3. MASUK TANPA LOGIN) -->
+        <div class="welcome-form-panel">
+          <!-- Item Cascade 1: Pemilih Mode 1. Login & 2. Daftar -->
+          <div class="welcome-cascade-item c-1">
+            <div class="welcome-mode-tabs" role="tablist">
+              <button type="button" class="welcome-tab-btn active" id="tab-btn-welcome-login" data-welcome-mode="login">
+                1. Login Akun
+              </button>
+              <button type="button" class="welcome-tab-btn" id="tab-btn-welcome-register" data-welcome-mode="register">
+                2. Daftar Baru
+              </button>
+            </div>
+          </div>
+
+          <form id="form-welcome-auth" autocomplete="on">
+            <!-- Kolom Nama Lengkap (Khusus Mode 2. Daftar) -->
+            <div class="welcome-input-group welcome-cascade-item c-2" id="welcome-name-group" style="display: none;">
+              <label for="welcome-name-input">Nama Lengkap / Penanggung Jawab *</label>
+              <input type="text" id="welcome-name-input" class="welcome-input" placeholder="Contoh: H. Suudi / Ach Khoiron Nafis">
+            </div>
+
+            <!-- Item Cascade 2: Kolom Email -->
+            <div class="welcome-input-group welcome-cascade-item c-2">
+              <label for="welcome-email-input">Alamat Email *</label>
+              <input type="email" id="welcome-email-input" class="welcome-input" placeholder="nama@email.com" required>
+            </div>
+
+            <!-- Item Cascade 3: Kolom Password + Tombol Mata Visibilitas -->
+            <div class="welcome-input-group welcome-cascade-item c-3">
+              <label for="welcome-password-input">Kata Sandi (Password) *</label>
+              <div class="password-field-wrap">
+                <input type="password" id="welcome-password-input" class="welcome-input" placeholder="Minimal 6 karakter" minlength="6" required>
+                <button type="button" class="btn-toggle-pw" data-toggle-pw="welcome-password-input" title="Tampilkan / Sembunyikan Password" aria-label="Ubah visibilitas password">
+                  👁️
+                </button>
+              </div>
+              <div class="pw-strength-bar" id="welcome-pw-strength-wrap" style="display: none;">
+                <div class="pw-strength-fill" id="welcome-pw-strength-fill"></div>
+              </div>
+            </div>
+
+            <!-- Kolom Konfirmasi Password (Khusus Mode 2. Daftar) -->
+            <div class="welcome-input-group welcome-cascade-item c-3" id="welcome-confirm-pw-group" style="display: none;">
+              <label for="welcome-confirm-pw-input">Konfirmasi Password *</label>
+              <div class="password-field-wrap">
+                <input type="password" id="welcome-confirm-pw-input" class="welcome-input" placeholder="Ulangi kata sandi Anda">
+                <button type="button" class="btn-toggle-pw" data-toggle-pw="welcome-confirm-pw-input" title="Tampilkan / Sembunyikan Password" aria-label="Ubah visibilitas konfirmasi password">
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <!-- Item Cascade 4: Opsi Aktifkan Biometrik Sidik Jari & Lupa Password -->
+            <div class="welcome-SubOptions-row welcome-cascade-item c-4">
+              <label class="biometric-check-label" title="Simpan login sidik jari di HP ini">
+                <input type="checkbox" id="welcome-enable-biometric-chk">
+                <span>🫆 Aktifkan Biometrik (Sidik Jari)</span>
+              </label>
+              <button type="button" class="btn-forgot-pw-link" id="btn-welcome-forgot-pw">
+                Lupa Password?
+              </button>
+            </div>
+
+            <!-- Item Cascade 5: Tombol Login/Daftar, Tombol Sidik Jari, & Opsi 3 Masuk Tanpa Login -->
+            <div class="welcome-cascade-item c-5">
+              <button type="submit" class="btn-welcome-submit" id="btn-welcome-submit">
+                🔐 Login ke Aplikasi
+              </button>
+
+              <button type="button" class="btn-welcome-biometric" id="btn-welcome-biometric-login">
+                <span>🫆</span>
+                <span id="welcome-biometric-btn-text">Login dengan Sidik Jari (Biometrik)</span>
+              </button>
+
+              <button type="button" class="btn-welcome-guest" id="btn-welcome-guest">
+                <span>🚀</span>
+                <span>3. Masuk tanpa Login (Mode Langsung)</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PEMINDAI SIDIK JARI BIOMETRIK INTERAKTIF -->
+  <div class="modal-backdrop" id="modal-biometric-scan" style="z-index: 260;">
+    <div class="modal-dialog" style="max-width: 380px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🫆 Verifikasi Sidik Jari</h3>
+        <button type="button" class="btn-icon" data-close-modal="modal-biometric-scan">✕</button>
+      </div>
+      <div class="fingerprint-scanner-box">
+        <p style="font-size: 0.8rem; color: var(--text-muted);" id="biometric-scan-instruction">
+          Sentuh ikon sensor di bawah atau gunakan sensor sidik jari HP Anda untuk masuk secara instan:
+        </p>
+        <button type="button" class="fingerprint-pad-btn" id="btn-trigger-fp-sensor" title="Sentuh untuk pindai sidik jari">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"/>
+            <path d="M5 19.5C5.5 18 6 15 6 12c0-.7.12-1.37.34-2"/>
+            <path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/>
+            <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/>
+            <path d="M8.65 22c.21-.66.45-1.32.57-2"/>
+            <path d="M14 13.12c0 2.38 0 6.38-1 8.88"/>
+            <path d="M2 16h.01"/>
+            <path d="M21.8 16c.2-2 .131-5.354 0-6"/>
+            <path d="M9 6.8a6 6 0 0 1 9 5.2c0 .47 0 1.17-.02 2"/>
+          </svg>
+        </button>
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--primary);" id="biometric-scan-status">
+          Siap memindai sidik jari...
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" data-close-modal="modal-biometric-scan" style="width: 100%;">Batal</button>
+      </div>
+    </div>
+  </div>
+
   <div class="app-shell">
     <!-- Ornamen Layar Global Tema Retro-Vintage: Tanda Bidik Cetak (Crosshair Registration Marks) Persis Referensi -->
     <div class="theme-global-decor global-retro" aria-hidden="true">
@@ -3895,6 +4774,73 @@
               </button>
             </div>
           </div>
+          <div style="margin-top: 0.65rem;">
+            <button type="button" class="btn btn-outline" id="btn-open-welcome-from-profile" style="width: 100%;">
+              🎬 Tampilkan Layar Login Animasi Awal
+            </button>
+          </div>
+        </div>
+
+        <!-- Keamanan Akun: Biometrik Sidik Jari, Ubah Password & Pengaturan Login -->
+        <div class="settings-group">
+          <h3>🔒 Keamanan, Biometrik & Ubah Password</h3>
+          <p class="settings-desc">Kelola akses sidik jari (biometrik), ubah kata sandi akun, dan pengaturan layar pembuka.</p>
+
+          <!-- Sakelar 1: Aktifkan Biometrik Sidik Jari -->
+          <div class="security-toggle-row">
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700;">🫆 Login Biometrik (Sidik Jari)</div>
+              <div style="font-size: 0.71rem; color: var(--text-muted);" id="biometric-status-desc">Nonaktif — Aktifkan untuk login cepat dengan sidik jari</div>
+            </div>
+            <button type="button" class="toggle-switch-btn" id="btn-toggle-biometric" role="switch" aria-checked="false" title="Aktifkan / Nonaktifkan Biometrik"></button>
+          </div>
+
+          <!-- Sakelar 2: Tampilkan Layar Pembuka Saat Aplikasi Dibuka -->
+          <div class="security-toggle-row" style="margin-bottom: 0.9rem;">
+            <div>
+              <div style="font-size: 0.84rem; font-weight: 700;">🚪 Layar Pilihan Login Saat Buka Aplikasi</div>
+              <div style="font-size: 0.71rem; color: var(--text-muted);">Tampilkan opsi Login / Daftar / Masuk tanpa Login saat awal</div>
+            </div>
+            <button type="button" class="toggle-switch-btn active" id="btn-toggle-startup-gate" role="switch" aria-checked="true" title="Tampilkan layar awal saat aplikasi dibuka"></button>
+          </div>
+
+          <!-- Formulir Ubah Password -->
+          <form id="form-change-password" style="border-top: 1px dashed var(--border-color); padding-top: 0.85rem;">
+            <div style="font-size: 0.84rem; font-weight: 700; margin-bottom: 0.6rem;">🔑 Ubah Kata Sandi (Password)</div>
+
+            <div class="form-group">
+              <label class="form-label" for="cp-current-pw">Password Saat Ini</label>
+              <div class="password-field-wrap">
+                <input type="password" id="cp-current-pw" class="form-control" placeholder="Masukkan password lama">
+                <button type="button" class="btn-toggle-pw" data-toggle-pw="cp-current-pw" title="Tampilkan / Sembunyikan Password">👁️</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cp-new-pw">Password Baru (Min. 6 Karakter)</label>
+              <div class="password-field-wrap">
+                <input type="password" id="cp-new-pw" class="form-control" placeholder="Masukkan password baru" minlength="6" required>
+                <button type="button" class="btn-toggle-pw" data-toggle-pw="cp-new-pw" title="Tampilkan / Sembunyikan Password">👁️</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cp-confirm-pw">Konfirmasi Password Baru</label>
+              <div class="password-field-wrap">
+                <input type="password" id="cp-confirm-pw" class="form-control" placeholder="Ulangi password baru" minlength="6" required>
+                <button type="button" class="btn-toggle-pw" data-toggle-pw="cp-confirm-pw" title="Tampilkan / Sembunyikan Password">👁️</button>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.45rem;">
+              <button type="submit" class="btn btn-primary">
+                💾 Simpan Password
+              </button>
+              <button type="button" class="btn btn-outline" id="btn-profile-reset-email">
+                📧 Reset via Email
+              </button>
+            </div>
+          </form>
         </div>
 
         <!-- Identitas Penanggung Jawab / Kasir -->
@@ -4090,7 +5036,12 @@
         </div>
         <div class="form-group">
           <label class="form-label" for="auth-password">Kata Sandi (Password)</label>
-          <input type="password" id="auth-password" class="form-control" placeholder="Minimal 6 karakter" minlength="6" required>
+          <div class="password-field-wrap">
+            <input type="password" id="auth-password" class="form-control" placeholder="Minimal 6 karakter" minlength="6" required>
+            <button type="button" class="btn-toggle-pw" data-toggle-pw="auth-password" title="Tampilkan / Sembunyikan Password" aria-label="Ubah visibilitas password">
+              👁️
+            </button>
+          </div>
         </div>
         <div class="modal-footer" style="flex-direction: column; gap: 0.48rem;">
           <button type="submit" class="btn btn-primary" id="btn-auth-submit" style="width: 100%;">Masuk (Login)</button>
@@ -7222,6 +8173,560 @@
         showToast('Identitas dikembalikan ke default (Pengguna / Kasir)');
       });
 
+
+      /* =========================================================================
+         13B. LAYAR PEMBUKA ANIMASI, VISIBILITAS PASSWORD, BIOMETRIK & UBAH SANDI
+         ========================================================================= */
+      const welcomeOverlay = document.getElementById('welcome-auth-screen');
+      const welcomeCharStage = document.getElementById('welcome-char-stage');
+      const welcomeCharBubble = document.getElementById('welcome-char-bubble');
+      const welcomeLogoImg = document.getElementById('welcome-logo-img');
+      if (welcomeLogoImg && appLogo) {
+        welcomeLogoImg.src = appLogo.src;
+      }
+
+      let welcomeMode = 'login'; // 'login' | 'register'
+      let charAnimTimers = [];
+
+      function setCharacterPose(pose, bubbleText) {
+        if (!welcomeCharStage) return;
+        welcomeCharStage.classList.remove('pose-thinking', 'pose-pointing', 'pose-password');
+        if (pose) welcomeCharStage.classList.add(pose);
+        if (bubbleText && welcomeCharBubble) {
+          welcomeCharBubble.textContent = bubbleText;
+        }
+      }
+
+      function playWelcomeCharacterSequence() {
+        if (!welcomeOverlay || !welcomeCharStage) return;
+        charAnimTimers.forEach(t => clearTimeout(t));
+        charAnimTimers = [];
+
+        welcomeOverlay.classList.remove('CascadeReady');
+        welcomeCharStage.className = 'character-stage-box phase-walk';
+        if (welcomeCharBubble) {
+          welcomeCharBubble.textContent = 'Selamat datang di Suudi.Pro! 💼';
+        }
+
+        // 0.95s: Karakter membungkuk meletakkan koper di lantai
+        charAnimTimers.push(setTimeout(() => {
+          welcomeCharStage.classList.remove('phase-walk');
+          welcomeCharStage.classList.add('phase-place');
+          if (welcomeCharBubble) {
+            welcomeCharBubble.textContent = 'Menyiapkan brankas kas Anda...';
+          }
+        }, 920));
+
+        // 1.38s: Karakter menjentikkan jari & formulir meluncur keluar dari koper!
+        charAnimTimers.push(setTimeout(() => {
+          welcomeCharStage.classList.remove('phase-place');
+          welcomeCharStage.classList.add('phase-snap');
+          welcomeOverlay.classList.add('CascadeReady');
+          if (welcomeCharBubble) {
+            welcomeCharBubble.textContent = '✨ Silakan Login, Daftar, atau Masuk Langsung!';
+          }
+        }, 1360));
+
+        // 2.05s: Karakter masuk ke pose berpikir elegan di samping formulir
+        charAnimTimers.push(setTimeout(() => {
+          welcomeCharStage.classList.remove('phase-snap');
+          setCharacterPose('pose-thinking', welcomeMode === 'register' ? 'Isi data akun baru Anda ✍️' : 'Pilih cara masuk Anda 👇');
+        }, 2050));
+      }
+
+      function openWelcomeScreen(initialMode) {
+        if (initialMode === 'login' || initialMode === 'register') {
+          switchWelcomeMode(initialMode);
+        }
+        updateBiometricUiState();
+        welcomeOverlay.classList.add('open');
+        playWelcomeCharacterSequence();
+      }
+
+      function closeWelcomeScreen() {
+        welcomeOverlay.classList.remove('open');
+      }
+
+      function switchWelcomeMode(mode) {
+        welcomeMode = mode === 'register' ? 'register' : 'login';
+        document.getElementById('tab-btn-welcome-login').classList.toggle('active', welcomeMode === 'login');
+        document.getElementById('tab-btn-welcome-register').classList.toggle('active', welcomeMode === 'register');
+
+        const nameGroup = document.getElementById('welcome-name-group');
+        const confirmGroup = document.getElementById('welcome-confirm-pw-group');
+        const strengthWrap = document.getElementById('welcome-pw-strength-wrap');
+        const submitBtn = document.getElementById('btn-welcome-submit');
+        const forgotBtn = document.getElementById('btn-welcome-forgot-pw');
+
+        if (welcomeMode === 'register') {
+          nameGroup.style.display = 'block';
+          confirmGroup.style.display = 'block';
+          strengthWrap.style.display = 'block';
+          forgotBtn.style.display = 'none';
+          submitBtn.textContent = '✨ Daftar & Masuk Sekarang';
+          setCharacterPose('pose-thinking', 'Mari buat akun Suudi.Pro baru Anda! 🚀');
+        } else {
+          nameGroup.style.display = 'none';
+          confirmGroup.style.display = 'none';
+          strengthWrap.style.display = 'none';
+          forgotBtn.style.display = 'inline-block';
+          submitBtn.textContent = '🔐 Login ke Aplikasi';
+          setCharacterPose('pose-thinking', 'Masukkan email & password Anda 👋');
+        }
+      }
+
+      document.getElementById('tab-btn-welcome-login').addEventListener('click', () => switchWelcomeMode('login'));
+      document.getElementById('tab-btn-welcome-register').addEventListener('click', () => switchWelcomeMode('register'));
+      document.getElementById('btn-replay-char-anim').addEventListener('click', playWelcomeCharacterSequence);
+      document.getElementById('btn-open-welcome-from-profile').addEventListener('click', () => openWelcomeScreen('login'));
+
+      // Interaksi Pose Karakter Saat Pengguna Fokus / Mengetik di Kolom Input
+      ['welcome-name-input', 'welcome-email-input'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('focus', () => {
+          setCharacterPose('pose-thinking', id === 'welcome-name-input' ? 'Nama ini akan tertera di Nota Anda 📝' : 'Pastikan alamat email sudah benar 📧');
+        });
+        el.addEventListener('input', () => {
+          setCharacterPose('pose-pointing', 'Bagus! Lanjutkan mengisi kolom berikutnya 👉');
+        });
+      });
+
+      ['welcome-password-input', 'welcome-confirm-pw-input'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('focus', () => {
+          const isVisible = el.getAttribute('type') === 'text';
+          setCharacterPose(
+            isVisible ? 'pose-pointing' : 'pose-password',
+            isVisible ? 'Password terlihat, pastikan aman! 👀' : 'Privasi terjaga! Saya tutup mata 🙈'
+          );
+        });
+        el.addEventListener('blur', () => {
+          setCharacterPose('pose-pointing', 'Siap! Tekan tombol hijau untuk masuk 👍');
+        });
+      });
+
+      // Indikator Kekuatan Password Saat Daftar
+      document.getElementById('welcome-password-input').addEventListener('input', (e) => {
+        const val = e.target.value || '';
+        const fill = document.getElementById('welcome-pw-strength-fill');
+        if (!fill) return;
+        let score = 0;
+        if (val.length >= 6) score += 40;
+        if (val.length >= 8) score += 25;
+        if (/[0-9]/.test(val) && /[a-zA-Z]/.test(val)) score += 35;
+        fill.style.width = Math.min(100, score) + '%';
+        fill.style.backgroundColor = score < 45 ? '#ef4444' : (score < 80 ? '#f59e0b' : '#22c55e');
+      });
+
+      // Fitur Visibilitas Password (👁️ / 🙈) untuk Semua Input Password di Aplikasi
+      document.querySelectorAll('[data-toggle-pw]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-toggle-pw');
+          const inputEl = document.getElementById(targetId);
+          if (!inputEl) return;
+          const isHidden = inputEl.getAttribute('type') === 'password';
+          inputEl.setAttribute('type', isHidden ? 'text' : 'password');
+          btn.textContent = isHidden ? '🙈' : '👁️';
+          btn.title = isHidden ? 'Sembunyikan Password' : 'Tampilkan Password';
+
+          if (targetId.startsWith('welcome-')) {
+            setCharacterPose(
+              isHidden ? 'pose-pointing' : 'pose-password',
+              isHidden ? 'Mode terlihat aktif 👀' : 'Mode tersembunyi aktif 🙈'
+            );
+          }
+        });
+      });
+
+      // Opsi 3: Masuk tanpa Login (Mode Tamu / Offline Langsung)
+      document.getElementById('btn-welcome-guest').addEventListener('click', () => {
+        setCharacterPose('pose-pointing', 'Selamat bekerja di Mode Langsung! 🚀');
+        closeWelcomeScreen();
+        showToast('Masuk tanpa login (Mode Offline Lokal Aktif)');
+      });
+
+      // Sistem Biometrik Sidik Jari (WebAuthn Platform Authenticator + Pemindai Sidik Jari HP)
+      function getSavedBiometricProfile() {
+        return StoragePrefs.get('biometric_profile', null);
+      }
+
+      async function registerPlatformBiometricCredential(email) {
+        if (window.PublicKeyCredential && navigator.credentials && typeof navigator.credentials.create === 'function') {
+          try {
+            const challenge = new Uint8Array(32);
+            if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(challenge);
+            const userId = new Uint8Array(16);
+            if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(userId);
+
+            const cred = await navigator.credentials.create({
+              publicKey: {
+                challenge,
+                rp: { name: 'Suudi.Pro Finance Wallet' },
+                user: {
+                  id: userId,
+                  name: email || 'pengguna@suudi.pro',
+                  displayName: email || 'Pengguna Suudi.Pro'
+                },
+                pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+                authenticatorSelection: {
+                  authenticatorAttachment: 'platform',
+                  userVerification: 'required'
+                },
+                timeout: 35000
+              }
+            });
+            if (cred && cred.rawId) {
+              const bytes = new Uint8Array(cred.rawId);
+              let bin = '';
+              bytes.forEach(b => { bin += String.fromCharCode(b); });
+              return btoa(bin);
+            }
+          } catch (e) {}
+        }
+        return 'fp_local_' + Date.now();
+      }
+
+      function saveBiometricCredentials({ email, password, name, credentialId }) {
+        const encodedPw = password ? btoa(unescape(encodeURIComponent(password))) : '';
+        StoragePrefs.set('biometric_profile', {
+          enabled: true,
+          email: email || '',
+          name: name || (email ? email.split('@')[0] : 'Pengguna'),
+          encodedPw,
+          credentialId: credentialId || ('fp_' + Date.now()),
+          updatedAt: Date.now()
+        });
+        updateBiometricUiState();
+      }
+
+      function updateBiometricUiState() {
+        const bio = getSavedBiometricProfile();
+        const isEnabled = Boolean(bio && bio.enabled);
+        const toggleBtn = document.getElementById('btn-toggle-biometric');
+        const statusDesc = document.getElementById('biometric-status-desc');
+        const welcomeChk = document.getElementById('welcome-enable-biometric-chk');
+        const welcomeBioBtn = document.getElementById('btn-welcome-biometric-login');
+        const welcomeBioText = document.getElementById('welcome-biometric-btn-text');
+
+        if (toggleBtn) {
+          toggleBtn.classList.toggle('active', isEnabled);
+          toggleBtn.setAttribute('aria-checked', isEnabled ? 'true' : 'false');
+        }
+        if (statusDesc) {
+          statusDesc.textContent = isEnabled
+            ? `Aktif untuk akun: ${bio.email || bio.name || 'Tersimpan di perangkat ini'}`
+            : 'Nonaktif — Aktifkan untuk login cepat dengan sidik jari';
+        }
+        if (welcomeChk) {
+          welcomeChk.checked = isEnabled;
+        }
+        if (welcomeBioBtn && welcomeBioText) {
+          if (isEnabled && (bio.email || bio.name)) {
+            welcomeBioText.textContent = `Login Sidik Jari (${bio.email || bio.name})`;
+          } else {
+            welcomeBioText.textContent = 'Login dengan Sidik Jari (Biometrik)';
+          }
+        }
+
+        const startupGateEnabled = StoragePrefs.get('startup_welcome_gate', true) !== false;
+        const gateToggleBtn = document.getElementById('btn-toggle-startup-gate');
+        if (gateToggleBtn) {
+          gateToggleBtn.classList.toggle('active', startupGateEnabled);
+          gateToggleBtn.setAttribute('aria-checked', startupGateEnabled ? 'true' : 'false');
+        }
+      }
+
+      // Sakelar Biometrik di Pengaturan Profil
+      document.getElementById('btn-toggle-biometric').addEventListener('click', async () => {
+        const currentBio = getSavedBiometricProfile();
+        if (currentBio && currentBio.enabled) {
+          StoragePrefs.remove('biometric_profile');
+          updateBiometricUiState();
+          showToast('Login Biometrik Sidik Jari dinonaktifkan');
+          return;
+        }
+
+        const activeEmail = (state.currentUser && state.currentUser.email) ||
+          (StoragePrefs.get('user_session', null) && StoragePrefs.get('user_session', null).email) || '';
+        const activeName = getActiveAccountDisplayName();
+        const credId = await registerPlatformBiometricCredential(activeEmail || activeName);
+
+        saveBiometricCredentials({
+          email: activeEmail,
+          password: currentBio ? (currentBio.encodedPw ? decodeURIComponent(escape(atob(currentBio.encodedPw))) : '') : '',
+          name: activeName,
+          credentialId: credId
+        });
+        showToast('🫆 Biometrik Sidik Jari berhasil diaktifkan!');
+      });
+
+      // Sakelar Layar Pembuka di Pengaturan Profil
+      document.getElementById('btn-toggle-startup-gate').addEventListener('click', () => {
+        const currentVal = StoragePrefs.get('startup_welcome_gate', true) !== false;
+        const nextVal = !currentVal;
+        StoragePrefs.set('startup_welcome_gate', nextVal);
+        updateBiometricUiState();
+        showToast(nextVal
+          ? 'Layar pilihan login awal akan ditampilkan saat membuka aplikasi'
+          : 'Aplikasi akan langsung menuju Beranda saat dibuka');
+      });
+
+      // Submit Form Login / Daftar di Layar Pembuka (#form-welcome-auth)
+      document.getElementById('form-welcome-auth').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nameVal = document.getElementById('welcome-name-input').value.trim();
+        const emailVal = document.getElementById('welcome-email-input').value.trim();
+        const pwVal = document.getElementById('welcome-password-input').value.trim();
+        const confirmPwVal = document.getElementById('welcome-confirm-pw-input').value.trim();
+        const wantBiometric = document.getElementById('welcome-enable-biometric-chk').checked;
+
+        if (!emailVal || !pwVal) {
+          showToast('Mohon lengkapi email dan password Anda');
+          return;
+        }
+
+        if (welcomeMode === 'register') {
+          if (pwVal !== confirmPwVal) {
+            showToast('Konfirmasi password tidak cocok!');
+            setCharacterPose('pose-thinking', 'Hmm, konfirmasi password belum sama 🤔');
+            return;
+          }
+        }
+
+        setCharacterPose('pose-pointing', 'Memverifikasi akun Anda... 🚀');
+
+        const displayName = nameVal || emailVal.split('@')[0];
+
+        if (fbAuth && navigator.onLine !== false) {
+          try {
+            if (welcomeMode === 'register') {
+              const userCred = await fbAuth.createUserWithEmailAndPassword(emailVal, pwVal);
+              if (userCred && userCred.user && nameVal && typeof userCred.user.updateProfile === 'function') {
+                await userCred.user.updateProfile({ displayName: nameVal }).catch(() => {});
+              }
+              showToast('Akun berhasil dibuat & masuk ke Suudi.Pro!');
+            } else {
+              await fbAuth.signInWithEmailAndPassword(emailVal, pwVal);
+              showToast('Login berhasil! Selamat datang kembali.');
+            }
+          } catch (err) {
+            showToast('Info Cloud: ' + (err && err.message ? err.message : 'Gagal autentikasi Cloud'));
+            setCharacterPose('pose-thinking', 'Periksa kembali email atau password Anda 🔍');
+            return;
+          }
+        } else {
+          showToast('Masuk dalam Mode Offline (' + displayName + ')');
+        }
+
+        // Simpan sesi identitas penanggung jawab
+        StoragePrefs.set('user_session', {
+          name: displayName,
+          email: emailVal,
+          loggedInAt: Date.now()
+        });
+
+        // Jika opsi "Aktifkan Biometrik" dicentang, daftarkan kredensial biometrik di perangkat
+        if (wantBiometric) {
+          const credId = await registerPlatformBiometricCredential(emailVal);
+          saveBiometricCredentials({
+            email: emailVal,
+            password: pwVal,
+            name: displayName,
+            credentialId: credId
+          });
+        }
+
+        renderSessionState();
+        closeWelcomeScreen();
+      });
+
+      // Tombol Lupa Password di Layar Awal & di Pengaturan Profil
+      async function handleSendPasswordReset(emailInputCandidate) {
+        const email = (emailInputCandidate || '').trim() ||
+          (state.currentUser && state.currentUser.email) ||
+          document.getElementById('welcome-email-input').value.trim();
+
+        if (!email) {
+          showToast('Ketik alamat email Anda terlebih dahulu di kolom Email');
+          document.getElementById('welcome-email-input').focus();
+          return;
+        }
+        if (!fbAuth) {
+          showToast('Pastikan koneksi internet aktif untuk mengirim email reset password');
+          return;
+        }
+        try {
+          await fbAuth.sendPasswordResetEmail(email);
+          showToast('Tautan reset password telah dikirim ke ' + email);
+        } catch (err) {
+          showToast('Gagal mengirim email reset: ' + (err && err.message ? err.message : 'Periksa email Anda'));
+        }
+      }
+
+      document.getElementById('btn-welcome-forgot-pw').addEventListener('click', () => {
+        handleSendPasswordReset(document.getElementById('welcome-email-input').value);
+      });
+
+      document.getElementById('btn-profile-reset-email').addEventListener('click', () => {
+        const email = (state.currentUser && state.currentUser.email) ||
+          (StoragePrefs.get('user_session', null) && StoragePrefs.get('user_session', null).email) || '';
+        handleSendPasswordReset(email);
+      });
+
+      // Login dengan Sidik Jari (Biometrik)
+      async function completeBiometricLoginSuccess(bioProfile) {
+        closeModal('modal-biometric-scan');
+        const email = bioProfile && bioProfile.email ? bioProfile.email : '';
+        const name = (bioProfile && bioProfile.name) || (email ? email.split('@')[0] : 'Pengguna Biometrik');
+        const decodedPw = (bioProfile && bioProfile.encodedPw)
+          ? decodeURIComponent(escape(atob(bioProfile.encodedPw)))
+          : '';
+
+        if (fbAuth && email && decodedPw && navigator.onLine !== false) {
+          try {
+            await fbAuth.signInWithEmailAndPassword(email, decodedPw);
+          } catch (e) {}
+        }
+
+        StoragePrefs.set('user_session', {
+          name,
+          email,
+          loggedInAt: Date.now()
+        });
+        renderSessionState();
+        closeWelcomeScreen();
+        showToast(`🫆 Verifikasi Sidik Jari Berhasil! Selamat datang, ${name}`);
+      }
+
+      document.getElementById('btn-welcome-biometric-login').addEventListener('click', async () => {
+        const bio = getSavedBiometricProfile();
+        if (!bio || !bio.enabled) {
+          // Jika belum pernah diaktifkan, centangkan kotak Biometrik dan buka pemindai / arahkan pengguna
+          document.getElementById('welcome-enable-biometric-chk').checked = true;
+          const typedEmail = document.getElementById('welcome-email-input').value.trim();
+          const typedPw = document.getElementById('welcome-password-input').value.trim();
+          if (typedEmail && typedPw) {
+            const credId = await registerPlatformBiometricCredential(typedEmail);
+            saveBiometricCredentials({
+              email: typedEmail,
+              password: typedPw,
+              name: typedEmail.split('@')[0],
+              credentialId: credId
+            });
+            await completeBiometricLoginSuccess(getSavedBiometricProfile());
+            return;
+          }
+        }
+
+        // Coba panggil sensor biometrik native Android (WebAuthn Platform Authenticator) terlebih dahulu
+        if (window.PublicKeyCredential && navigator.credentials && typeof navigator.credentials.get === 'function' && bio && bio.credentialId && !bio.credentialId.startsWith('fp_')) {
+          try {
+            const challenge = new Uint8Array(32);
+            if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(challenge);
+            const rawIdStr = atob(bio.credentialId);
+            const rawIdArr = new Uint8Array(rawIdStr.length);
+            for (let i = 0; i < rawIdStr.length; i++) rawIdArr[i] = rawIdStr.charCodeAt(i);
+
+            const assertion = await navigator.credentials.get({
+              publicKey: {
+                challenge,
+                allowCredentials: [{ type: 'public-key', id: rawIdArr }],
+                userVerification: 'required',
+                timeout: 30000
+              }
+            });
+            if (assertion) {
+              await completeBiometricLoginSuccess(bio);
+              return;
+            }
+          } catch (e) {}
+        }
+
+        // Buka Pemindai Sidik Jari Interaktif (#modal-biometric-scan)
+        document.getElementById('biometric-scan-status').textContent = 'Sentuh sensor sidik jari di atas untuk verifikasi...';
+        document.getElementById('btn-trigger-fp-sensor').classList.remove('scanning');
+        openModal('modal-biometric-scan');
+      });
+
+      document.getElementById('btn-trigger-fp-sensor').addEventListener('click', () => {
+        const padBtn = document.getElementById('btn-trigger-fp-sensor');
+        const statusEl = document.getElementById('biometric-scan-status');
+        padBtn.classList.add('scanning');
+        statusEl.textContent = 'Memindai sidik jari Anda...';
+
+        setTimeout(async () => {
+          padBtn.classList.remove('scanning');
+          statusEl.textContent = '✅ Sidik Jari Terverifikasi!';
+          const bio = getSavedBiometricProfile() || {
+            enabled: true,
+            email: document.getElementById('welcome-email-input').value.trim(),
+            name: getActiveAccountDisplayName()
+          };
+          saveBiometricCredentials({
+            email: bio.email || '',
+            password: '',
+            name: bio.name || getActiveAccountDisplayName(),
+            credentialId: bio.credentialId
+          });
+          await completeBiometricLoginSuccess(bio);
+        }, 680);
+      });
+
+      // Formulir Ubah Password di Pengaturan Profil (#form-change-password)
+      document.getElementById('form-change-password').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const currPw = document.getElementById('cp-current-pw').value.trim();
+        const newPw = document.getElementById('cp-new-pw').value.trim();
+        const confirmPw = document.getElementById('cp-confirm-pw').value.trim();
+
+        if (!newPw || newPw.length < 6) {
+          showToast('Password baru minimal harus 6 karakter');
+          return;
+        }
+        if (newPw !== confirmPw) {
+          showToast('Konfirmasi password baru tidak cocok!');
+          return;
+        }
+
+        if (fbAuth && state.currentUser) {
+          try {
+            if (currPw && window.firebase && window.firebase.auth && window.firebase.auth.EmailAuthProvider) {
+              const cred = window.firebase.auth.EmailAuthProvider.credential(state.currentUser.email, currPw);
+              await state.currentUser.reauthenticateWithCredential(cred);
+            }
+            await state.currentUser.updatePassword(newPw);
+            const bio = getSavedBiometricProfile();
+            if (bio && bio.enabled) {
+              saveBiometricCredentials({
+                email: state.currentUser.email,
+                password: newPw,
+                name: bio.name,
+                credentialId: bio.credentialId
+              });
+            }
+            document.getElementById('form-change-password').reset();
+            showToast('✅ Password akun Cloud berhasil diperbarui!');
+            return;
+          } catch (err) {
+            showToast('Gagal mengubah password: ' + (err && err.message ? err.message : 'Masukkan password lama yang benar'));
+            return;
+          }
+        }
+
+        // Jika sedang dalam mode lokal / biometrik perangkat
+        const bio = getSavedBiometricProfile();
+        saveBiometricCredentials({
+          email: (bio && bio.email) || '',
+          password: newPw,
+          name: getActiveAccountDisplayName(),
+          credentialId: bio && bio.credentialId
+        });
+        document.getElementById('form-change-password').reset();
+        showToast('✅ Password lokal & kredensial biometrik berhasil diperbarui!');
+      });
+
       function applyFontSize(sizeStr) {
         document.documentElement.style.setProperty('--base-font-size', sizeStr);
         document.querySelectorAll('#font-size-selector .option-btn').forEach(btn => {
@@ -7555,10 +9060,17 @@
         applyTheme(StoragePrefs.get('theme', 'purple'));
         applyFontSize(StoragePrefs.get('font_size', '16px'));
         renderSessionState();
+        updateBiometricUiState();
 
         await db.init();
         await seedInitialDataIfEmpty();
         await refreshStateAndRender();
+
+        // Tampilkan layar pembuka animasi (1. Login | 2. Daftar | 3. Masuk tanpa Login) saat awal membuka aplikasi
+        const showGateOnStartup = StoragePrefs.get('startup_welcome_gate', true) !== false;
+        if (showGateOnStartup) {
+          openWelcomeScreen('login');
+        }
       }
 
             bootstrap();
@@ -7566,3 +9078,4 @@
   </script>
 </body>
 </html>
+```
